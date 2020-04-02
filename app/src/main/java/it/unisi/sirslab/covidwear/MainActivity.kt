@@ -45,6 +45,7 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
     private val vibrationLength = 1000
     private val averageSamples = 100
+    private val maxThreshold = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +57,7 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
-        sensitivitySeekBar.max = 100
+        sensitivitySeekBar.max = maxThreshold
         sensitivitySeekBar.progress = 50
        // vibrationLengthSeekBar.max=1000
       //  vibrationLengthSeekBar.progress = 400
@@ -120,16 +121,33 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
     private fun updateGUI() {
         runOnUiThread {
-            textView.text = n.toString()
+            textView.text = String.format("%.2f", n) // ; n("%.2f").toString
            // textViewAvg.text = calib.toString()
            // textViewSamples.text = caliblist.size.toString()
             textViewStatus.text = if (activeMonitoring)  "Monitoring" else ("calibrating")
             textViewThreshold.text =  sensitivitySeekBar.progress.toString()
 
             when {
-                nRimaningCalib>0 -> textView.setBackgroundColor(Color.YELLOW)
-                stateDanger -> textView.setBackgroundColor(Color.RED)
-                else -> textView.setBackgroundColor(Color.TRANSPARENT)
+                nRimaningCalib>0 -> {
+                    textView.setBackgroundColor(Color.YELLOW)
+                    textViewStatus.setBackgroundColor(Color.YELLOW)
+                }
+                stateDanger && activeMonitoring -> {
+                    textView.setBackgroundColor(Color.RED)
+                    textViewStatus.setBackgroundColor(Color.RED)
+                }
+
+                stateDanger && !activeMonitoring -> {
+                    textView.setBackgroundColor(Color.YELLOW)
+                    textViewStatus.setBackgroundColor(Color.YELLOW)
+                }
+
+                else -> {
+                    textView.setBackgroundColor(Color.GREEN)
+                    textView.setTextColor(Color.WHITE)
+                    textViewStatus.setBackgroundColor(Color.GREEN)
+                    textViewStatus.setTextColor(Color.WHITE)
+                }
             }
         }
     }
@@ -241,19 +259,21 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
                 R.id.button_decrement -> {
                     sensitivitySeekBar.progress = sensitivitySeekBar.progress-10
+                    if (sensitivitySeekBar.progress < 0)
+                        sensitivitySeekBar.progress = 0
                     updateGUI()
                 }
                 R.id.button_increment -> {
                     sensitivitySeekBar.progress = sensitivitySeekBar.progress+10
+                    if (sensitivitySeekBar.progress > maxThreshold)
+                        sensitivitySeekBar.progress = maxThreshold
                     updateGUI()
                 }
                 R.id.recalibrate -> {
                     nRimaningCalib = averageSamples
+                    updateGUI()
                 }
-
-
             }
         }
-        updateGUI()
     }
 }

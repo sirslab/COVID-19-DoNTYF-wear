@@ -29,12 +29,14 @@
                 android:textAlignment="center"
                 android:text="Hello World!"
                 android:id="@+id/textView"/>
-            <Button
+            <TextView
+                android:id="@+id/textViewStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Recalibrate"
-                android:onClick="onClick"
-                android:id="@+id/recalibrate"/>
+                android:text="Calibrating"
+                android:textSize="20dp"
+                android:textAlignment="center" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,6 +57,7 @@
                     android:id="@+id/button_decrement"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:onClick="onClick"
                     android:text="-"
                     android:textAlignment="center"
                     android:textSize="8sp" />
@@ -87,15 +90,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"></LinearLayout>
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Recalibrate"
+                    android:onClick="onClick"
+                    android:id="@+id/recalibrate"/>
 
-            <TextView
-                android:id="@+id/textViewStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Calibrating"
-                android:textAlignment="center" />
 
+            </LinearLayout>
         </LinearLayout>
 
     </FrameLayout>
