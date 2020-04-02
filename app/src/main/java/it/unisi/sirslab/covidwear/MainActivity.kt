@@ -43,6 +43,9 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
     private var RECORD_REQUEST_CODE = 1
 
+    private val vibrationLength = 1000
+    private val averageSamples = 100
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -55,12 +58,12 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
         sensitivitySeekBar.max = 100
         sensitivitySeekBar.progress = 50
-        vibrationLengthSeekBar.max=1000
-        vibrationLengthSeekBar.progress = 400
-        calibrationLengthSeekBar.max = 1000
-        calibrationLengthSeekBar.progress = 100
-        nRimaningCalib = calibrationLengthSeekBar.progress
-
+       // vibrationLengthSeekBar.max=1000
+      //  vibrationLengthSeekBar.progress = 400
+        //calibrationLengthSeekBar.max = 1000
+      //  calibrationLengthSeekBar.progress = 100
+      //  nRimaningCalib = calibrationLengthSeekBar.progress
+        nRimaningCalib = averageSamples
 
         val deviceSensors: List<Sensor> = sensorManager.getSensorList(Sensor.TYPE_ALL)
         textView.text = deviceSensors.toString()
@@ -118,8 +121,8 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
     private fun updateGUI() {
         runOnUiThread {
             textView.text = n.toString()
-            textViewAvg.text = calib.toString()
-            textViewSamples.text = caliblist.size.toString()
+           // textViewAvg.text = calib.toString()
+           // textViewSamples.text = caliblist.size.toString()
             textViewStatus.text = if (activeMonitoring)  "Monitoring" else ("calibrating")
             textViewThreshold.text =  sensitivitySeekBar.progress.toString()
 
@@ -133,8 +136,8 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
     private fun updateVibration() {
         val t = System.currentTimeMillis()
-        if (activeMonitoring && stateDanger && (lastVibTime +vibrationLengthSeekBar.progress < t)) {
-            vibrator .vibrate(vibrationLengthSeekBar.progress.toLong())
+        if (activeMonitoring && stateDanger && (lastVibTime +vibrationLength < t)) {
+            vibrator .vibrate(vibrationLength.toLong())
             lastVibTime = t
             if (lastNotificationTime+2000 < t) {
                 val notification: Uri =
@@ -148,7 +151,7 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
     private fun updateAverage(value: Float): Float {
         var avg = 0.0f
-        if (caliblist.size < calibrationLengthSeekBar.progress) {
+        if (caliblist.size < averageSamples) {
             caliblist.add(value)
             println("caliblist size" + caliblist.size.toString())
             Log.d("tom", "caliblist size" + caliblist.size.toString())
@@ -232,9 +235,25 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
 
 
-
     override fun onClick(v: View?) {
-        nRimaningCalib = calibrationLengthSeekBar.progress
+        if (v != null) {
+            when (v.id) {
+
+                R.id.button_decrement -> {
+                    sensitivitySeekBar.progress = sensitivitySeekBar.progress-10
+                    updateGUI()
+                }
+                R.id.button_increment -> {
+                    sensitivitySeekBar.progress = sensitivitySeekBar.progress+10
+                    updateGUI()
+                }
+                R.id.recalibrate -> {
+                    nRimaningCalib = averageSamples
+                }
+
+
+            }
+        }
         updateGUI()
     }
 }

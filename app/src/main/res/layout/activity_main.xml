@@ -33,108 +33,69 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Recalibrate"
-                android:onClick="onClick"/>
+                android:onClick="onClick"
+                android:id="@+id/recalibrate"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:text="          Sensitivity"/>
-                <SeekBar
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/sensitivitySeekBar"/>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Soglia"
+                    android:textAlignment="center" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Vibration length"/>
+
+                <Button
+                    android:id="@+id/button_decrement"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:text="-"
+                    android:textAlignment="center"
+                    android:textSize="8sp" />
+
                 <SeekBar
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/vibrationLengthSeekBar"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Calibration length"/>
-                <SeekBar
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/calibrationLengthSeekBar" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="media: "/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/sensitivitySeekBar"
+                    android:layout_width="144dp"
+                    android:layout_height="match_parent" />
+
+                <Button
+                    android:id="@+id/button_increment"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:onClick="onClick"
+                    android:text="+"
                     android:textAlignment="center"
-                    android:text="Hello World!"
-                    android:id="@+id/textViewAvg"/>
+                    android:textSize="8sp" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="status: "/>
-                <TextView
+                    android:id="@+id/textViewThreshold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:text="Hello World!"
-                    android:id="@+id/textViewStatus"/>
+                    android:text="0"
+                    android:textAlignment="center" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="samples: "/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:text="Hello World!"
-                    android:id="@+id/textViewSamples"/>
-            </LinearLayout>
-            <LinearLayout
+                android:orientation="horizontal"></LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="soglia: "/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:text="Hello World!"
-                    android:id="@+id/textViewThreshold"/>
-            </LinearLayout>
+                android:text="Calibrating"
+                android:textAlignment="center" />
+
         </LinearLayout>
 
     </FrameLayout>
