@@ -135,16 +135,18 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
                     textView.setBackgroundColor(Color.YELLOW)
                     textViewStatus.setBackgroundColor(Color.YELLOW)
                 }
-                stateDanger && activeMonitoring -> {
+                stateDanger && activeMonitoring && !updateMaxValue -> {
                     textView.setBackgroundColor(Color.RED)
                     textViewStatus.setBackgroundColor(Color.RED)
+                                   }
+                stateDanger && !activeMonitoring && !updateMaxValue -> {
+                    textView.setBackgroundColor(Color.MAGENTA)
+                    textViewStatus.setBackgroundColor(Color.MAGENTA)
                 }
-
-                stateDanger && !activeMonitoring -> {
-                    textView.setBackgroundColor(Color.YELLOW)
-                    textViewStatus.setBackgroundColor(Color.YELLOW)
+                updateMaxValue -> {
+                    textView.setBackgroundColor(Color.BLUE)
+                    textViewStatus.setBackgroundColor(Color.BLUE)
                 }
-
                 else -> {
                     textView.setBackgroundColor(Color.GREEN)
                     textView.setTextColor(Color.WHITE)
@@ -196,7 +198,8 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
             val v = event?.values ?: return
             //val rawValue = (v[0] * v[0] + v[1] * v[1] + v[2] * v[2])/100
-            rawValue = rawValue*0.9f + ((v[0]*v[0] + v[1]*v[1] + v[2]*v[2]))/100*0.1f
+            //rawValue = rawValue*0.5f + (v[0]*v[0] + v[1]*v[1] + v[2]*v[2])/100*0.5f
+            rawValue = (v[0]*v[0] + v[1]*v[1] + v[2]*v[2])/100
 
             Log.d("tom", "Magnetometer Values" + v.contentToString())
 
@@ -207,21 +210,25 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
                 // return
             }
 
-            else if (!activeMonitoring) {
+            else if (!activeMonitoring && ! updateMaxValue) {
                 calib = updateAverage(rawValue)
 
             }
+
             if (updateMaxValue) {
 
                 val  tempval = (rawValue - calib).absoluteValue
-                if (System.currentTimeMillis() - lastTimeOn < 2000) {
+                Log.d("tom", "tempval " + tempval.toString() + "offset:" + calib.toString())
+
+                if (System.currentTimeMillis() - lastTimeOn < 5000) {
                     if (tempval > maxValue) {
                         maxValue = tempval
                     }
                 } else {
                     updateMaxValue = false
-                    sensitivitySeekBar.progress = (0.5 * maxValue).toInt()
-
+                    sensitivitySeekBar.progress = 2*(maxValue).absoluteValue.toInt()
+                    if (sensitivitySeekBar.progress < 0) sensitivitySeekBar.progress = 0
+                    if (sensitivitySeekBar.progress > maxThreshold) sensitivitySeekBar.progress = maxThreshold
                 }
 
             }
@@ -238,7 +245,7 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
             val v = event?.values ?: return
             Log.d("tom", "Accelerometer Values" + v.contentToString())
 
-            if (v[1].absoluteValue > 7 || v[0] >7) {
+            if (v[1].absoluteValue > 6 || v[0] >6) {
                 Log.d("tom", "Verticale")
                 activeMonitoring = true;
 
@@ -247,9 +254,6 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
                 Log.d("tom", "Orizzontale")
                 activeMonitoring = false;
             }
-
-
-
         }
         updateGUI()
     }
