@@ -33,7 +33,7 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
     private var caliblist = ArrayList<Float>()
     private var activeMonitoring = false;
     private var rawValue = 0.0f
-
+    private var maxValue = 1.0f
     private var n=0.0f
     private var stateDanger = false
     private var lastVibTime:Long = 0
@@ -122,6 +122,7 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
     private fun updateGUI() {
         runOnUiThread {
             textView.text = String.format("%.2f", n) // ; n("%.2f").toString
+            textViewMaxv.text = String.format("%.1f", maxValue)
            // textViewAvg.text = calib.toString()
            // textViewSamples.text = caliblist.size.toString()
             textViewStatus.text = if (activeMonitoring)  "Monitoring" else ("calibrating")
@@ -166,6 +167,19 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
             }
         }
     }
+
+
+    private fun updateMaxValue() {
+        val t = System.currentTimeMillis()
+        while( System.currentTimeMillis() - t < 2000){
+            if(rawValue > maxValue){
+                maxValue = rawValue
+            }
+        }
+
+        sensitivitySeekBar.progress = (0.5*maxValue).toInt()
+    }
+
 
     private fun updateAverage(value: Float): Float {
         var avg = 0.0f
@@ -226,7 +240,8 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
             }
 
-            n = normDif(v)
+           // n = normDif(v)/maxValue
+            n = (rawValue - calib).absoluteValue
             stateDanger = n > sensitivitySeekBar.progress
             updateVibration()
         }
@@ -258,13 +273,13 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
             when (v.id) {
 
                 R.id.button_decrement -> {
-                    sensitivitySeekBar.progress = sensitivitySeekBar.progress-10
+                    sensitivitySeekBar.progress = sensitivitySeekBar.progress-2
                     if (sensitivitySeekBar.progress < 0)
                         sensitivitySeekBar.progress = 0
                     updateGUI()
                 }
                 R.id.button_increment -> {
-                    sensitivitySeekBar.progress = sensitivitySeekBar.progress+10
+                    sensitivitySeekBar.progress = sensitivitySeekBar.progress+2
                     if (sensitivitySeekBar.progress > maxThreshold)
                         sensitivitySeekBar.progress = maxThreshold
                     updateGUI()
@@ -273,6 +288,18 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
                     nRimaningCalib = averageSamples
                     updateGUI()
                 }
+                R.id.autoRecalibrate -> {
+                    maxValue = 0.0f
+                    updateMaxValue()
+                    updateGUI()
+                }
+                R.id.exitButton -> {
+                    finish();
+                    System.exit(0);
+
+                }
+
+
             }
         }
     }
