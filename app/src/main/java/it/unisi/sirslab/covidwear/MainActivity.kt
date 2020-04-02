@@ -38,6 +38,8 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
     private var stateDanger = false
     private var lastVibTime:Long = 0
     private var lastNotificationTime:Long = 0
+    private var updateMaxValue = false
+    private var lastTimeOn =0.toLong()
 
     private lateinit var vibrator: Vibrator
 
@@ -59,11 +61,11 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
         sensitivitySeekBar.max = maxThreshold
         sensitivitySeekBar.progress = 50
-       // vibrationLengthSeekBar.max=1000
-      //  vibrationLengthSeekBar.progress = 400
+        // vibrationLengthSeekBar.max=1000
+        //  vibrationLengthSeekBar.progress = 400
         //calibrationLengthSeekBar.max = 1000
-      //  calibrationLengthSeekBar.progress = 100
-      //  nRimaningCalib = calibrationLengthSeekBar.progress
+        //  calibrationLengthSeekBar.progress = 100
+        //  nRimaningCalib = calibrationLengthSeekBar.progress
         nRimaningCalib = averageSamples
 
         val deviceSensors: List<Sensor> = sensorManager.getSensorList(Sensor.TYPE_ALL)
@@ -100,11 +102,11 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
         updateGUI()
     }
 
-  /*  private fun normDif(x:FloatArray):Float {
-        sequenceOf(0,1,2).forEach { x[it] -= calib[it] }
-        return x?.map { it*it }?.reduce { acc, fl -> acc+fl } ?: 0.0f
-    }
-*/
+    /*  private fun normDif(x:FloatArray):Float {
+          sequenceOf(0,1,2).forEach { x[it] -= calib[it] }
+          return x?.map { it*it }?.reduce { acc, fl -> acc+fl } ?: 0.0f
+      }
+  */
     private fun normDif(x:FloatArray):Float {
         var valueSquare = 0.0f
         sequenceOf(0,1,2).forEach {
@@ -123,8 +125,8 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
         runOnUiThread {
             textView.text = String.format("%.2f", n) // ; n("%.2f").toString
             textViewMaxv.text = String.format("%.1f", maxValue)
-           // textViewAvg.text = calib.toString()
-           // textViewSamples.text = caliblist.size.toString()
+            // textViewAvg.text = calib.toString()
+            // textViewSamples.text = caliblist.size.toString()
             textViewStatus.text = if (activeMonitoring)  "Monitoring" else ("calibrating")
             textViewThreshold.text =  sensitivitySeekBar.progress.toString()
 
@@ -169,18 +171,6 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
     }
 
 
-    private fun updateMaxValue() {
-        val t = System.currentTimeMillis()
-       var tempval =  (rawValue - calib).absoluteValue
-        while( System.currentTimeMillis() - t < 2000){
-            if(tempval > maxValue){
-                maxValue = tempval
-            }
-        }
-
-        sensitivitySeekBar.progress = (0.5*maxValue).toInt()
-    }
-
 
     private fun updateAverage(value: Float): Float {
         var avg = 0.0f
@@ -201,22 +191,6 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
     }
 
 
-//    override fun onSensorChanged(event: SensorEvent?) {
-//        if (event?.sensor == mag) {
-//            val v = event?.values ?: return
-//            if (nRimaningCalib > 0) {
-//                sequenceOf(0, 1, 2).forEach { calib[it] = calib[it] * 0.9f + v[it] * 0.1f }
-//                nRimaningCalib -= 1
-//                return
-//            }
-//
-//            n = normDif(v)
-//            stateDanger = n > sensitivitySeekBar.progress
-//            updateVibration()
-//            updateGUI()
-//        }
-//    }
-
     override fun onSensorChanged(event: SensorEvent?) {
         if (event?.sensor == mag) {
 
@@ -227,21 +201,34 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
             Log.d("tom", "Magnetometer Values" + v.contentToString())
 
             if (nRimaningCalib > 0) {
-                //sequenceOf(0,1,2).forEach { calib[it] = calib[it]*0.9f + v[it]*0.1f }
-                //  calib = calib*0.9f + (v[0]*v[0] + v[1]*v[1] + v[2]*v[2])*0.1f
                 Log.d("tom", "Magnetometer Values" + v.contentToString())
-
                 calib = updateAverage(rawValue)
-
                 nRimaningCalib -= 1
                 // return
             }
+
             else if (!activeMonitoring) {
                 calib = updateAverage(rawValue)
 
             }
+            if (updateMaxValue) {
 
-           // n = normDif(v)/maxValue
+                val  tempval = (rawValue - calib).absoluteValue
+                if (System.currentTimeMillis() - lastTimeOn < 2000) {
+                    if (tempval > maxValue) {
+                        maxValue = tempval
+                    }
+                } else {
+                    updateMaxValue = false
+                    sensitivitySeekBar.progress = (0.5 * maxValue).toInt()
+
+                }
+
+            }
+
+
+
+            // n = normDif(v)/maxValue
             n = (rawValue - calib).absoluteValue
             stateDanger = n > sensitivitySeekBar.progress
             updateVibration()
@@ -291,7 +278,9 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
                 }
                 R.id.autoRecalibrate -> {
                     maxValue = 0.0f
-                    updateMaxValue()
+                    updateMaxValue = true
+                    lastTimeOn = System.currentTimeMillis()
+
                     updateGUI()
                 }
                 R.id.exitButton -> {
