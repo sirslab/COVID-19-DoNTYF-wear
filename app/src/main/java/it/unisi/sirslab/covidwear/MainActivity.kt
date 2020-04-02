@@ -171,9 +171,10 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
     private fun updateMaxValue() {
         val t = System.currentTimeMillis()
+       var tempval =  (rawValue - calib).absoluteValue
         while( System.currentTimeMillis() - t < 2000){
-            if(rawValue > maxValue){
-                maxValue = rawValue
+            if(tempval > maxValue){
+                maxValue = tempval
             }
         }
 
