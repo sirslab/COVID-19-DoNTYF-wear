@@ -89,7 +89,7 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
         if (acc!= null) {
             textView.text = "Acc found"
             Log.d("tom", "Acc found")
-            acc?.also { m ->  sensorManager.registerListener(this, m, SensorManager.SENSOR_DELAY_NORMAL)}
+            acc?.also { m ->  sensorManager.registerListener(this, m, SensorManager.SENSOR_DELAY_FASTEST)}
         } else {
             textView.text = "Mag not found"
             Log.d("tom", "Acc NOT found")
@@ -103,6 +103,11 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
         }
 
         if(caliblist.isEmpty()) {caliblist.add(0.0f)}
+
+
+        toggleHand.setOnCheckedChangeListener { _, isChecked ->  righthanded = isChecked  }
+
+
         updateGUI()
     }
 
@@ -127,7 +132,7 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
     private fun updateGUI() {
         runOnUiThread {
-            textView.text = String.format("%.2f", n) // ; n("%.2f").toString
+            textView.text = String.format("%.2f", n) + " " + if (righthanded)  "R" else ("L")// ; n("%.2f").toString
             textViewMaxv.text = String.format("%.1f", maxValue)
             // textViewAvg.text = calib.toString()
             // textViewSamples.text = caliblist.size.toString()
@@ -181,18 +186,17 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
 
     private fun updateAverage(value: Float): Float {
-        var avg = 0.0f
         if (caliblist.size < averageSamples) {
             caliblist.add(value)
-            println("caliblist size" + caliblist.size.toString())
-            Log.d("tom", "caliblist size" + caliblist.size.toString())
+            //     println("caliblist size" + caliblist.size.toString())
+            //  Log.d("tom", "caliblist size" + caliblist.size.toString())
 
         }
         else {
             caliblist.removeAt(0)
             caliblist.add(value)
-            println("- +" + value.toString())
-            Log.d("tom", "- +" + value.toString())
+            //      println("- +" + value.toString())
+            //      Log.d("tom", "- +" + value.toString())
 
         }
         return caliblist.average().toFloat()
@@ -207,10 +211,10 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
             //rawValue = rawValue*0.5f + (v[0]*v[0] + v[1]*v[1] + v[2]*v[2])/100*0.5f
             rawValue = (v[0]*v[0] + v[1]*v[1] + v[2]*v[2])/100
 
-            Log.d("tom", "Magnetometer Values" + v.contentToString())
+            //      Log.d("tom", "Magnetometer Values" + v.contentToString())
 
             if (nRimaningCalib > 0) {
-                Log.d("tom", "Magnetometer Values" + v.contentToString())
+                //           Log.d("tom", "Magnetometer Values" + v.contentToString())
                 calib = updateAverage(rawValue)
                 nRimaningCalib -= 1
                 // return
@@ -224,7 +228,7 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
             if (updateMaxValue) {
 
                 val  tempval = (rawValue - calib).absoluteValue
-                Log.d("tom", "tempval " + tempval.toString() + "offset:" + calib.toString())
+                //            Log.d("tom", "tempval " + tempval.toString() + "offset:" + calib.toString())
 
                 if (System.currentTimeMillis() - lastTimeOn < 5000) {
                     if (tempval > maxValue) {
@@ -249,7 +253,7 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
         if(event?.sensor == acc){
             val v = event?.values ?: return
-            Log.d("tom", "Accelerometer Values" + v.contentToString())
+            //          Log.d("tom", "Accelerometer Values" + v.contentToString())
 
             var roll = atan2(v[1], v[2]) * 180/kotlin.math.PI;
             var pitch = atan2(-v[0], sqrt(v[1]*v[1] + v[2]*v[2])) * 180/kotlin.math.PI;
@@ -258,11 +262,11 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
             RPY[1] = pitch.toFloat()
             RPY[2] = yaw
 
-            if(!righthanded) {
-                activeMonitoring = roll > -0 && roll < 90 && pitch > -90 && pitch < 0
+            if(!righthanded) { //left handed
+                activeMonitoring = roll > -120 && roll < 10 && pitch > -90 && pitch < -30
             }
             else{
-                activeMonitoring = roll > 0 && roll < 90 && pitch > -50 && pitch < 50
+                activeMonitoring = roll > -120 && roll < 10 && pitch > 30 && pitch < 90
             }
 
             Log.d("orient", "Orientation:" + RPY.contentToString())
@@ -320,4 +324,8 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
             }
         }
     }
+
+
+
+
 }
