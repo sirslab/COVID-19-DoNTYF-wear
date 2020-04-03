@@ -54,7 +54,7 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_dtyf)
 
         // Enables Always-on
         setAmbientEnabled()
