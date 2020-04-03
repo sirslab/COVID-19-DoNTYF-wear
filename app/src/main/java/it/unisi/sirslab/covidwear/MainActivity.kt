@@ -19,6 +19,8 @@ import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
 import android.util.Log
 import kotlin.math.absoluteValue
+import kotlin.math.atan2
+import kotlin.math.sqrt
 
 
 class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListener {
@@ -26,6 +28,8 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
     private lateinit var sensorManager: SensorManager
     private var mag: Sensor? = null
     private var acc: Sensor? = null
+    private var RPY = arrayOf(0.0f,0.0f,0.0f)
+    private var righthanded = false;
 
     private var nRimaningCalib=0
     //private var calib = arrayOf(0.0f,0.0f,0.0f)
@@ -129,6 +133,8 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
             // textViewSamples.text = caliblist.size.toString()
             textViewStatus.text = if (activeMonitoring)  "Monitoring" else ("calibrating")
             textViewThreshold.text =  sensitivitySeekBar.progress.toString()
+            textViewRPY.text = String.format("%.2f", RPY[0]) + " "+ String.format("%.2f", RPY[1]) +" "+ String.format("%.2f", RPY[2])
+
 
             when {
                 nRimaningCalib>0 -> {
@@ -138,7 +144,7 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
                 stateDanger && activeMonitoring && !updateMaxValue -> {
                     textView.setBackgroundColor(Color.RED)
                     textViewStatus.setBackgroundColor(Color.RED)
-                                   }
+                }
                 stateDanger && !activeMonitoring && !updateMaxValue -> {
                     textView.setBackgroundColor(Color.MAGENTA)
                     textViewStatus.setBackgroundColor(Color.MAGENTA)
@@ -245,6 +251,23 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
             val v = event?.values ?: return
             Log.d("tom", "Accelerometer Values" + v.contentToString())
 
+            var roll = atan2(v[1], v[2]) * 180/kotlin.math.PI;
+            var pitch = atan2(-v[0], sqrt(v[1]*v[1] + v[2]*v[2])) * 180/kotlin.math.PI;
+            var yaw = 0.0f
+            RPY[0] = roll.toFloat()
+            RPY[1] = pitch.toFloat()
+            RPY[2] = yaw
+
+            if(!righthanded) {
+                activeMonitoring = roll > 0 && roll < 90 && pitch > -50 && pitch < 50
+            }
+            else{
+                activeMonitoring = roll > 0 && roll < 90 && pitch > -50 && pitch < 50
+            }
+
+            Log.d("orient", "Orientation:" + RPY.contentToString())
+
+/*
             if (v[1].absoluteValue > 6 || v[0] >6) {
                 Log.d("tom", "Verticale")
                 activeMonitoring = true;
@@ -253,7 +276,7 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
             else {
                 Log.d("tom", "Orizzontale")
                 activeMonitoring = false;
-            }
+            }*/
         }
         updateGUI()
     }
