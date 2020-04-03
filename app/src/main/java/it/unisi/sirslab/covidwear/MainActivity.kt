@@ -149,14 +149,14 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
     }
 
     private fun updateVibration() {
+        val notification: Uri =
+            RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+        val r = RingtoneManager.getRingtone(applicationContext, notification)
         val t = System.currentTimeMillis()
         if (activeMonitoring && stateDanger && (lastVibTime +vibrationLength < t)) {
             vibrator .vibrate(vibrationLength.toLong())
             lastVibTime = t
             if (lastNotificationTime+2000 < t) {
-                val notification: Uri =
-                    RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-                val r = RingtoneManager.getRingtone(applicationContext, notification)
                 r.play()
                 lastNotificationTime = t
             }
@@ -238,11 +238,11 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
             if(!righthanded) { //left handed
                 //activeMonitoring = roll > -80 && roll < 20 && pitch > -100 && pitch < -30
-                activeMonitoring = pitch > -100 && pitch < -30
+                activeMonitoring = pitch > -100 && pitch < -20
             }
             else{
               //  activeMonitoring = roll > -20 && roll < 80 && pitch > 30 && pitch < 100
-                activeMonitoring = pitch > 30 && pitch < 100
+                activeMonitoring = pitch > 20 && pitch < 100
             }
 
         }
