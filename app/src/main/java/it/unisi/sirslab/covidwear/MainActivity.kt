@@ -19,6 +19,8 @@ import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
 import android.util.Log
 import kotlin.math.absoluteValue
+import kotlin.math.atan2
+import kotlin.math.sqrt
 
 
 class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListener {
@@ -26,6 +28,8 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
     private lateinit var sensorManager: SensorManager
     private var mag: Sensor? = null
     private var acc: Sensor? = null
+    private var RPY = arrayOf(0.0f,0.0f,0.0f)
+    private var righthanded = false;
 
     private var nRimaningCalib=0
     //private var calib = arrayOf(0.0f,0.0f,0.0f)
@@ -46,8 +50,8 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
     private var RECORD_REQUEST_CODE = 1
 
     private val vibrationLength = 1000
-    private val averageSamples = 100
-    private val maxThreshold = 100
+    private val averageSamples = 20
+    private val maxThreshold = 400
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,12 +64,7 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
         sensitivitySeekBar.max = maxThreshold
-        sensitivitySeekBar.progress = 50
-        // vibrationLengthSeekBar.max=1000
-        //  vibrationLengthSeekBar.progress = 400
-        //calibrationLengthSeekBar.max = 1000
-        //  calibrationLengthSeekBar.progress = 100
-        //  nRimaningCalib = calibrationLengthSeekBar.progress
+        sensitivitySeekBar.progress = maxThreshold/2
         nRimaningCalib = averageSamples
 
         val deviceSensors: List<Sensor> = sensorManager.getSensorList(Sensor.TYPE_ALL)
@@ -77,7 +76,7 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
         if (mag!= null) {
             textView.text = "Mag found"
-            mag?.also { m ->  sensorManager.registerListener(this, m, SensorManager.SENSOR_DELAY_FASTEST)}
+            mag?.also { m ->  sensorManager.registerListener(this, m, SensorManager.SENSOR_DELAY_GAME)}
         } else {
             textView.text = "Mag not found"
         }
@@ -85,11 +84,11 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
         if (acc!= null) {
             textView.text = "Acc found"
             Log.d("tom", "Acc found")
-            acc?.also { m ->  sensorManager.registerListener(this, m, SensorManager.SENSOR_DELAY_NORMAL)}
-        } else {
+            acc?.also { m ->  sensorManager.registerListener(this, m, SensorManager.SENSOR_DELAY_GAME)}
+        }
+        else {
             textView.text = "Mag not found"
             Log.d("tom", "Acc NOT found")
-
         }
 
 
@@ -99,23 +98,11 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
         }
 
         if(caliblist.isEmpty()) {caliblist.add(0.0f)}
+        toggleHand.setOnCheckedChangeListener { _, isChecked ->  righthanded = isChecked  }
+
         updateGUI()
     }
 
-    /*  private fun normDif(x:FloatArray):Float {
-          sequenceOf(0,1,2).forEach { x[it] -= calib[it] }
-          return x?.map { it*it }?.reduce { acc, fl -> acc+fl } ?: 0.0f
-      }
-  */
-    private fun normDif(x:FloatArray):Float {
-        var valueSquare = 0.0f
-        sequenceOf(0,1,2).forEach {
-            valueSquare += x[it]*x[it]
-        }
-        var ndiff = (valueSquare/100 - calib).absoluteValue
-        //return x?.map { it*it }?.reduce { acc, fl -> acc+fl } ?: 0.0f
-        return ndiff
-    }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -123,25 +110,29 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
     private fun updateGUI() {
         runOnUiThread {
-            textView.text = String.format("%.2f", n) // ; n("%.2f").toString
+            textView.text = String.format("%.2f", n) + " " + if (righthanded)  "R" else ("L")// ; n("%.2f").toString
             textViewMaxv.text = String.format("%.1f", maxValue)
             // textViewAvg.text = calib.toString()
             // textViewSamples.text = caliblist.size.toString()
             textViewStatus.text = if (activeMonitoring)  "Monitoring" else ("calibrating")
             textViewThreshold.text =  sensitivitySeekBar.progress.toString()
+            textViewRPY.text = String.format("%.2f", RPY[0]) + " "+ String.format("%.2f", RPY[1]) +" "+ String.format("%.2f", RPY[2])
+
 
             when {
-                nRimaningCalib>0 -> {
+                /*
+                 nRimaningCalib>0 -> {
                     textView.setBackgroundColor(Color.YELLOW)
                     textViewStatus.setBackgroundColor(Color.YELLOW)
                 }
-                stateDanger && activeMonitoring && !updateMaxValue -> {
+                */
+                 stateDanger && activeMonitoring && !updateMaxValue -> {
                     textView.setBackgroundColor(Color.RED)
                     textViewStatus.setBackgroundColor(Color.RED)
-                                   }
+                }
                 stateDanger && !activeMonitoring && !updateMaxValue -> {
-                    textView.setBackgroundColor(Color.MAGENTA)
-                    textViewStatus.setBackgroundColor(Color.MAGENTA)
+                    textView.setBackgroundColor(Color.YELLOW)
+                    textViewStatus.setBackgroundColor(Color.YELLOW)
                 }
                 updateMaxValue -> {
                     textView.setBackgroundColor(Color.BLUE)
@@ -158,14 +149,14 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
     }
 
     private fun updateVibration() {
+        val notification: Uri =
+            RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+        val r = RingtoneManager.getRingtone(applicationContext, notification)
         val t = System.currentTimeMillis()
         if (activeMonitoring && stateDanger && (lastVibTime +vibrationLength < t)) {
             vibrator .vibrate(vibrationLength.toLong())
             lastVibTime = t
             if (lastNotificationTime+2000 < t) {
-                val notification: Uri =
-                    RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-                val r = RingtoneManager.getRingtone(applicationContext, notification)
                 r.play()
                 lastNotificationTime = t
             }
@@ -175,18 +166,16 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
 
     private fun updateAverage(value: Float): Float {
-        var avg = 0.0f
         if (caliblist.size < averageSamples) {
             caliblist.add(value)
-            println("caliblist size" + caliblist.size.toString())
-            Log.d("tom", "caliblist size" + caliblist.size.toString())
+            //  Log.d("tom", "caliblist size" + caliblist.size.toString())
 
         }
         else {
             caliblist.removeAt(0)
             caliblist.add(value)
-            println("- +" + value.toString())
-            Log.d("tom", "- +" + value.toString())
+            //      println("- +" + value.toString())
+            //      Log.d("tom", "- +" + value.toString())
 
         }
         return caliblist.average().toFloat()
@@ -201,24 +190,19 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
             //rawValue = rawValue*0.5f + (v[0]*v[0] + v[1]*v[1] + v[2]*v[2])/100*0.5f
             rawValue = (v[0]*v[0] + v[1]*v[1] + v[2]*v[2])/100
 
-            Log.d("tom", "Magnetometer Values" + v.contentToString())
+            //      Log.d("tom", "Magnetometer Values" + v.contentToString())
 
-            if (nRimaningCalib > 0) {
-                Log.d("tom", "Magnetometer Values" + v.contentToString())
+
+            if (!activeMonitoring && ! updateMaxValue) {
                 calib = updateAverage(rawValue)
-                nRimaningCalib -= 1
-                // return
             }
 
-            else if (!activeMonitoring && ! updateMaxValue) {
-                calib = updateAverage(rawValue)
 
-            }
 
             if (updateMaxValue) {
 
                 val  tempval = (rawValue - calib).absoluteValue
-                Log.d("tom", "tempval " + tempval.toString() + "offset:" + calib.toString())
+                //            Log.d("tom", "tempval " + tempval.toString() + "offset:" + calib.toString())
 
                 if (System.currentTimeMillis() - lastTimeOn < 5000) {
                     if (tempval > maxValue) {
@@ -235,7 +219,6 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
 
 
-            // n = normDif(v)/maxValue
             n = (rawValue - calib).absoluteValue
             stateDanger = n > sensitivitySeekBar.progress
             updateVibration()
@@ -243,21 +226,28 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
         if(event?.sensor == acc){
             val v = event?.values ?: return
-            Log.d("tom", "Accelerometer Values" + v.contentToString())
+            //          Log.d("tom", "Accelerometer Values" + v.contentToString())
 
-            if (v[1].absoluteValue > 6 || v[0] >6) {
-                Log.d("tom", "Verticale")
-                activeMonitoring = true;
+            val roll = atan2(v[1], v[2]) * 180/kotlin.math.PI;
+            val pitch = atan2(-v[0], sqrt(v[1]*v[1] + v[2]*v[2])) * 180/kotlin.math.PI;
+            val yaw = 0.0f
+            RPY[0] = roll.toFloat()
+            RPY[1] = pitch.toFloat()
+            RPY[2] = yaw
+            //  Log.d("orient", "Orientation:" + RPY.contentToString())
 
+            if(!righthanded) { //left handed
+                //activeMonitoring = roll > -80 && roll < 20 && pitch > -100 && pitch < -30
+                activeMonitoring = pitch > -100 && pitch < -20
             }
-            else {
-                Log.d("tom", "Orizzontale")
-                activeMonitoring = false;
+            else{
+              //  activeMonitoring = roll > -20 && roll < 80 && pitch > 30 && pitch < 100
+                activeMonitoring = pitch > 20 && pitch < 100
             }
+
         }
         updateGUI()
     }
-
 
 
     override fun onClick(v: View?) {
@@ -297,4 +287,5 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
             }
         }
     }
+
 }
