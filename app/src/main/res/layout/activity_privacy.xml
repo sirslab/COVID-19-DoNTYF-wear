@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    tools:deviceIds="wear">
 
     <TextView
         android:id="@+id/textView3"
@@ -19,28 +21,34 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/acceptButton"
         android:layout_width="63dp"
         android:layout_height="34dp"
+        android:layout_marginStart="41dp"
+        android:layout_marginEnd="109dp"
         android:layout_marginBottom="28dp"
+        android:onClick="onClick"
         android:text="ACCEPT"
         android:textAlignment="center"
         android:textColor="#00FF00"
         android:textSize="10sp"
-        android:onClick="onClick"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="41dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/denyButton"
         android:layout_width="63dp"
         android:layout_height="34dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginEnd="46dp"
         android:layout_marginBottom="28dp"
+        android:onClick="onClick"
         android:text="DENY"
         android:textAlignment="center"
         android:textColor="#FF0000"
         android:textSize="10sp"
-        android:onClick="onClick"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="104dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,10 +6,11 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/sirsLogo"
         android:layout_width="171dp"
         android:layout_height="170dp"
         android:contentDescription="TODO"
+        android:onClick="onClick"
         android:src="@drawable/sirslab_centered"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,9 +25,9 @@
         android:layout_marginBottom="132dp"
         android:src="@drawable/unisi_vert_bianco"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageView4"
+        app:layout_constraintEnd_toStartOf="@+id/sirsLogo"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
+        app:layout_constraintStart_toEndOf="@+id/sirsLogo"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -35,9 +36,9 @@
         android:layout_height="82dp"
         android:src="@drawable/logo_diism_lisini_farina"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageView4"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        app:layout_constraintEnd_toStartOf="@+id/sirsLogo"
+        app:layout_constraintStart_toEndOf="@+id/sirsLogo"
+        app:layout_constraintTop_toBottomOf="@+id/sirsLogo"
         app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
