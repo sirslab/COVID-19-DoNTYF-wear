@@ -17,7 +17,7 @@ import android.support.wearable.activity.WearableActivity
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-//import kotlinx.android.synthetic.main.activity_start.*
+import kotlinx.android.synthetic.main.activity_start.*
 import kotlinx.android.synthetic.main.activity_title.*
 import android.util.Log
 import kotlin.math.absoluteValue
