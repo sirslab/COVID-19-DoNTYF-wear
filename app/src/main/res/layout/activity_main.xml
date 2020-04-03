@@ -16,43 +16,49 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="380dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
             <TextView
+                android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:textAlignment="center"
                 android:text="Hello World!"
-                android:id="@+id/textView"/>
+                android:textAlignment="center"
+                android:textSize="20dp" />
+
             <TextView
                 android:id="@+id/textViewStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Calibrating"
-                android:textSize="20dp"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textSize="20dp" />
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Soglia" />
+
                 <TextView
                     android:id="@+id/textViewThreshold"
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="0"
-                    android:textAlignment="center"
-                    android:gravity="center"/>
+                    android:textAlignment="center" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -67,10 +73,12 @@
                     android:text="0"
                     android:textAlignment="center" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <Button
                     android:id="@+id/button_decrement"
                     android:layout_width="30dp"
@@ -78,7 +86,7 @@
                     android:onClick="onClick"
                     android:text="-"
                     android:textAlignment="center"
-                    android:textSize="8sp" />
+                    android:textSize="10sp" />
 
                 <SeekBar
                     android:id="@+id/sensitivitySeekBar"
@@ -92,23 +100,34 @@
                     android:onClick="onClick"
                     android:text="+"
                     android:textAlignment="center"
-                    android:textSize="8sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Calibration"
-                    android:textAlignment="center" />
-            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RPY: "
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/textViewRPY"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RPssY"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/recalibrate"
@@ -119,25 +138,34 @@
                     android:text="Manual"
                     android:visibility="gone" />
 
+                <ToggleButton
+                    android:id="@+id/toggleHand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="ToggleButton"
+                    android:textOff="Left"
+                    android:textOn="Right" />
                 <Button
                     android:id="@+id/autoRecalibrate"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:enabled="true"
+                    android:gravity="center"
                     android:onClick="onClick"
-                    android:text="Auto"
-                    android:gravity="center" />
-            </LinearLayout>
+                    android:text="Calibrate" />
 
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
                 <Button
                     android:id="@+id/exitButton"
+                    style="@android:style/Widget.DeviceDefault.Button.Colored"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:onClick="onClick"
                     android:text="X" />
             </LinearLayout>
