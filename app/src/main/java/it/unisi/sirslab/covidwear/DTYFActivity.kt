@@ -153,11 +153,11 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
         val t = System.currentTimeMillis()
         if (activeMonitoring && stateDanger && (lastVibTime +vibrationLength < t)) {
-            val notification: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-            val r = RingtoneManager.getRingtone(applicationContext, notification)
             vibrator .vibrate(vibrationLength.toLong())
             lastVibTime = t
             if (lastNotificationTime+2000 < t) {
+                val notification: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+                val r = RingtoneManager.getRingtone(applicationContext, notification)
                 r.play()
                 lastNotificationTime = t
             }
@@ -279,8 +279,8 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
                     updateGUI()
                 }
                 R.id.exitButton -> {
-                    finish();
-                    System.exit(0);
+                    finish()
+                    System.exit(0)
 
                 }
 
