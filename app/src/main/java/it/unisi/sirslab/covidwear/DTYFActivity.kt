@@ -148,11 +148,11 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
     }
 
     private fun updateVibration() {
-        val notification: Uri =
-            RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val r = RingtoneManager.getRingtone(applicationContext, notification)
+
         val t = System.currentTimeMillis()
         if (activeMonitoring && stateDanger && (lastVibTime +vibrationLength < t)) {
+            val notification: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            val r = RingtoneManager.getRingtone(applicationContext, notification)
             vibrator .vibrate(vibrationLength.toLong())
             lastVibTime = t
             if (lastNotificationTime+2000 < t) {
