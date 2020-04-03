@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.wear.widget.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.wear.widget.BoxInsetLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,131 +17,76 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:textAlignment="center"
-                android:text="Hello World!"
-                android:id="@+id/textView"/>
-            <TextView
-                android:id="@+id/textViewStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Calibrating"
-                android:textSize="20dp"
-                android:textAlignment="center" />
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Soglia" />
-                <TextView
-                    android:id="@+id/textViewThreshold"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:text="0"
-                    android:textAlignment="center"
-                    android:gravity="center"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Maxv" />
+            >
 
-                <TextView
-                    android:id="@+id/textViewMaxv"
-                    android:layout_width="45dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="0"
-                    android:textAlignment="center" />
-            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <Button
-                    android:id="@+id/button_decrement"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:onClick="onClick"
-                    android:text="-"
-                    android:textAlignment="center"
-                    android:textSize="8sp" />
+                android:background="@color/red"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                >
 
-                <SeekBar
-                    android:id="@+id/sensitivitySeekBar"
-                    android:layout_width="144dp"
-                    android:layout_height="match_parent" />
-
-                <Button
-                    android:id="@+id/button_increment"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:onClick="onClick"
-                    android:text="+"
-                    android:textAlignment="center"
-                    android:textSize="8sp" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Calibration"
-                    android:textAlignment="center" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal">
+                    android:layout_marginTop="100dp"
+                    android:layout_marginBottom="100dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:text="This is the DontTouchFace App"
+                    android:textSize="30dp"
+                    />
 
                 <Button
-                    android:id="@+id/recalibrate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:gravity="center"
-                    android:onClick="onClick"
-                    android:text="Manual"
-                    android:visibility="gone" />
-
-                <Button
-                    android:id="@+id/autoRecalibrate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:enabled="true"
-                    android:onClick="onClick"
-                    android:text="Auto"
-                    android:gravity="center" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center">
-                <Button
-                    android:id="@+id/exitButton"
+                    android:id="@+id/enterButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="50dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginStart="30dp"
                     android:onClick="onClick"
-                    android:text="X" />
+                    android:text="Entra" />
+
+                <CheckBox android:id="@+id/checkbox_personal_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="50dp"
+                    android:text="@string/personal_data_advice"
+                    android:textColor="@color/white"
+                    android:onClick="onCheckboxClicked"/>
+
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                >
+
+                <!-- <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:scaleX="1"
+                    android:scaleY="1"
+                    android:src="@drawable/logo_unisi_orizzontale" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:scaleX="1"
+                    android:scaleY="1"
+                    android:src="@drawable/sirslab_logo" /> -->
+            </LinearLayout>
+
         </LinearLayout>
 
     </FrameLayout>
