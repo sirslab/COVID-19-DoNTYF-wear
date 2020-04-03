@@ -52,10 +52,10 @@ class LogoActivity : WearableActivity(),  View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        if(v!!.id==R.id.sirsLogo) {
+        //if(v!!.id==R.id.sirsLogo) {
             val intent = Intent(this, TitleActivity::class.java)
             startActivity(intent)
             //updateGUI()
-        }
+      //  }
     }
 }
