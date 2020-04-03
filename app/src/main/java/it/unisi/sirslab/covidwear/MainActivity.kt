@@ -150,7 +150,7 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
     private fun updateVibration() {
         val notification: Uri =
-            RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+            RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val r = RingtoneManager.getRingtone(applicationContext, notification)
         val t = System.currentTimeMillis()
         if (activeMonitoring && stateDanger && (lastVibTime +vibrationLength < t)) {
