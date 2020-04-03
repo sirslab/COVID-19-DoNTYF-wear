@@ -93,10 +93,12 @@ class MainActivity : WearableActivity(),  View.OnClickListener {
         if(v!!.id==R.id.acceptButton) {
             val intent = Intent(this, DTYFActivity::class.java)
             startActivity(intent)
+            finishAffinity();
             //updateGUI()
         }
         if(v!!.id==R.id.denyButton) {
             finish();
+            finishAffinity();
             System.exit(0);
             //updateGUI()
         }

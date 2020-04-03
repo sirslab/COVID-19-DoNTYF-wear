@@ -73,6 +73,7 @@ class TitleActivity : WearableActivity(),  View.OnClickListener {
         if(v!!.id==R.id.enterButton) {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            finishAffinity();
             //updateGUI()
         }
     }

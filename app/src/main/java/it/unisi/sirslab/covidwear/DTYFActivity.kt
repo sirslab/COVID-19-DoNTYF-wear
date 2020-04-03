@@ -298,6 +298,7 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
                 }
                 R.id.exitButton -> {
                     finish()
+                    finishAffinity();
                     System.exit(0)
 
                 }

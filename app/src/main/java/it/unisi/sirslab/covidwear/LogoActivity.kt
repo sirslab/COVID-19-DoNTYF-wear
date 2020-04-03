@@ -55,7 +55,9 @@ class LogoActivity : WearableActivity(),  View.OnClickListener {
         //if(v!!.id==R.id.sirsLogo) {
             val intent = Intent(this, TitleActivity::class.java)
             startActivity(intent)
-            //updateGUI()
+            finishAffinity();
+
+        //updateGUI()
       //  }
     }
 }
