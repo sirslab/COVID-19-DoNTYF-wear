@@ -20,6 +20,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_dtyf.*
 import kotlin.math.absoluteValue
+import kotlin.math.atan2
+import kotlin.math.sqrt
 
 
 class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListener {
