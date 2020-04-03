@@ -5,4 +5,5 @@
     values-round/strings.xml for round devices.
     -->
     <string name="hello_world">Hello Square World!</string>
+    <string name="personal_data_advice"> This app collects data from an accelerometer and magnetometer integrated in the device in order to estimate the position of the hand and the magnetic field to which the device is subjected. These data are recorded purely for personal monitoring purposes and will not be collected nor released.</string>
 </resources>

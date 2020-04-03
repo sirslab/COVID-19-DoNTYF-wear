@@ -17,22 +17,19 @@ import android.support.wearable.activity.WearableActivity
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_start.*
 import kotlinx.android.synthetic.main.activity_title.*
 import android.util.Log
 import kotlin.math.absoluteValue
 import android.view.Window;
 import android.view.WindowManager;
 
-
-class MainActivity : WearableActivity(),  View.OnClickListener {
-
-    var personal_data_checked: Boolean = false
+class TitleActivity : WearableActivity(),  View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_privacy)
+        setContentView(R.layout.activity_title)
     }
 
     private fun updateGUI() {
@@ -73,22 +70,10 @@ class MainActivity : WearableActivity(),  View.OnClickListener {
 
 
     override fun onClick(v: View?) {
-        if(v!!.id==R.id.acceptButton) {
-            val intent = Intent(this, DTYFActivity::class.java)
+        if(v!!.id==R.id.enterButton) {
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             //updateGUI()
         }
-        if(v!!.id==R.id.denyButton) {
-            finish();
-            System.exit(0);
-            //updateGUI()
-        }
     }
-
-    /*fun onCheckboxClicked(v: View?) {
-        if(v!!.id==R.id.checkbox_personal_data) {
-            personal_data_checked = !personal_data_checked
-        }
-    }*/
-
 }
