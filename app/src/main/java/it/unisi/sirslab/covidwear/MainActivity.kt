@@ -259,7 +259,7 @@ class MainActivity : WearableActivity(), SensorEventListener, View.OnClickListen
             RPY[2] = yaw
 
             if(!righthanded) {
-                activeMonitoring = roll > 0 && roll < 90 && pitch > -50 && pitch < 50
+                activeMonitoring = roll > -0 && roll < 90 && pitch > -90 && pitch < 0
             }
             else{
                 activeMonitoring = roll > 0 && roll < 90 && pitch > -50 && pitch < 50
