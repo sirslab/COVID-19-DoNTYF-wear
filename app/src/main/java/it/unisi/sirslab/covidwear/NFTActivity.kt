@@ -34,13 +34,13 @@ import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import kotlinx.android.synthetic.main.activity_dtyf.*
+import kotlinx.android.synthetic.main.activity_nft.*
 import kotlin.math.absoluteValue
 import kotlin.math.atan2
 import kotlin.math.sqrt
 
 
-class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListener {
+class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListener {
 
     private lateinit var sensorManager: SensorManager
     private var mag: Sensor? = null
@@ -71,7 +71,7 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dtyf)
+        setContentView(R.layout.activity_nft)
 
         // Enables Always-on
         setAmbientEnabled()
