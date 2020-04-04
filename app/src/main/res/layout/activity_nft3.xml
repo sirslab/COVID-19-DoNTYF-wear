@@ -26,18 +26,10 @@
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Hello World!"
+                android:layout_height="50dp"
+                android:text="R"
                 android:textAlignment="center"
-                android:textSize="20dp" />
-
-            <TextView
-                android:id="@+id/textViewStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Calibrating"
-                android:textAlignment="center"
-                android:textSize="20dp" />
+                android:textSize="40dp" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -59,19 +51,6 @@
                     android:text="0"
                     android:textAlignment="center" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Maxv" />
-
-                <TextView
-                    android:id="@+id/textViewMaxv"
-                    android:layout_width="45dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="0"
-                    android:textAlignment="center" />
             </LinearLayout>
 
             <LinearLayout

@@ -131,11 +131,11 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
 
     private fun updateGUI() {
         runOnUiThread {
-            textView.text = String.format("%.2f", n) + " " + if (righthanded)  "R" else ("L")
-            textViewMaxv.text = String.format("%.1f", maxValue)
+            textView.text = String.format("%.1f", n) + " " + if (righthanded)  "R" else ("L")
+            //textViewMaxv.text = String.format("%.1f", maxValue)
             // textViewAvg.text = calib.toString()
             // textViewSamples.text = caliblist.size.toString()
-            textViewStatus.text = if (activeMonitoring)  "Monitoring" else ("calibrating")
+            //textViewStatus.text = if (activeMonitoring)  "Monitoring" else ("calibrating")
             textViewThreshold.text =  sensitivitySeekBar.progress.toString()
             textViewRPY.text = String.format("%.2f", RPY[0]) + " "+ String.format("%.2f", RPY[1]) +" "+ String.format("%.2f", RPY[2])
 
@@ -143,21 +143,21 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
             when {
                 stateDanger && activeMonitoring && !updateMaxValue -> {
                     textView.setBackgroundColor(Color.RED)
-                    textViewStatus.setBackgroundColor(Color.RED)
+                    //textViewStatus.setBackgroundColor(Color.RED)
                 }
                 stateDanger && !activeMonitoring && !updateMaxValue -> {
                     textView.setBackgroundColor(Color.YELLOW)
-                    textViewStatus.setBackgroundColor(Color.YELLOW)
+                    //textViewStatus.setBackgroundColor(Color.YELLOW)
                 }
                 updateMaxValue -> {
                     textView.setBackgroundColor(Color.BLUE)
-                    textViewStatus.setBackgroundColor(Color.BLUE)
+                    //textViewStatus.setBackgroundColor(Color.BLUE)
                 }
                 else -> {
                     textView.setBackgroundColor(Color.GREEN)
-                    textView.setTextColor(Color.WHITE)
-                    textViewStatus.setBackgroundColor(Color.GREEN)
-                    textViewStatus.setTextColor(Color.WHITE)
+                    if (activeMonitoring)  textView.setTextColor(Color.WHITE) else textView.setTextColor(Color.LTGRAY)
+                   // textViewStatus.setBackgroundColor(Color.GREEN)
+                   // textViewStatus.setTextColor(Color.WHITE)
                 }
             }
         }
