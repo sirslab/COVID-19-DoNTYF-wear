@@ -296,5 +296,4 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
             }
         }
     }
-
 }
