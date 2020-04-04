@@ -39,12 +39,12 @@ class MainActivity : WearableActivity(),  View.OnClickListener {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main1)
-        updateHandler.postDelayed(runnable, 5000)
+      //  updateHandler.postDelayed(runnable, 5000)
 
     }
 
 
-    fun changeLayout() {
+    private fun changeLayout() {
         setContentView(R.layout.activity_main2)
         screen_number += 1
     }
