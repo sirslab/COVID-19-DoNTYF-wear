@@ -73,7 +73,6 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activirt
 
         // Enables Always-on
         setAmbientEnabled()
