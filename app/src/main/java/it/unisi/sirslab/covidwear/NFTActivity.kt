@@ -73,7 +73,6 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nft1)
-
     }
 
     fun initNFT(){
@@ -255,11 +254,13 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
 
                 R.id.leftButton -> {
                     righthanded = false
-                    setContentView(R.layout.activity_nft3)
-                    initNFT()
+                    setContentView(R.layout.activity_nft2)
                 }
                 R.id.rightButton -> {
                     righthanded = true
+                    setContentView(R.layout.activity_nft2)
+                }
+                R.id.startButton -> {
                     setContentView(R.layout.activity_nft3)
                     initNFT()
                 }
