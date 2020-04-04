@@ -30,11 +30,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Vibrator
 import android.support.wearable.activity.WearableActivity
+import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import kotlinx.android.synthetic.main.activity_main.*
-import android.util.Log
 import kotlinx.android.synthetic.main.activity_dtyf.*
 import kotlin.math.absoluteValue
 import kotlin.math.atan2
@@ -50,7 +49,6 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
     private var righthanded = false;
 
     private var nRimaningCalib=0
-    //private var calib = arrayOf(0.0f,0.0f,0.0f)
     private var calib = 0.0f
     private var caliblist = ArrayList<Float>()
     private var activeMonitoring = false;
@@ -88,6 +86,7 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
         val deviceSensors: List<Sensor> = sensorManager.getSensorList(Sensor.TYPE_ALL)
         textView.text = deviceSensors.toString()
 
+        // Get Sensors
         mag = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
         acc = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
@@ -101,12 +100,12 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
         if (acc!= null) {
             textView.text = "Acc found"
-            Log.d("tom", "Acc found")
+            Log.d("DEBUG", "Acc found")
             acc?.also { m ->  sensorManager.registerListener(this, m, SensorManager.SENSOR_DELAY_GAME)}
         }
         else {
             textView.text = "Mag not found"
-            Log.d("tom", "Acc NOT found")
+            Log.d("DEBUG", "Acc NOT found")
         }
 
 
@@ -115,7 +114,10 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
             ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.VIBRATE),RECORD_REQUEST_CODE)
         }
 
+
         if(caliblist.isEmpty()) {caliblist.add(0.0f)}
+
+        // hand selector
         toggleHand.setOnCheckedChangeListener { _, isChecked ->  righthanded = isChecked  }
 
         updateGUI()
@@ -128,7 +130,7 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
     private fun updateGUI() {
         runOnUiThread {
-            textView.text = String.format("%.2f", n) + " " + if (righthanded)  "R" else ("L")// ; n("%.2f").toString
+            textView.text = String.format("%.2f", n) + " " + if (righthanded)  "R" else ("L")
             textViewMaxv.text = String.format("%.1f", maxValue)
             // textViewAvg.text = calib.toString()
             // textViewSamples.text = caliblist.size.toString()
@@ -138,13 +140,7 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
 
             when {
-                /*
-                 nRimaningCalib>0 -> {
-                    textView.setBackgroundColor(Color.YELLOW)
-                    textViewStatus.setBackgroundColor(Color.YELLOW)
-                }
-                */
-                 stateDanger && activeMonitoring && !updateMaxValue -> {
+                stateDanger && activeMonitoring && !updateMaxValue -> {
                     textView.setBackgroundColor(Color.RED)
                     textViewStatus.setBackgroundColor(Color.RED)
                 }
@@ -187,15 +183,10 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
     private fun updateAverage(value: Float): Float {
         if (caliblist.size < averageSamples) {
             caliblist.add(value)
-            //  Log.d("tom", "caliblist size" + caliblist.size.toString())
-
         }
         else {
             caliblist.removeAt(0)
             caliblist.add(value)
-            //      println("- +" + value.toString())
-            //      Log.d("tom", "- +" + value.toString())
-
         }
         return caliblist.average().toFloat()
     }
@@ -205,23 +196,15 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
         if (event?.sensor == mag) {
 
             val v = event?.values ?: return
-            //val rawValue = (v[0] * v[0] + v[1] * v[1] + v[2] * v[2])/100
-            //rawValue = rawValue*0.5f + (v[0]*v[0] + v[1]*v[1] + v[2]*v[2])/100*0.5f
             rawValue = (v[0]*v[0] + v[1]*v[1] + v[2]*v[2])/100
-
-            //      Log.d("tom", "Magnetometer Values" + v.contentToString())
-
 
             if (!activeMonitoring && ! updateMaxValue) {
                 calib = updateAverage(rawValue)
             }
 
-
-
             if (updateMaxValue) {
 
                 val  tempval = (rawValue - calib).absoluteValue
-                //            Log.d("tom", "tempval " + tempval.toString() + "offset:" + calib.toString())
 
                 if (System.currentTimeMillis() - lastTimeOn < 5000) {
                     if (tempval > maxValue) {
@@ -236,8 +219,6 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
             }
 
-
-
             n = (rawValue - calib).absoluteValue
             stateDanger = n > sensitivitySeekBar.progress
             updateVibration()
@@ -245,7 +226,6 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
         if(event?.sensor == acc){
             val v = event?.values ?: return
-            //          Log.d("tom", "Accelerometer Values" + v.contentToString())
 
             val roll = atan2(v[1], v[2]) * 180/kotlin.math.PI;
             val pitch = atan2(-v[0], sqrt(v[1]*v[1] + v[2]*v[2])) * 180/kotlin.math.PI;
@@ -260,10 +240,9 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
                 activeMonitoring = pitch > -100 && pitch < -20
             }
             else{
-              //  activeMonitoring = roll > -20 && roll < 80 && pitch > 30 && pitch < 100
+                //  activeMonitoring = roll > -20 && roll < 80 && pitch > 30 && pitch < 100
                 activeMonitoring = pitch > 20 && pitch < 100
             }
-
         }
         updateGUI()
     }
@@ -302,8 +281,6 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
                     System.exit(0)
 
                 }
-
-
             }
         }
     }
