@@ -41,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Soglia" />
+                    android:text="Threshold" />
 
                 <TextView
                     android:id="@+id/textViewThreshold"
@@ -62,10 +62,10 @@
                     android:id="@+id/button_decrement"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:background="@drawable/ic_remove_circle_outline_black_24dp"
                     android:onClick="onClick"
-                    android:text="-"
                     android:textAlignment="center"
-                    android:textSize="10sp"/>
+                    android:textSize="10sp" />
 
                 <SeekBar
                     android:id="@+id/sensitivitySeekBar"
@@ -76,6 +76,7 @@
                     android:id="@+id/button_increment"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:background="@drawable/ic_add_circle_outline_black_24dp"
                     android:onClick="onClick"
                     android:text="+"
                     android:textAlignment="center"
@@ -125,7 +126,7 @@
                     android:enabled="true"
                     android:gravity="center"
                     android:onClick="onClick"
-                    android:text="Calibrate" />
+                    android:text="Recalibrate" />
 
             </LinearLayout>
             <LinearLayout
