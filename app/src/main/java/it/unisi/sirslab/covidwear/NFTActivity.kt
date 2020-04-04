@@ -34,7 +34,8 @@ import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import kotlinx.android.synthetic.main.activity_nft.*
+import kotlinx.android.synthetic.main.activity_nft3.*
+import kotlinx.android.synthetic.main.activity_nft1.*
 import kotlin.math.absoluteValue
 import kotlin.math.atan2
 import kotlin.math.sqrt
@@ -46,7 +47,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
     private var mag: Sensor? = null
     private var acc: Sensor? = null
     private var RPY = arrayOf(0.0f,0.0f,0.0f)
-    private var righthanded = false;
+    private var righthanded = false
 
     private var nRimaningCalib=0
     private var calib = 0.0f
@@ -71,7 +72,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_nft)
+        setContentView(R.layout.activity_nft3)
 
         // Enables Always-on
         setAmbientEnabled()
@@ -252,6 +253,14 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
         if (v != null) {
             when (v.id) {
 
+                R.id.leftButton -> {
+                    righthanded = false
+                    setContentView(R.layout.activity_nft3)
+                }
+                R.id.rightButton -> {
+                    righthanded = true
+                    setContentView(R.layout.activity_nft3)
+                }
                 R.id.button_decrement -> {
                     sensitivitySeekBar.progress = sensitivitySeekBar.progress-2
                     if (sensitivitySeekBar.progress < 0)
