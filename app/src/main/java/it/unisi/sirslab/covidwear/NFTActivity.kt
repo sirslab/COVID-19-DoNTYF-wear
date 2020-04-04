@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package it.unisi.sirslab.covidwear
 
 import android.Manifest
+import android.R
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -32,6 +33,7 @@ import android.os.Vibrator
 import android.support.wearable.activity.WearableActivity
 import android.util.Log
 import android.view.View
+import android.widget.SeekBar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_nft3.*
@@ -39,7 +41,6 @@ import kotlinx.android.synthetic.main.activity_nft1.*
 import kotlin.math.absoluteValue
 import kotlin.math.atan2
 import kotlin.math.sqrt
-
 
 class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListener {
 
@@ -72,7 +73,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_nft3)
+        setContentView(R.layout.activirt
 
         // Enables Always-on
         setAmbientEnabled()
