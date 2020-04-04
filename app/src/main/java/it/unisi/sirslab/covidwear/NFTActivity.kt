@@ -72,7 +72,11 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_nft3)
+        setContentView(R.layout.activity_nft1)
+
+    }
+
+    fun initNFT(){
 
         // Enables Always-on
         setAmbientEnabled()
@@ -118,12 +122,8 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
 
         if(caliblist.isEmpty()) {caliblist.add(0.0f)}
 
-        // hand selector
-        toggleHand.setOnCheckedChangeListener { _, isChecked ->  righthanded = isChecked  }
-
         updateGUI()
     }
-
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -256,10 +256,12 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
                 R.id.leftButton -> {
                     righthanded = false
                     setContentView(R.layout.activity_nft3)
+                    initNFT()
                 }
                 R.id.rightButton -> {
                     righthanded = true
                     setContentView(R.layout.activity_nft3)
+                    initNFT()
                 }
                 R.id.button_decrement -> {
                     sensitivitySeekBar.progress = sensitivitySeekBar.progress-2

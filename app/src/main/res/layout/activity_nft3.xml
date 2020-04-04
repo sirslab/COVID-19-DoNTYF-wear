@@ -139,13 +139,6 @@
                     android:text="Manual"
                     android:visibility="gone" />
 
-                <ToggleButton
-                    android:id="@+id/toggleHand"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:text="ToggleButton"
-                    android:textOff="Left"
-                    android:textOn="Right" />
                 <Button
                     android:id="@+id/autoRecalibrate"
                     android:layout_width="wrap_content"
