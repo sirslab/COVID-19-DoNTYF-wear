@@ -25,8 +25,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.media.RingtoneManager
-import android.net.Uri
+import android.media.ToneGenerator
 import android.os.Bundle
 import android.os.Vibrator
 import android.support.wearable.activity.WearableActivity
@@ -34,19 +33,19 @@ import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import kotlinx.android.synthetic.main.activity_dtyf.*
+import kotlinx.android.synthetic.main.activity_nft3.*
 import kotlin.math.absoluteValue
 import kotlin.math.atan2
 import kotlin.math.sqrt
 
 
-class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListener {
+class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListener {
 
     private lateinit var sensorManager: SensorManager
     private var mag: Sensor? = null
     private var acc: Sensor? = null
     private var RPY = arrayOf(0.0f,0.0f,0.0f)
-    private var righthanded = false;
+    private var righthanded = false
 
     private var nRimaningCalib=0
     private var calib = 0.0f
@@ -62,6 +61,7 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
     private var lastTimeOn =0.toLong()
 
     private lateinit var vibrator: Vibrator
+    private val tone = ToneGenerator.TONE_PROP_BEEP
 
     private var RECORD_REQUEST_CODE = 1
 
@@ -71,7 +71,10 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dtyf)
+        setContentView(R.layout.activity_nft1)
+    }
+
+    fun initNFT(){
 
         // Enables Always-on
         setAmbientEnabled()
@@ -116,13 +119,8 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
 
         if(caliblist.isEmpty()) {caliblist.add(0.0f)}
-
-        // hand selector
-        toggleHand.setOnCheckedChangeListener { _, isChecked ->  righthanded = isChecked  }
-
         updateGUI()
     }
-
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
         //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -130,11 +128,11 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
 
     private fun updateGUI() {
         runOnUiThread {
-            textView.text = String.format("%.2f", n) + " " + if (righthanded)  "R" else ("L")
-            textViewMaxv.text = String.format("%.1f", maxValue)
+            textView.text = String.format("%.1f", n) + " " + if (righthanded)  "R" else ("L")
+            //textViewMaxv.text = String.format("%.1f", maxValue)
             // textViewAvg.text = calib.toString()
             // textViewSamples.text = caliblist.size.toString()
-            textViewStatus.text = if (activeMonitoring)  "Monitoring" else ("calibrating")
+            //textViewStatus.text = if (activeMonitoring)  "Monitoring" else ("calibrating")
             textViewThreshold.text =  sensitivitySeekBar.progress.toString()
             textViewRPY.text = String.format("%.2f", RPY[0]) + " "+ String.format("%.2f", RPY[1]) +" "+ String.format("%.2f", RPY[2])
 
@@ -142,21 +140,21 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
             when {
                 stateDanger && activeMonitoring && !updateMaxValue -> {
                     textView.setBackgroundColor(Color.RED)
-                    textViewStatus.setBackgroundColor(Color.RED)
+                    //textViewStatus.setBackgroundColor(Color.RED)
                 }
                 stateDanger && !activeMonitoring && !updateMaxValue -> {
                     textView.setBackgroundColor(Color.YELLOW)
-                    textViewStatus.setBackgroundColor(Color.YELLOW)
+                    //textViewStatus.setBackgroundColor(Color.YELLOW)
                 }
                 updateMaxValue -> {
                     textView.setBackgroundColor(Color.BLUE)
-                    textViewStatus.setBackgroundColor(Color.BLUE)
+                    //textViewStatus.setBackgroundColor(Color.BLUE)
                 }
                 else -> {
                     textView.setBackgroundColor(Color.GREEN)
-                    textView.setTextColor(Color.WHITE)
-                    textViewStatus.setBackgroundColor(Color.GREEN)
-                    textViewStatus.setTextColor(Color.WHITE)
+                    if (activeMonitoring)  textView.setTextColor(Color.WHITE) else textView.setTextColor(Color.LTGRAY)
+                   // textViewStatus.setBackgroundColor(Color.GREEN)
+                   // textViewStatus.setTextColor(Color.WHITE)
                 }
             }
         }
@@ -168,6 +166,7 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
         if (activeMonitoring && stateDanger && (lastVibTime +vibrationLength < t)) {
             vibrator .vibrate(vibrationLength.toLong())
             lastVibTime = t
+            /*
             if (lastNotificationTime+2000 < t) {
                 val notification: Uri =
                     RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
@@ -175,6 +174,8 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
                 r.play()
                 lastNotificationTime = t
             }
+
+             */
         }
     }
 
@@ -203,14 +204,15 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
             }
 
             if (updateMaxValue) {
-
                 val  tempval = (rawValue - calib).absoluteValue
 
                 if (System.currentTimeMillis() - lastTimeOn < 5000) {
+
                     if (tempval > maxValue) {
                         maxValue = tempval
                     }
                 } else {
+
                     updateMaxValue = false
                     sensitivitySeekBar.progress = 2*(maxValue).absoluteValue.toInt()
                     if (sensitivitySeekBar.progress < 0) sensitivitySeekBar.progress = 0
@@ -252,6 +254,33 @@ class DTYFActivity : WearableActivity(), SensorEventListener, View.OnClickListen
         if (v != null) {
             when (v.id) {
 
+                R.id.leftButton -> {
+                    righthanded = false
+                    setContentView(R.layout.activity_nft2)
+                }
+
+                R.id.imageViewL -> {
+                    righthanded = false
+                    setContentView(R.layout.activity_nft2)
+                }
+
+                R.id.rightButton -> {
+                    righthanded = true
+                    setContentView(R.layout.activity_nft2)
+                }
+
+                R.id.imageViewR-> {
+                    righthanded = true
+                    setContentView(R.layout.activity_nft2)
+                }
+
+
+                R.id.startButton -> {
+                    setContentView(R.layout.activity_nft3)
+                    lastTimeOn = System.currentTimeMillis()
+                    updateMaxValue = true
+                    initNFT()
+                }
                 R.id.button_decrement -> {
                     sensitivitySeekBar.progress = sensitivitySeekBar.progress-2
                     if (sensitivitySeekBar.progress < 0)

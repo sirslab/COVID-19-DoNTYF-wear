@@ -19,33 +19,52 @@ package it.unisi.sirslab.covidwear
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.support.wearable.activity.WearableActivity
 import android.view.View
 import android.view.Window
-
+import java.util.*
+import kotlin.concurrent.schedule
+import kotlin.system.exitProcess
 
 class MainActivity : WearableActivity(),  View.OnClickListener {
 
+    private var screen_number  = 0
+    val updateHandler = Handler()
 
+    val runnable = Runnable {
+        changeLayout() // some action(s)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_privacy)
+        setContentView(R.layout.activity_main1)
+      //  updateHandler.postDelayed(runnable, 5000)
+
     }
 
+
+    private fun changeLayout() {
+        setContentView(R.layout.activity_main3)
+        screen_number = 2
+    }
     override fun onClick(v: View?) {
-        if(v!!.id==R.id.acceptButton) {
-            val intent = Intent(this, DTYFActivity::class.java)
-            startActivity(intent)
-            finishAffinity();
+        if(screen_number == 0){
+            changeLayout()
         }
-        if(v!!.id==R.id.denyButton) {
-            finish();
-            finishAffinity();
-            System.exit(0);
+        else if(screen_number == 1 && v!!.id==R.id.enterButton){
+            setContentView(R.layout.activity_main3)
+            screen_number += 1
+        }
+        else if(screen_number == 2 && v!!.id==R.id.acceptButton) {
+            val intent = Intent(this, NFTActivity::class.java)
+            startActivity(intent)
+            finishAffinity()
+        }
+        else if(screen_number == 2 && v!!.id==R.id.denyButton) {
+            finish()
+            finishAffinity()
+            exitProcess(status = 0)
         }
     }
-
-
-
 }

@@ -1,9 +1,11 @@
 <resources>
-    <string name="app_name">CovidWear</string>
+    <string name="app_name">No Face-Touch App</string>
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
     -->
     <string name="hello_world">Hello Square World!</string>
     <string name="personal_data_advice"> This app collects data from an accelerometer and magnetometer integrated in the device in order to estimate the position of the hand and the magnetic field to which the device is subjected. These data are recorded purely for personal monitoring purposes and will not be collected nor released.</string>
+    <string name="hand_choice">Do you wear the smartwatch on the left or on the right?</string>
+    <string name="calibration_explain">After pressing the button, move your hand in front of you for 5 seconds to calibrate the magnetic sensor</string>
 </resources>

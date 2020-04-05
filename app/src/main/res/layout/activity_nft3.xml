@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/dark_grey"
     android:padding="@dimen/box_inset_layout_padding"
-    tools:context=".DTYFActivity"
+    tools:context=".NFTActivity"
     tools:deviceIds="wear">
 
     <FrameLayout
@@ -26,18 +26,10 @@
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Hello World!"
+                android:layout_height="50dp"
+                android:text="R"
                 android:textAlignment="center"
-                android:textSize="20dp" />
-
-            <TextView
-                android:id="@+id/textViewStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Calibrating"
-                android:textAlignment="center"
-                android:textSize="20dp" />
+                android:textSize="40dp" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -49,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Soglia" />
+                    android:text="Threshold" />
 
                 <TextView
                     android:id="@+id/textViewThreshold"
@@ -59,19 +51,6 @@
                     android:text="0"
                     android:textAlignment="center" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Maxv" />
-
-                <TextView
-                    android:id="@+id/textViewMaxv"
-                    android:layout_width="45dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="0"
-                    android:textAlignment="center" />
             </LinearLayout>
 
             <LinearLayout
@@ -83,10 +62,10 @@
                     android:id="@+id/button_decrement"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:background="@drawable/ic_remove_circle_outline_black_24dp"
                     android:onClick="onClick"
-                    android:text="-"
                     android:textAlignment="center"
-                    android:textSize="10sp"/>
+                    android:textSize="10sp" />
 
                 <SeekBar
                     android:id="@+id/sensitivitySeekBar"
@@ -97,6 +76,7 @@
                     android:id="@+id/button_increment"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:background="@drawable/ic_add_circle_outline_black_24dp"
                     android:onClick="onClick"
                     android:text="+"
                     android:textAlignment="center"
@@ -139,13 +119,6 @@
                     android:text="Manual"
                     android:visibility="gone" />
 
-                <ToggleButton
-                    android:id="@+id/toggleHand"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:text="ToggleButton"
-                    android:textOff="Left"
-                    android:textOn="Right" />
                 <Button
                     android:id="@+id/autoRecalibrate"
                     android:layout_width="wrap_content"
@@ -153,7 +126,7 @@
                     android:enabled="true"
                     android:gravity="center"
                     android:onClick="onClick"
-                    android:text="Calibrate" />
+                    android:text="Recalibrate" />
 
             </LinearLayout>
             <LinearLayout
