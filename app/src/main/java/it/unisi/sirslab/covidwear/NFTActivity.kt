@@ -120,7 +120,6 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
 
 
         if(caliblist.isEmpty()) {caliblist.add(0.0f)}
-
         updateGUI()
     }
 
@@ -203,14 +202,15 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
             }
 
             if (updateMaxValue) {
-
                 val  tempval = (rawValue - calib).absoluteValue
 
                 if (System.currentTimeMillis() - lastTimeOn < 5000) {
+
                     if (tempval > maxValue) {
                         maxValue = tempval
                     }
                 } else {
+
                     updateMaxValue = false
                     sensitivitySeekBar.progress = 2*(maxValue).absoluteValue.toInt()
                     if (sensitivitySeekBar.progress < 0) sensitivitySeekBar.progress = 0
@@ -256,12 +256,27 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
                     righthanded = false
                     setContentView(R.layout.activity_nft2)
                 }
+
+                R.id.imageViewL -> {
+                    righthanded = false
+                    setContentView(R.layout.activity_nft2)
+                }
+
                 R.id.rightButton -> {
                     righthanded = true
                     setContentView(R.layout.activity_nft2)
                 }
+
+                R.id.imageViewR-> {
+                    righthanded = true
+                    setContentView(R.layout.activity_nft2)
+                }
+
+
                 R.id.startButton -> {
                     setContentView(R.layout.activity_nft3)
+                    lastTimeOn = System.currentTimeMillis()
+                    updateMaxValue = true
                     initNFT()
                 }
                 R.id.button_decrement -> {

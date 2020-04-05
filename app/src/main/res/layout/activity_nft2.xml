@@ -43,7 +43,7 @@
                 android:onClick="onClick"
                 android:text="Start Calibration"
                 android:textAlignment="center"
-                android:textColor="#00FF00"
+                android:textColor="@color/blue"
                 android:textSize="10sp" />
 
         </LinearLayout>
