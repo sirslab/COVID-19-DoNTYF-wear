@@ -67,58 +67,66 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
 
     private val vibrationLength = 1000
     private val averageSamples = 20
-    private val maxThreshold = 400
+    private val maxThreshold = 100
+    private var isNFTscreen = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nft1)
+        initSensors()
     }
 
-    fun initNFT(){
-
-        // Enables Always-on
-        setAmbientEnabled()
+    private fun initSensors(){
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-
-        sensitivitySeekBar.max = maxThreshold
-        sensitivitySeekBar.progress = maxThreshold/2
-        nRimaningCalib = averageSamples
-
-        val deviceSensors: List<Sensor> = sensorManager.getSensorList(Sensor.TYPE_ALL)
-        textView.text = deviceSensors.toString()
 
         // Get Sensors
         mag = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
         acc = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
 
+        //val deviceSensors: List<Sensor> = sensorManager.getSensorList(Sensor.TYPE_ALL)
+        //textView.text = deviceSensors.toString()
+
         if (mag!= null) {
-            textView.text = "Mag found"
+            //textView.text = "Mag found"
             mag?.also { m ->  sensorManager.registerListener(this, m, SensorManager.SENSOR_DELAY_GAME)}
         } else {
-            textView.text = "Mag not found"
+            //textView.text = "Mag not found"
         }
 
         if (acc!= null) {
-            textView.text = "Acc found"
+            //textView.text = "Acc found"
             Log.d("DEBUG", "Acc found")
             acc?.also { m ->  sensorManager.registerListener(this, m, SensorManager.SENSOR_DELAY_GAME)}
         }
         else {
-            textView.text = "Mag not found"
+            //textView.text = "Mag not found"
             Log.d("DEBUG", "Acc NOT found")
         }
 
+        if(caliblist.isEmpty()) {caliblist.add(0.0f)}
+    }
+
+
+    private fun initNFT(){
+
+        // Enables Always-on
+        setAmbientEnabled()
+
+        vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+
+        sensitivitySeekBar.max = maxThreshold
+        sensitivitySeekBar.progress = maxThreshold/2
+        nRimaningCalib = averageSamples
+
+        isNFTscreen = true
 
         val permission = ContextCompat.checkSelfPermission(this, Manifest.permission.VIBRATE)
         if (permission != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.VIBRATE),RECORD_REQUEST_CODE)
         }
 
-
-        if(caliblist.isEmpty()) {caliblist.add(0.0f)}
         updateGUI()
     }
 
@@ -130,7 +138,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
         runOnUiThread {
             textView.text = String.format("%.1f", n) + " " + if (righthanded)  "R" else ("L")
             //textViewMaxv.text = String.format("%.1f", maxValue)
-            // textViewAvg.text = calib.toString()
+            //textViewAvg.text = calib.toString()
             // textViewSamples.text = caliblist.size.toString()
             //textViewStatus.text = if (activeMonitoring)  "Monitoring" else ("calibrating")
             textViewThreshold.text =  sensitivitySeekBar.progress.toString()
@@ -194,8 +202,18 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
 
 
     override fun onSensorChanged(event: SensorEvent?) {
-        if (event?.sensor == mag) {
+        if (!isNFTscreen) {
+            if(event?.sensor == mag ) {
+                val v = event?.values ?: return
+                rawValue = (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]) / 100
 
+                calib = updateAverage(rawValue)
+                n = (rawValue - calib).absoluteValue
+            }
+            return // per non aggiornare la GUI
+        }
+
+        if (event?.sensor == mag && isNFTscreen) {
             val v = event?.values ?: return
             rawValue = (v[0]*v[0] + v[1]*v[1] + v[2]*v[2])/100
 
@@ -204,7 +222,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
             }
 
             if (updateMaxValue) {
-                val  tempval = (rawValue - calib).absoluteValue
+                val tempval = (rawValue - calib).absoluteValue
 
                 if (System.currentTimeMillis() - lastTimeOn < 5000) {
 
@@ -214,9 +232,10 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
                 } else {
 
                     updateMaxValue = false
-                    sensitivitySeekBar.progress = 2*(maxValue).absoluteValue.toInt()
+                    sensitivitySeekBar.progress = 3 * (maxValue).absoluteValue.toInt()
                     if (sensitivitySeekBar.progress < 0) sensitivitySeekBar.progress = 0
-                    if (sensitivitySeekBar.progress > maxThreshold) sensitivitySeekBar.progress = maxThreshold
+                    if (sensitivitySeekBar.progress > maxThreshold) sensitivitySeekBar.progress =
+                        maxThreshold
                 }
 
             }
@@ -226,7 +245,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
             updateVibration()
         }
 
-        if(event?.sensor == acc){
+        if(event?.sensor == acc && isNFTscreen){
             val v = event?.values ?: return
 
             val roll = atan2(v[1], v[2]) * 180/kotlin.math.PI;
@@ -313,5 +332,4 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
             }
         }
     }
-
 }
