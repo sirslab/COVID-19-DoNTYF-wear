@@ -67,7 +67,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
 
     private val vibrationLength = 1000
     private val averageSamples = 20
-    private val maxThreshold = 400
+    private val maxThreshold = 100
     private var isNFTscreen = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -138,7 +138,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
         runOnUiThread {
             textView.text = String.format("%.1f", n) + " " + if (righthanded)  "R" else ("L")
             //textViewMaxv.text = String.format("%.1f", maxValue)
-            // textViewAvg.text = calib.toString()
+            //textViewAvg.text = calib.toString()
             // textViewSamples.text = caliblist.size.toString()
             //textViewStatus.text = if (activeMonitoring)  "Monitoring" else ("calibrating")
             textViewThreshold.text =  sensitivitySeekBar.progress.toString()
@@ -210,7 +210,6 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
                 calib = updateAverage(rawValue)
                 n = (rawValue - calib).absoluteValue
             }
-            Log.d("DEBUG", "asdasd")
             return // per non aggiornare la GUI
         }
 
@@ -233,7 +232,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
                 } else {
 
                     updateMaxValue = false
-                    sensitivitySeekBar.progress = 2 * (maxValue).absoluteValue.toInt()
+                    sensitivitySeekBar.progress = 3 * (maxValue).absoluteValue.toInt()
                     if (sensitivitySeekBar.progress < 0) sensitivitySeekBar.progress = 0
                     if (sensitivitySeekBar.progress > maxThreshold) sensitivitySeekBar.progress =
                         maxThreshold
