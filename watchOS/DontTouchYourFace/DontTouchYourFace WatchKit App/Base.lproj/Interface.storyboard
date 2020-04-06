@@ -1,25 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="15705" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="15705" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="I87-tb-CZO">
     <device id="watch38"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="15501"/>
     </dependencies>
     <scenes>
-        <!--Interface Controller-->
+        <!--Privacy Interface Controller-->
+        <scene sceneID="wku-lI-JfL">
+            <objects>
+                <controller id="I87-tb-CZO" customClass="PrivacyInterfaceController" customModule="DontTouchYourFace_WatchKit_App" customModuleProvider="target">
+                    <items>
+                        <label alignment="left" numberOfLines="0" id="riF-OI-gAC">
+                            <string key="text">This app collects data from an accelerometer and magnetometer integrated in the device in order to  estimate the wheater an user is approaching his hands towards his face</string>
+                        </label>
+                        <button width="1" alignment="left" verticalAlignment="bottom" title="Deny" id="zKt-Tm-KUI">
+                            <connections>
+                                <action selector="didTapDenyButton" destination="I87-tb-CZO" id="ern-0j-7A3"/>
+                            </connections>
+                        </button>
+                        <button width="1" alignment="left" verticalAlignment="bottom" title="Accept" id="eHP-ym-aUQ">
+                            <connections>
+                                <action selector="didTapAcceptButton" destination="I87-tb-CZO" id="Qqc-oZ-Deo"/>
+                            </connections>
+                        </button>
+                    </items>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="-175" y="377"/>
+        </scene>
+        <!--HandInterfaceController-->
+        <scene sceneID="RQN-hR-iBA">
+            <objects>
+                <controller identifier="HandInterfaceController" id="K4E-74-e1I" customClass="HandInterfaceController" customModule="DontTouchYourFace_WatchKit_App" customModuleProvider="target">
+                    <items>
+                        <label alignment="center" text="Do you wear the smartwatch on the left or on the right?" textAlignment="center" numberOfLines="0" minimumScaleFactor="0.80000000000000004" id="Xlh-OU-oo0"/>
+                        <group width="1" alignment="left" verticalAlignment="bottom" id="1Lb-EE-22d">
+                            <items>
+                                <button width="0.5" alignment="left" title="Left" id="Mdr-t8-yJK">
+                                    <connections>
+                                        <action selector="didTapLeftHandButton" destination="K4E-74-e1I" id="POW-2f-Int"/>
+                                    </connections>
+                                </button>
+                                <button width="0.5" alignment="right" title="Right" id="3v3-cr-lcs">
+                                    <connections>
+                                        <action selector="didTapRightHandButton" destination="K4E-74-e1I" id="y1J-mK-Ftt"/>
+                                    </connections>
+                                </button>
+                            </items>
+                        </group>
+                    </items>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="99" y="302"/>
+        </scene>
+        <!--CalibrationInterfaceController-->
+        <scene sceneID="DFC-rn-yfh">
+            <objects>
+                <controller identifier="CalibrationInterfaceController" id="TJB-z1-S2u" customClass="CalibrationInterfaceController" customModule="DontTouchYourFace_WatchKit_App" customModuleProvider="target">
+                    <items>
+                        <label alignment="center" verticalAlignment="center" hidden="YES" text="[COUNTDOWN]" id="qgG-rJ-4xy"/>
+                        <label alignment="center" text="After pressing the button, move your hand in front of you for 5 seconds to calibrate the magnetic sensor" textAlignment="center" numberOfLines="0" id="5x9-F0-6gU"/>
+                        <button width="1" alignment="left" verticalAlignment="bottom" title="Calibrate" id="5X2-yA-JOY">
+                            <connections>
+                                <action selector="didTapCalibrate" destination="TJB-z1-S2u" id="oHI-6u-Tlh"/>
+                            </connections>
+                        </button>
+                    </items>
+                    <connections>
+                        <outlet property="calibrateButton" destination="5X2-yA-JOY" id="HoB-jB-mbx"/>
+                        <outlet property="calibrationLabel" destination="5x9-F0-6gU" id="p1s-OD-MoL"/>
+                        <outlet property="countdownLabel" destination="qgG-rJ-4xy" id="2hQ-Sv-HiZ"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="383" y="299"/>
+        </scene>
+        <!--MeasurementInterfaceController-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="DontTouchYourFace_WatchKit_App" customModuleProvider="target">
+                <controller identifier="MeasurementInterfaceController" id="AgC-eL-Hgc" customClass="MeasurementInterfaceController" customModule="DontTouchYourFace_WatchKit_App" customModuleProvider="target">
                     <items>
                         <label alignment="center" verticalAlignment="center" text="Magnetometer data:" textAlignment="center" minimumScaleFactor="0.69999999999999996" id="iKP-Zz-cSR"/>
-                        <label alignment="center" verticalAlignment="center" textAlignment="center" minimumScaleFactor="0.69999999999999996" id="m2L-Bm-nky"/>
+                        <label alignment="center" verticalAlignment="center" textAlignment="center" numberOfLines="0" minimumScaleFactor="0.69999999999999996" id="m2L-Bm-nky"/>
                     </items>
                     <connections>
                         <outlet property="dataLabel" destination="m2L-Bm-nky" id="pkh-tF-Ws5"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="220" y="345"/>
+            <point key="canvasLocation" x="655" y="296"/>
         </scene>
         <!--Static Notification Interface Controller-->
         <scene sceneID="AEw-b0-oYE">
@@ -36,21 +106,21 @@
                     </connections>
                 </notificationController>
             </objects>
-            <point key="canvasLocation" x="220" y="643"/>
+            <point key="canvasLocation" x="78" y="721"/>
         </scene>
         <!--Notification Controller-->
         <scene sceneID="ZPc-GJ-vnh">
             <objects>
                 <controller id="4sK-HA-Art" customClass="NotificationController" customModule="DontTouchYourFace_WatchKit_App" customModuleProvider="target"/>
             </objects>
-            <point key="canvasLocation" x="468" y="643"/>
+            <point key="canvasLocation" x="432" y="1139"/>
         </scene>
         <!--Notification Controller-->
         <scene sceneID="Niz-AI-uX2">
             <objects>
                 <controller id="eXb-UN-Cd0" customClass="NotificationController" customModule="DontTouchYourFace_WatchKit_App" customModuleProvider="target"/>
             </objects>
-            <point key="canvasLocation" x="468" y="345"/>
+            <point key="canvasLocation" x="412" y="721"/>
         </scene>
     </scenes>
 </document>

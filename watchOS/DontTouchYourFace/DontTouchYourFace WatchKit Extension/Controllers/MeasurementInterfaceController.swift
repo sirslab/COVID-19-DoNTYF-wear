@@ -10,19 +10,18 @@ import WatchKit
 import Foundation
 import CoreMotion
 
-final class InterfaceController: WKInterfaceController {
+final class MeasurementInterfaceController: WKInterfaceController {
 	@IBOutlet private var dataLabel: WKInterfaceLabel!
 	private let coreMotionManager = CMMotionManager()
 
 	override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         
-        // Configure interface objects here.
-    }
-    
-    override func willActivate() {
-        // This method is called when watch view controller is about to be visible to user
-        super.willActivate()
+		guard coreMotionManager.isMagnetometerAvailable else{
+			print("Magnetometer not available")
+			return
+		}
+
 		coreMotionManager.startMagnetometerUpdates(to: .main) { [weak self] (data, error) in
 			guard let _self = self else {
 				return
@@ -45,10 +44,5 @@ final class InterfaceController: WKInterfaceController {
 			let rawMagneticField = data.magneticField
 			_self.dataLabel.setText("x: \(rawMagneticField.x), y: \(rawMagneticField.y), z: \(rawMagneticField.z)")
 		}
-    }
-    
-    override func didDeactivate() {
-        // This method is called when watch view controller is no longer visible
-        super.didDeactivate()
     }
 }

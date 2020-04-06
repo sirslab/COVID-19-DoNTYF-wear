@@ -7,11 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF573E08243B83DD000E2E08 /* PrivacyInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF573E07243B83DD000E2E08 /* PrivacyInterfaceController.swift */; };
+		EF573E0A243B8556000E2E08 /* HandInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF573E09243B8556000E2E08 /* HandInterfaceController.swift */; };
+		EF573E0E243B88F6000E2E08 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF573E0D243B88F6000E2E08 /* Extensions.swift */; };
+		EF573E10243B8A51000E2E08 /* CalibrationInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF573E0F243B8A51000E2E08 /* CalibrationInterfaceController.swift */; };
 		EF90CC94243B6670006180D7 /* DontTouchYourFace WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = EF90CC93243B6670006180D7 /* DontTouchYourFace WatchKit App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EF90CC9A243B6670006180D7 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF90CC98243B6670006180D7 /* Interface.storyboard */; };
 		EF90CC9C243B6672006180D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF90CC9B243B6672006180D7 /* Assets.xcassets */; };
 		EF90CCA3243B6672006180D7 /* DontTouchYourFace WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EF90CCA2243B6672006180D7 /* DontTouchYourFace WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		EF90CCA8243B6672006180D7 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF90CCA7243B6672006180D7 /* InterfaceController.swift */; };
+		EF90CCA8243B6672006180D7 /* MeasurementInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF90CCA7243B6672006180D7 /* MeasurementInterfaceController.swift */; };
 		EF90CCAA243B6672006180D7 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF90CCA9243B6672006180D7 /* ExtensionDelegate.swift */; };
 		EF90CCAC243B6672006180D7 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF90CCAB243B6672006180D7 /* NotificationController.swift */; };
 		EF90CCAE243B6673006180D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF90CCAD243B6673006180D7 /* Assets.xcassets */; };
@@ -60,13 +64,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		EF573E07243B83DD000E2E08 /* PrivacyInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyInterfaceController.swift; sourceTree = "<group>"; };
+		EF573E09243B8556000E2E08 /* HandInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandInterfaceController.swift; sourceTree = "<group>"; };
+		EF573E0D243B88F6000E2E08 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		EF573E0F243B8A51000E2E08 /* CalibrationInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationInterfaceController.swift; sourceTree = "<group>"; };
 		EF90CC8F243B666F006180D7 /* DontTouchYourFace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DontTouchYourFace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF90CC93243B6670006180D7 /* DontTouchYourFace WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DontTouchYourFace WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF90CC99243B6670006180D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		EF90CC9B243B6672006180D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EF90CC9D243B6672006180D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF90CCA2243B6672006180D7 /* DontTouchYourFace WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "DontTouchYourFace WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		EF90CCA7243B6672006180D7 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		EF90CCA7243B6672006180D7 /* MeasurementInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementInterfaceController.swift; sourceTree = "<group>"; };
 		EF90CCA9243B6672006180D7 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 		EF90CCAB243B6672006180D7 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		EF90CCAD243B6673006180D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -85,6 +93,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EF573E0B243B88BC000E2E08 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				EF573E07243B83DD000E2E08 /* PrivacyInterfaceController.swift */,
+				EF573E09243B8556000E2E08 /* HandInterfaceController.swift */,
+				EF573E0F243B8A51000E2E08 /* CalibrationInterfaceController.swift */,
+				EF90CCA7243B6672006180D7 /* MeasurementInterfaceController.swift */,
+				EF90CCAB243B6672006180D7 /* NotificationController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		EF573E0C243B88C7000E2E08 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				EF90CCAD243B6673006180D7 /* Assets.xcassets */,
+				EF90CCAF243B6673006180D7 /* Info.plist */,
+				EF90CCB0243B6673006180D7 /* PushNotificationPayload.apns */,
+				EF573E0D243B88F6000E2E08 /* Extensions.swift */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		EF90CC88243B666F006180D7 = {
 			isa = PBXGroup;
 			children = (
@@ -117,12 +148,9 @@
 		EF90CCA6243B6672006180D7 /* DontTouchYourFace WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
-				EF90CCA7243B6672006180D7 /* InterfaceController.swift */,
+				EF573E0B243B88BC000E2E08 /* Controllers */,
 				EF90CCA9243B6672006180D7 /* ExtensionDelegate.swift */,
-				EF90CCAB243B6672006180D7 /* NotificationController.swift */,
-				EF90CCAD243B6673006180D7 /* Assets.xcassets */,
-				EF90CCAF243B6673006180D7 /* Info.plist */,
-				EF90CCB0243B6673006180D7 /* PushNotificationPayload.apns */,
+				EF573E0C243B88C7000E2E08 /* Supporting Files */,
 			);
 			path = "DontTouchYourFace WatchKit Extension";
 			sourceTree = "<group>";
@@ -254,9 +282,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF573E08243B83DD000E2E08 /* PrivacyInterfaceController.swift in Sources */,
+				EF573E0E243B88F6000E2E08 /* Extensions.swift in Sources */,
+				EF573E0A243B8556000E2E08 /* HandInterfaceController.swift in Sources */,
 				EF90CCAC243B6672006180D7 /* NotificationController.swift in Sources */,
 				EF90CCAA243B6672006180D7 /* ExtensionDelegate.swift in Sources */,
-				EF90CCA8243B6672006180D7 /* InterfaceController.swift in Sources */,
+				EF573E10243B8A51000E2E08 /* CalibrationInterfaceController.swift in Sources */,
+				EF90CCA8243B6672006180D7 /* MeasurementInterfaceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,7 +437,7 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 62KK4CLZ8M;
-				INFOPLIST_FILE = "DontTouchYourFace WatchKit Extension/Info.plist";
+				INFOPLIST_FILE = "DontTouchYourFace WatchKit Extension/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -427,7 +459,7 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 62KK4CLZ8M;
-				INFOPLIST_FILE = "DontTouchYourFace WatchKit Extension/Info.plist";
+				INFOPLIST_FILE = "DontTouchYourFace WatchKit Extension/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
