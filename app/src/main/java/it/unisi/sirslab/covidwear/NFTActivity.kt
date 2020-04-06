@@ -25,8 +25,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.media.RingtoneManager
-import android.net.Uri
+import android.media.ToneGenerator
 import android.os.Bundle
 import android.os.Vibrator
 import android.support.wearable.activity.WearableActivity
@@ -35,7 +34,6 @@ import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_nft3.*
-import kotlinx.android.synthetic.main.activity_nft1.*
 import kotlin.math.absoluteValue
 import kotlin.math.atan2
 import kotlin.math.sqrt
@@ -63,6 +61,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
     private var lastTimeOn =0.toLong()
 
     private lateinit var vibrator: Vibrator
+    private val tone = ToneGenerator.TONE_PROP_BEEP
 
     private var RECORD_REQUEST_CODE = 1
 
@@ -167,6 +166,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
         if (activeMonitoring && stateDanger && (lastVibTime +vibrationLength < t)) {
             vibrator .vibrate(vibrationLength.toLong())
             lastVibTime = t
+            /*
             if (lastNotificationTime+2000 < t) {
                 val notification: Uri =
                     RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
@@ -174,6 +174,8 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
                 r.play()
                 lastNotificationTime = t
             }
+
+             */
         }
     }
 

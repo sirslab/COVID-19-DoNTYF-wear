@@ -45,8 +45,8 @@ class MainActivity : WearableActivity(),  View.OnClickListener {
 
 
     private fun changeLayout() {
-        setContentView(R.layout.activity_main2)
-        screen_number += 1
+        setContentView(R.layout.activity_main3)
+        screen_number = 2
     }
     override fun onClick(v: View?) {
         if(screen_number == 0){

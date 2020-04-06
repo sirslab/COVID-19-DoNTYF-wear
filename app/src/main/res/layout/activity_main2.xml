@@ -31,11 +31,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:layout_marginTop="20dp"
             android:id="@+id/imageView2"
             android:layout_width="116dp"
             android:layout_height="124dp"
-            android:src="@drawable/iconablu"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/sirslab_centered"
             tools:layout_editor_absoluteX="48dp"
             tools:layout_editor_absoluteY="16dp" />
     </LinearLayout>
