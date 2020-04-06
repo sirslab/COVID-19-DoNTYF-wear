@@ -8,11 +8,13 @@
 
 import WatchKit
 import Foundation
+import CoreMotion
 
 final class CalibrationInterfaceController: WKInterfaceController {
 	@IBOutlet var countdownLabel: WKInterfaceLabel!
 	@IBOutlet var calibrateButton: WKInterfaceButton!
 	@IBOutlet var calibrationLabel: WKInterfaceLabel!
+
 	private var timer: Timer?
 	private var countdown = 5
 
@@ -23,6 +25,7 @@ final class CalibrationInterfaceController: WKInterfaceController {
 		calibrateButton.setHidden(true)
 		calibrationLabel.setHidden(true)
 		startTimer()
+		SensorManager.shared.motionManager.startDeviceMotionUpdates()
 	}
 
 	private func startTimer() {
@@ -33,6 +36,7 @@ final class CalibrationInterfaceController: WKInterfaceController {
 		guard countdown != 0 else {
 			timer?.invalidate()
 			pushController(withName: MeasurementInterfaceController.identifier, context: nil)
+			SensorManager.shared.motionManager.stopDeviceMotionUpdates()
 			return
 		}
 		countdown -= 1

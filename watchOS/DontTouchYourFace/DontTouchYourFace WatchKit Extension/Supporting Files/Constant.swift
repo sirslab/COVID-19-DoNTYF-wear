@@ -13,4 +13,9 @@ enum Constant {
 	static let leftHand = "leftHand"
 	static let rightHand = "rightHand"
 	static let handKey = "handSide"
+
+	enum Message {
+		static let deniedPrivacy = "Sorry you have to accept the privacy policy to continue to use this app."
+		static let unsopportedDevice = "Sorry your device is not supported"
+	}
 }

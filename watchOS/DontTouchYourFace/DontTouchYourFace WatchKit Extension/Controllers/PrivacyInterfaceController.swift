@@ -10,11 +10,11 @@ import Foundation
 import WatchKit
 
 final class PrivacyInterfaceController: WKInterfaceController {
-	@IBAction func didTapDenyButton() {
-		// present a message
+	@IBAction private func didTapDenyButton() {
+		presentController(withName: MessageInterfaceController.identifier, context: Constant.Message.deniedPrivacy)
 	}
 
-	@IBAction func didTapAcceptButton() {
+	@IBAction private func didTapAcceptButton() {
 		UserDefaults.standard.set(true, forKey: Constant.grantPermissionKey)
 		pushController(withName: HandInterfaceController.identifier, context: nil)
 	}

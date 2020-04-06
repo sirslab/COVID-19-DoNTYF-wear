@@ -9,9 +9,14 @@
 import WatchKit
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
-	private let setupManager = SetupManager(userDefaults: .standard)
-
     func applicationDidFinishLaunching() {
+		let setupManager = SetupManager(userDefaults: .standard)
+
+		guard SensorManager.shared.motionManager.isAccelerometerAvailable else {
+			WKInterfaceController.reloadRootControllers(withNames: [MessageInterfaceController.identifier], contexts: [Constant.Message.unsopportedDevice])
+			return
+		}
+
 		guard setupManager.didUserAcceptPrivacy else {
 			WKInterfaceController.reloadRootControllers(withNames: [PrivacyInterfaceController.identifier], contexts: nil)
 			return
@@ -21,7 +26,6 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 			WKInterfaceController.reloadRootControllers(withNames: [HandInterfaceController.identifier], contexts: nil)
 			return
 		}
-
 		WKInterfaceController.reloadRootControllers(withNames: [MeasurementInterfaceController.identifier], contexts: nil)
     }
 

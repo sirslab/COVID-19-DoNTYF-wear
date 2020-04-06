@@ -12,11 +12,7 @@ import CoreMotion
 
 final class MeasurementInterfaceController: WKInterfaceController {
 	@IBOutlet private var dataLabel: WKInterfaceLabel!
-
-	private lazy var coreMotionManager = CMMotionManager()
-	private lazy var detectionManager: DetectionManager = {
-		return DetectionManager(coreMotionManager: self.coreMotionManager)
-	}()
+	private let detectionManager = DetectionManager()
 
 	override func awake(withContext context: Any?) {
         super.awake(withContext: context)

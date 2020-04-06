@@ -14,6 +14,9 @@
 		EF573E20243B96F8000E2E08 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF573E1F243B96F8000E2E08 /* Constant.swift */; };
 		EF573E22243B9770000E2E08 /* SetupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF573E21243B9770000E2E08 /* SetupManager.swift */; };
 		EF5AAD28243BD60C006F08D7 /* DetectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5AAD27243BD60C006F08D7 /* DetectionManager.swift */; };
+		EF5AAD2A243BDDC6006F08D7 /* MessageInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5AAD29243BDDC6006F08D7 /* MessageInterfaceController.swift */; };
+		EF5AAD2C243BE334006F08D7 /* CoreMotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5AAD2B243BE334006F08D7 /* CoreMotionManager.swift */; };
+		EF5AAD30243BE8FC006F08D7 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5AAD2F243BE8FC006F08D7 /* HealthKit.framework */; };
 		EF90CC94243B6670006180D7 /* DontTouchYourFace WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = EF90CC93243B6670006180D7 /* DontTouchYourFace WatchKit App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EF90CC9A243B6670006180D7 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF90CC98243B6670006180D7 /* Interface.storyboard */; };
 		EF90CC9C243B6672006180D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF90CC9B243B6672006180D7 /* Assets.xcassets */; };
@@ -74,6 +77,10 @@
 		EF573E1F243B96F8000E2E08 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		EF573E21243B9770000E2E08 /* SetupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupManager.swift; sourceTree = "<group>"; };
 		EF5AAD27243BD60C006F08D7 /* DetectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectionManager.swift; sourceTree = "<group>"; };
+		EF5AAD29243BDDC6006F08D7 /* MessageInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInterfaceController.swift; sourceTree = "<group>"; };
+		EF5AAD2B243BE334006F08D7 /* CoreMotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreMotionManager.swift; sourceTree = "<group>"; };
+		EF5AAD2D243BE8FC006F08D7 /* DontTouchYourFace WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "DontTouchYourFace WatchKit Extension.entitlements"; sourceTree = "<group>"; };
+		EF5AAD2F243BE8FC006F08D7 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.1.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		EF90CC8F243B666F006180D7 /* DontTouchYourFace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DontTouchYourFace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF90CC93243B6670006180D7 /* DontTouchYourFace WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DontTouchYourFace WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF90CC99243B6670006180D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
@@ -93,6 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF5AAD30243BE8FC006F08D7 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,6 +110,7 @@
 		EF573E0B243B88BC000E2E08 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				EF5AAD29243BDDC6006F08D7 /* MessageInterfaceController.swift */,
 				EF573E07243B83DD000E2E08 /* PrivacyInterfaceController.swift */,
 				EF573E09243B8556000E2E08 /* HandInterfaceController.swift */,
 				EF573E0F243B8A51000E2E08 /* CalibrationInterfaceController.swift */,
@@ -123,12 +132,21 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		EF5AAD2E243BE8FC006F08D7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EF5AAD2F243BE8FC006F08D7 /* HealthKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		EF90CC88243B666F006180D7 = {
 			isa = PBXGroup;
 			children = (
 				EF90CC97243B6670006180D7 /* DontTouchYourFace WatchKit App */,
 				EF90CCA6243B6672006180D7 /* DontTouchYourFace WatchKit Extension */,
 				EF90CC90243B666F006180D7 /* Products */,
+				EF5AAD2E243BE8FC006F08D7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -155,9 +173,11 @@
 		EF90CCA6243B6672006180D7 /* DontTouchYourFace WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
+				EF5AAD2D243BE8FC006F08D7 /* DontTouchYourFace WatchKit Extension.entitlements */,
 				EF573E0B243B88BC000E2E08 /* Controllers */,
 				EF573E21243B9770000E2E08 /* SetupManager.swift */,
 				EF5AAD27243BD60C006F08D7 /* DetectionManager.swift */,
+				EF5AAD2B243BE334006F08D7 /* CoreMotionManager.swift */,
 				EF90CCA9243B6672006180D7 /* ExtensionDelegate.swift */,
 				EF573E0C243B88C7000E2E08 /* Supporting Files */,
 			);
@@ -295,11 +315,13 @@
 				EF5AAD28243BD60C006F08D7 /* DetectionManager.swift in Sources */,
 				EF573E08243B83DD000E2E08 /* PrivacyInterfaceController.swift in Sources */,
 				EF573E0E243B88F6000E2E08 /* Extensions.swift in Sources */,
+				EF5AAD2C243BE334006F08D7 /* CoreMotionManager.swift in Sources */,
 				EF573E0A243B8556000E2E08 /* HandInterfaceController.swift in Sources */,
 				EF573E20243B96F8000E2E08 /* Constant.swift in Sources */,
 				EF90CCAC243B6672006180D7 /* NotificationController.swift in Sources */,
 				EF90CCAA243B6672006180D7 /* ExtensionDelegate.swift in Sources */,
 				EF573E10243B8A51000E2E08 /* CalibrationInterfaceController.swift in Sources */,
+				EF5AAD2A243BDDC6006F08D7 /* MessageInterfaceController.swift in Sources */,
 				EF90CCA8243B6672006180D7 /* MeasurementInterfaceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -447,6 +469,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "DontTouchYourFace WatchKit Extension/DontTouchYourFace WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 62KK4CLZ8M;
 				INFOPLIST_FILE = "DontTouchYourFace WatchKit Extension/Supporting Files/Info.plist";
@@ -469,6 +492,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "DontTouchYourFace WatchKit Extension/DontTouchYourFace WatchKit Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 62KK4CLZ8M;
 				INFOPLIST_FILE = "DontTouchYourFace WatchKit Extension/Supporting Files/Info.plist";

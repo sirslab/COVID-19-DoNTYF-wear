@@ -9,6 +9,7 @@
 import Foundation
 import WatchKit
 import CoreMotion
+import HealthKit
 
 final class DetectionManager {
 	enum Result {
@@ -19,7 +20,7 @@ final class DetectionManager {
 	private let threshold: Double = 1
 	private let coreMotionManager: CMMotionManager
 
-	init(coreMotionManager: CMMotionManager) {
+	init(coreMotionManager: CMMotionManager = SensorManager.shared.motionManager) {
 		self.coreMotionManager = coreMotionManager
 	}
 

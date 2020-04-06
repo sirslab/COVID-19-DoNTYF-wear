@@ -10,12 +10,12 @@ import WatchKit
 import Foundation
 
 final class HandInterfaceController: WKInterfaceController {
-	@IBAction func didTapLeftHandButton() {
+	@IBAction private func didTapLeftHandButton() {
 		UserDefaults.standard.set(Constant.leftHand, forKey: Constant.handKey)
 		showNextController()
 	}
 
-	@IBAction func didTapRightHandButton() {
+	@IBAction private func didTapRightHandButton() {
 		UserDefaults.standard.set(Constant.rightHand, forKey: Constant.handKey)
 		showNextController()
 	}

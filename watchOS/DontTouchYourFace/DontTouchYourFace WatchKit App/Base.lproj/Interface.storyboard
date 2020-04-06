@@ -29,13 +29,16 @@
             </objects>
             <point key="canvasLocation" x="-282" y="383"/>
         </scene>
-        <!--UnsopportedInterfaceController-->
+        <!--MessageInterfaceController-->
         <scene sceneID="eeC-Wp-KFv">
             <objects>
-                <controller identifier="UnsopportedInterfaceController" id="U6O-AP-i5U">
+                <controller identifier="MessageInterfaceController" id="U6O-AP-i5U" customClass="MessageInterfaceController" customModule="DontTouchYourFace_WatchKit_App" customModuleProvider="target">
                     <items>
                         <label alignment="center" verticalAlignment="center" text="Sorry but this device is not supported" numberOfLines="0" id="jtv-5G-QOm"/>
                     </items>
+                    <connections>
+                        <outlet property="centredLabel" destination="jtv-5G-QOm" id="P9E-SO-6To"/>
+                    </connections>
                 </controller>
             </objects>
             <point key="canvasLocation" x="-282" y="-13"/>
