@@ -25,6 +25,8 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
+	<key>NSMotionUsageDescription</key>
+	<string>To detect users&apos; movements towards the face</string>
 	<key>WKWatchKitApp</key>
 	<true/>
 </dict>
