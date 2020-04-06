@@ -1,4 +1,4 @@
-# COVID-19-DoNTYF-wear
+# No Face-Touch project
 
 ## Installation and Usage
 
