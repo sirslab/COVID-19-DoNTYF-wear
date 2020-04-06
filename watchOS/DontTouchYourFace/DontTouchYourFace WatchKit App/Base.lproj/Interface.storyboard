@@ -6,10 +6,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="15501"/>
     </dependencies>
     <scenes>
-        <!--Privacy Interface Controller-->
+        <!--PrivacyInterfaceController-->
         <scene sceneID="wku-lI-JfL">
             <objects>
-                <controller id="I87-tb-CZO" customClass="PrivacyInterfaceController" customModule="DontTouchYourFace_WatchKit_App" customModuleProvider="target">
+                <controller identifier="PrivacyInterfaceController" id="I87-tb-CZO" customClass="PrivacyInterfaceController" customModule="DontTouchYourFace_WatchKit_App" customModuleProvider="target">
                     <items>
                         <label alignment="left" numberOfLines="0" id="riF-OI-gAC">
                             <string key="text">This app collects data from an accelerometer and magnetometer integrated in the device in order to  estimate the wheater an user is approaching his hands towards his face</string>
@@ -27,7 +27,18 @@
                     </items>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="-175" y="377"/>
+            <point key="canvasLocation" x="-282" y="383"/>
+        </scene>
+        <!--UnsopportedInterfaceController-->
+        <scene sceneID="eeC-Wp-KFv">
+            <objects>
+                <controller identifier="UnsopportedInterfaceController" id="U6O-AP-i5U">
+                    <items>
+                        <label alignment="center" verticalAlignment="center" text="Sorry but this device is not supported" numberOfLines="0" id="jtv-5G-QOm"/>
+                    </items>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="-282" y="-13"/>
         </scene>
         <!--HandInterfaceController-->
         <scene sceneID="RQN-hR-iBA">
@@ -52,7 +63,7 @@
                     </items>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="99" y="302"/>
+            <point key="canvasLocation" x="33" y="302"/>
         </scene>
         <!--CalibrationInterfaceController-->
         <scene sceneID="DFC-rn-yfh">
@@ -74,7 +85,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="383" y="299"/>
+            <point key="canvasLocation" x="323" y="302"/>
         </scene>
         <!--MeasurementInterfaceController-->
         <scene sceneID="aou-V4-d1y">

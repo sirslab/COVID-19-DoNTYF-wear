@@ -9,9 +9,20 @@
 import WatchKit
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
+	private let setupManager = SetupManager(userDefaults: .standard)
 
     func applicationDidFinishLaunching() {
-        // Perform any final initialization of your application.
+		guard setupManager.didUserAcceptPrivacy else {
+			WKInterfaceController.reloadRootControllers(withNames: [PrivacyInterfaceController.identifier], contexts: nil)
+			return
+		}
+
+		guard setupManager.didUserSelectHand else {
+			WKInterfaceController.reloadRootControllers(withNames: [HandInterfaceController.identifier], contexts: nil)
+			return
+		}
+
+		WKInterfaceController.reloadRootControllers(withNames: [MeasurementInterfaceController.identifier], contexts: nil)
     }
 
     func applicationDidBecomeActive() {

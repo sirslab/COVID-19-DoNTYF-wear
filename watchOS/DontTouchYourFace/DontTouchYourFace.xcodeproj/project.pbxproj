@@ -11,6 +11,9 @@
 		EF573E0A243B8556000E2E08 /* HandInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF573E09243B8556000E2E08 /* HandInterfaceController.swift */; };
 		EF573E0E243B88F6000E2E08 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF573E0D243B88F6000E2E08 /* Extensions.swift */; };
 		EF573E10243B8A51000E2E08 /* CalibrationInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF573E0F243B8A51000E2E08 /* CalibrationInterfaceController.swift */; };
+		EF573E20243B96F8000E2E08 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF573E1F243B96F8000E2E08 /* Constant.swift */; };
+		EF573E22243B9770000E2E08 /* SetupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF573E21243B9770000E2E08 /* SetupManager.swift */; };
+		EF5AAD28243BD60C006F08D7 /* DetectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5AAD27243BD60C006F08D7 /* DetectionManager.swift */; };
 		EF90CC94243B6670006180D7 /* DontTouchYourFace WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = EF90CC93243B6670006180D7 /* DontTouchYourFace WatchKit App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EF90CC9A243B6670006180D7 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF90CC98243B6670006180D7 /* Interface.storyboard */; };
 		EF90CC9C243B6672006180D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF90CC9B243B6672006180D7 /* Assets.xcassets */; };
@@ -68,6 +71,9 @@
 		EF573E09243B8556000E2E08 /* HandInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandInterfaceController.swift; sourceTree = "<group>"; };
 		EF573E0D243B88F6000E2E08 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		EF573E0F243B8A51000E2E08 /* CalibrationInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationInterfaceController.swift; sourceTree = "<group>"; };
+		EF573E1F243B96F8000E2E08 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		EF573E21243B9770000E2E08 /* SetupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupManager.swift; sourceTree = "<group>"; };
+		EF5AAD27243BD60C006F08D7 /* DetectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectionManager.swift; sourceTree = "<group>"; };
 		EF90CC8F243B666F006180D7 /* DontTouchYourFace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DontTouchYourFace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF90CC93243B6670006180D7 /* DontTouchYourFace WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DontTouchYourFace WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF90CC99243B6670006180D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
@@ -112,6 +118,7 @@
 				EF90CCAF243B6673006180D7 /* Info.plist */,
 				EF90CCB0243B6673006180D7 /* PushNotificationPayload.apns */,
 				EF573E0D243B88F6000E2E08 /* Extensions.swift */,
+				EF573E1F243B96F8000E2E08 /* Constant.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -149,6 +156,8 @@
 			isa = PBXGroup;
 			children = (
 				EF573E0B243B88BC000E2E08 /* Controllers */,
+				EF573E21243B9770000E2E08 /* SetupManager.swift */,
+				EF5AAD27243BD60C006F08D7 /* DetectionManager.swift */,
 				EF90CCA9243B6672006180D7 /* ExtensionDelegate.swift */,
 				EF573E0C243B88C7000E2E08 /* Supporting Files */,
 			);
@@ -282,9 +291,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF573E22243B9770000E2E08 /* SetupManager.swift in Sources */,
+				EF5AAD28243BD60C006F08D7 /* DetectionManager.swift in Sources */,
 				EF573E08243B83DD000E2E08 /* PrivacyInterfaceController.swift in Sources */,
 				EF573E0E243B88F6000E2E08 /* Extensions.swift in Sources */,
 				EF573E0A243B8556000E2E08 /* HandInterfaceController.swift in Sources */,
+				EF573E20243B96F8000E2E08 /* Constant.swift in Sources */,
 				EF90CCAC243B6672006180D7 /* NotificationController.swift in Sources */,
 				EF90CCAA243B6672006180D7 /* ExtensionDelegate.swift in Sources */,
 				EF573E10243B8A51000E2E08 /* CalibrationInterfaceController.swift in Sources */,

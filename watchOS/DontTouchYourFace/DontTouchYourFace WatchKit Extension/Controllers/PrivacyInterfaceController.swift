@@ -10,10 +10,6 @@ import Foundation
 import WatchKit
 
 final class PrivacyInterfaceController: WKInterfaceController {
-	private enum Constant {
-		static let grantPermissionKey = "didAcceptPrivacy"
-	}
-
 	@IBAction func didTapDenyButton() {
 		// present a message
 	}

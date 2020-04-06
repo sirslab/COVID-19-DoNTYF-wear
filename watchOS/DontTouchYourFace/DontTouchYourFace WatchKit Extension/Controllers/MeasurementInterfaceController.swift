@@ -12,37 +12,26 @@ import CoreMotion
 
 final class MeasurementInterfaceController: WKInterfaceController {
 	@IBOutlet private var dataLabel: WKInterfaceLabel!
-	private let coreMotionManager = CMMotionManager()
+
+	private lazy var coreMotionManager = CMMotionManager()
+	private lazy var detectionManager: DetectionManager = {
+		return DetectionManager(coreMotionManager: self.coreMotionManager)
+	}()
 
 	override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         
-		guard coreMotionManager.isMagnetometerAvailable else{
-			print("Magnetometer not available")
-			return
-		}
-
-		coreMotionManager.startMagnetometerUpdates(to: .main) { [weak self] (data, error) in
+		detectionManager.collectData { [weak self] result in
 			guard let _self = self else {
 				return
 			}
 
-			// Magnetometer's outcome is an error
-			if let error = error {
-				_self.dataLabel.setText("Error: \(error.localizedDescription)")
-				return
+			switch result {
+			case .error(let errorString):
+				_self.dataLabel.setText(errorString)
+			case .data(let acceleration):
+				_self.dataLabel.setText("Data \(acceleration.z)")
 			}
-
-			// Magnetometer's outcome is a valid measurement
-			guard let data = data else {
-				print("Error is not nil but no data available!")
-				return
-			}
-
-			// Raw magnetic field. It means it reports
-			// the result of the measurement without filtering out the bias introduced by the device and, in some cases, its surrounding fields.
-			let rawMagneticField = data.magneticField
-			_self.dataLabel.setText("x: \(rawMagneticField.x), y: \(rawMagneticField.y), z: \(rawMagneticField.z)")
 		}
     }
 }
