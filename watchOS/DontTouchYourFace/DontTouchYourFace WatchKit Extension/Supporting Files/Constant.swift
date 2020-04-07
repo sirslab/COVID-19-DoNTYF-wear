@@ -14,6 +14,14 @@ enum Constant {
 	static let rightHand = "rightHand"
 	static let handKey = "handSide"
 
+	static let initialThreshold: Float = 0.5
+	// Change min from IB as well
+	static let minValue: Float = 0
+	static let maxValue: Float = 5
+	static let step: Float = 0.5
+
+	static let crownSensitivity: Double = 0.1
+
 	enum Message {
 		static let deniedPrivacy = "Sorry you have to accept the privacy policy to continue to use this app."
 		static let unsopportedDevice = "Sorry your device is not supported"

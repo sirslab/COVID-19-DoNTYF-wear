@@ -18,7 +18,7 @@ final class DetectionManager {
 		case data(CMAcceleration)
 	}
 
-	private let threshold: Double = 0.3
+	private(set) var threshold: Float
 	private let coreMotionManager: CMMotionManager
 	private let notificationCenter: UNUserNotificationCenter
 
@@ -41,10 +41,16 @@ final class DetectionManager {
 
 	init(
 		coreMotionManager: CMMotionManager = SensorManager.shared.motionManager,
-		notificationCenter: UNUserNotificationCenter = UNUserNotificationCenter.current()
+		notificationCenter: UNUserNotificationCenter = UNUserNotificationCenter.current(),
+		threshold: Float
 	) {
 		self.coreMotionManager = coreMotionManager
 		self.notificationCenter = notificationCenter
+		self.threshold = threshold
+	}
+
+	func setThreshold(_ value: Float) {
+		threshold = value
 	}
 
 	func collectData(completion: @escaping (Result) -> Void) {
@@ -76,7 +82,7 @@ final class DetectionManager {
 				return
 			}
 
-			if deviceMotion.userAcceleration.z > _self.threshold && _self.didRecognizeMovement == false {
+			if deviceMotion.userAcceleration.z > Double(_self.threshold) && _self.didRecognizeMovement == false {
 				_self.didRecognizeMovement = true
 
 				let id = String(Date().timeIntervalSinceReferenceDate)

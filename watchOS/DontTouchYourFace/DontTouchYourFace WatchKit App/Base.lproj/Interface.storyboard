@@ -95,11 +95,29 @@
             <objects>
                 <controller identifier="MeasurementInterfaceController" id="AgC-eL-Hgc" customClass="MeasurementInterfaceController" customModule="DontTouchYourFace_WatchKit_App" customModuleProvider="target">
                     <items>
-                        <label alignment="center" verticalAlignment="center" text="Magnetometer data:" textAlignment="center" minimumScaleFactor="0.69999999999999996" id="iKP-Zz-cSR"/>
-                        <label alignment="center" verticalAlignment="center" textAlignment="center" numberOfLines="0" minimumScaleFactor="0.69999999999999996" id="m2L-Bm-nky"/>
+                        <label alignment="center" text="[DATA]" textAlignment="center" numberOfLines="0" minimumScaleFactor="0.69999999999999996" id="m2L-Bm-nky"/>
+                        <group width="1" alignment="center" layout="vertical" id="JTT-cH-wYo">
+                            <items>
+                                <label alignment="center" text="[THRESHOLD]" id="AoK-Hg-TrN">
+                                    <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                </label>
+                                <slider width="1" height="35" alignment="left" continuous="YES" value="0.5" maximum="5" steps="10" id="0AZ-ZL-g3t">
+                                    <connections>
+                                        <action selector="didChangeSliderValue:" destination="AgC-eL-Hgc" id="i5C-DW-vaF"/>
+                                    </connections>
+                                </slider>
+                            </items>
+                        </group>
+                        <button width="1" alignment="center" verticalAlignment="bottom" title="Calibrate" id="8ev-bm-FTv">
+                            <connections>
+                                <action selector="didTapCalibrate" destination="AgC-eL-Hgc" id="qA9-mY-krW"/>
+                            </connections>
+                        </button>
                     </items>
                     <connections>
                         <outlet property="dataLabel" destination="m2L-Bm-nky" id="pkh-tF-Ws5"/>
+                        <outlet property="thresholdLabel" destination="AoK-Hg-TrN" id="QGe-0Y-b2F"/>
+                        <outlet property="thresholdSlider" destination="0AZ-ZL-g3t" id="aYp-tD-K4J"/>
                     </connections>
                 </controller>
             </objects>

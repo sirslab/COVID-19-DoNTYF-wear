@@ -17,7 +17,15 @@ final class CalibrationInterfaceController: WKInterfaceController {
 
 	private var timer: Timer?
 	private var countdown = 5
+	private var isRecalibration: Bool = false
 
+	override func awake(withContext context: Any?) {
+		super.awake(withContext: context)
+
+		if let isRecalibration = context as? Bool {
+			self.isRecalibration = isRecalibration
+		}
+	}
 	@IBAction func didTapCalibrate() {
 		countdownLabel.setText("\(countdown)")
 
@@ -35,7 +43,13 @@ final class CalibrationInterfaceController: WKInterfaceController {
 	@objc private func updateCounting() {
 		guard countdown != 0 else {
 			timer?.invalidate()
-			pushController(withName: MeasurementInterfaceController.identifier, context: nil)
+
+			if isRecalibration {
+				pop()
+			} else {
+				WKInterfaceController.reloadRootControllers(withNames: [MeasurementInterfaceController.identifier], contexts: nil)
+			}
+
 			SensorManager.shared.motionManager.stopDeviceMotionUpdates()
 			return
 		}
