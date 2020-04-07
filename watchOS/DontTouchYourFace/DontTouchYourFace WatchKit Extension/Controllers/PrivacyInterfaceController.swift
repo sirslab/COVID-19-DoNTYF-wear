@@ -10,6 +10,8 @@ import Foundation
 import WatchKit
 
 final class PrivacyInterfaceController: WKInterfaceController {
+	@IBOutlet var denyButton: WKInterfaceButton!
+	
 	@IBAction private func didTapDenyButton() {
 		presentController(withName: MessageInterfaceController.identifier, context: Constant.Message.deniedPrivacy)
 	}
@@ -17,5 +19,10 @@ final class PrivacyInterfaceController: WKInterfaceController {
 	@IBAction private func didTapAcceptButton() {
 		UserDefaults.standard.set(true, forKey: Constant.grantPermissionKey)
 		pushController(withName: HandInterfaceController.identifier, context: nil)
+	}
+
+	override func awake(withContext context: Any?) {
+		super.awake(withContext: context)
+		denyButton.setBackgroundColor(Constant.Color.red)
 	}
 }

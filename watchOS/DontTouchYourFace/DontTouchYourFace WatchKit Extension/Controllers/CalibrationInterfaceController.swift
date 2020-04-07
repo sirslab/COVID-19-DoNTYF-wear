@@ -13,6 +13,7 @@ import CoreMotion
 final class CalibrationInterfaceController: WKInterfaceController {
 	@IBOutlet var countdownLabel: WKInterfaceLabel!
 	@IBOutlet var calibrateButton: WKInterfaceButton!
+	
 	@IBOutlet var calibrationLabel: WKInterfaceLabel!
 
 	private var timer: Timer?
@@ -25,7 +26,9 @@ final class CalibrationInterfaceController: WKInterfaceController {
 		if let isRecalibration = context as? Bool {
 			self.isRecalibration = isRecalibration
 		}
+		calibrateButton.setBackgroundColor(Constant.Color.blue)
 	}
+	
 	@IBAction func didTapCalibrate() {
 		countdownLabel.setText("\(countdown)")
 

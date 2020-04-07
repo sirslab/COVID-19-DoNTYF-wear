@@ -15,6 +15,7 @@
                             <string key="text">This app collects data from an accelerometer and magnetometer integrated in the device in order to  estimate the wheater an user is approaching his hands towards his face</string>
                         </label>
                         <button width="1" alignment="left" verticalAlignment="bottom" title="Deny" id="zKt-Tm-KUI">
+                            <color key="backgroundColor" red="0.91764705882352937" green="0.30860589982462033" blue="0.22579555470587889" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <connections>
                                 <action selector="didTapDenyButton" destination="I87-tb-CZO" id="ern-0j-7A3"/>
                             </connections>
@@ -25,6 +26,9 @@
                             </connections>
                         </button>
                     </items>
+                    <connections>
+                        <outlet property="denyButton" destination="zKt-Tm-KUI" id="t0E-Yt-Qyv"/>
+                    </connections>
                 </controller>
             </objects>
             <point key="canvasLocation" x="-282" y="383"/>
@@ -76,6 +80,7 @@
                         <label alignment="center" verticalAlignment="center" hidden="YES" text="[COUNTDOWN]" id="qgG-rJ-4xy"/>
                         <label alignment="center" text="After pressing the button, move your hand in front of you for 5 seconds to calibrate the magnetic sensor" textAlignment="center" numberOfLines="0" id="5x9-F0-6gU"/>
                         <button width="1" alignment="left" verticalAlignment="bottom" title="Calibrate" id="5X2-yA-JOY">
+                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.56236622430000005" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="didTapCalibrate" destination="TJB-z1-S2u" id="oHI-6u-Tlh"/>
                             </connections>
@@ -108,14 +113,28 @@
                                 </slider>
                             </items>
                         </group>
-                        <button width="1" alignment="center" verticalAlignment="bottom" title="Calibrate" id="8ev-bm-FTv">
-                            <connections>
-                                <action selector="didTapCalibrate" destination="AgC-eL-Hgc" id="qA9-mY-krW"/>
-                            </connections>
-                        </button>
+                        <group width="1" alignment="center" verticalAlignment="bottom" id="ccl-ed-Sdz">
+                            <items>
+                                <button width="0.5" alignment="center" verticalAlignment="bottom" title="Calibrate" id="8ev-bm-FTv">
+                                    <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="0.56236622430000005" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <fontDescription key="font" type="system" pointSize="12"/>
+                                    <connections>
+                                        <action selector="didTapCalibrate" destination="AgC-eL-Hgc" id="qA9-mY-krW"/>
+                                    </connections>
+                                </button>
+                                <button width="0.5" alignment="center" verticalAlignment="bottom" title="Start" id="yMb-xM-Y2x">
+                                    <color key="backgroundColor" red="0.0" green="0.56284224989999998" blue="0.31881666180000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <connections>
+                                        <action selector="didTapStartStop" destination="AgC-eL-Hgc" id="6j6-Kt-t1c"/>
+                                    </connections>
+                                </button>
+                            </items>
+                        </group>
                     </items>
                     <connections>
+                        <outlet property="calibrateButton" destination="8ev-bm-FTv" id="ZV1-6f-0ho"/>
                         <outlet property="dataLabel" destination="m2L-Bm-nky" id="pkh-tF-Ws5"/>
+                        <outlet property="startStopButton" destination="yMb-xM-Y2x" id="Yij-3F-hLC"/>
                         <outlet property="thresholdLabel" destination="AoK-Hg-TrN" id="QGe-0Y-b2F"/>
                         <outlet property="thresholdSlider" destination="0AZ-ZL-g3t" id="aYp-tD-K4J"/>
                     </connections>
