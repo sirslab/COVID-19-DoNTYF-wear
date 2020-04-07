@@ -107,7 +107,10 @@ final class DetectionManager {
 		workoutSession = try? HKWorkoutSession(healthStore: .init(), configuration: workoutConfiguration)
 		workoutSession?.startActivity(with: nil)
 
-		sensorManager.startContinousDataUpdates(to: .main) { [weak self] (sensorsData, error) in
+		let queue = OperationQueue()
+		queue.qualityOfService = .userInteractive
+
+		sensorManager.startContinousDataUpdates(to: queue) { [weak self] (sensorsData, error) in
 			guard let _self = self else {
 				return
 			}
