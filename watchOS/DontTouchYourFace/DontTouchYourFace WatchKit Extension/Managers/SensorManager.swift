@@ -92,7 +92,6 @@ final class SensorManager {
 			)
 			sensorsData.append(contentsOf: magnetometer)
 			#endif
-			
 			withHandler(sensorsData, nil)
 		}
 	}

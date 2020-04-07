@@ -17,8 +17,8 @@ enum Constant {
 	static let initialThreshold: Float = 0.5
 	// Change min from IB as well
 	static let minValue: Float = 0
-	static let maxValue: Float = 5
-	static let step: Float = 0.5
+	static let maxValue: Float = 0.7
+	static let step: Float = 0.1
 
 	static let crownSensitivity: Double = 0.1
 

@@ -106,7 +106,7 @@
                                 <label alignment="center" text="[THRESHOLD]" id="AoK-Hg-TrN">
                                     <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                 </label>
-                                <slider width="1" height="35" alignment="left" continuous="YES" value="0.5" maximum="5" steps="10" id="0AZ-ZL-g3t">
+                                <slider width="1" height="35" alignment="left" continuous="YES" value="0.10000000000000001" minimum="0.10000000000000001" maximum="0.69999999999999996" steps="7" id="0AZ-ZL-g3t">
                                     <connections>
                                         <action selector="didChangeSliderValue:" destination="AgC-eL-Hgc" id="i5C-DW-vaF"/>
                                     </connections>

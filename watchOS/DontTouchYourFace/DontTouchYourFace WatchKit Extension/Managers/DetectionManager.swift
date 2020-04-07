@@ -126,22 +126,11 @@ final class DetectionManager {
 
 			if _self.shuoldTriggerAlert(sensorsData: sensorsData) {
 				_self.isAlertInAction = true
-
-				let date = Date().timeIntervalSinceReferenceDate
-				let id = String(date)
-
-				let trigger = UNTimeIntervalNotificationTrigger.init(timeInterval: 0.01, repeats: false)
-				let request = UNNotificationRequest(identifier: id, content: _self.contentNotification, trigger: trigger)
-
-				_self.notificationCenter.add(request) { _ in
-					DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-						print("Notification")
-						_self.isAlertInAction = false
-					}
-				}
-
 				print("Vibration")
 				WKInterfaceDevice.current().play(.failure)
+				DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+					_self.isAlertInAction = false
+				}
 			}
 			_self.sensorCallback?(.data(sensorsData))
 		}
