@@ -47,11 +47,26 @@ final class MeasurementInterfaceController: WKInterfaceController {
 			switch result {
 			case .error(let errorString):
 				_self.dataLabel.setText(errorString)
-			case .data(let sensorValue):
-				guard let value = _self.numberFormatter.string(from: NSNumber(floatLiteral: sensorValue.z)) else {
+			case .data(let sensorsData):
+
+				let gravityValues = sensorsData.first { $0.type == .gravity }
+				let accelerometerValues = sensorsData.first { $0.type == .userAccelerometer }
+
+				guard
+					let xGravityComponent = gravityValues?.x,
+					let zAccelerationComponent = accelerometerValues?.z
+				else {
 					return
 				}
-				_self.dataLabel.setText("Data: \(value)")
+
+				// Check wirst side for asin
+				let theha = asin(xGravityComponent) * 180 / .pi
+				let dataString = String(format: "X Θ: %.2f \nZ acc: %.2f", theha, zAccelerationComponent)
+
+				#if !DEBUG
+				// Add Magnetometer
+				#endif
+				_self.dataLabel.setText(dataString)
 			}
 		}
     }

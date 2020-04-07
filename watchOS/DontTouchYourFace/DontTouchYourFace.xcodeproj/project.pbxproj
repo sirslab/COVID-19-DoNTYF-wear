@@ -15,7 +15,7 @@
 		EF573E22243B9770000E2E08 /* SetupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF573E21243B9770000E2E08 /* SetupManager.swift */; };
 		EF5AAD28243BD60C006F08D7 /* DetectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5AAD27243BD60C006F08D7 /* DetectionManager.swift */; };
 		EF5AAD2A243BDDC6006F08D7 /* MessageInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5AAD29243BDDC6006F08D7 /* MessageInterfaceController.swift */; };
-		EF5AAD2C243BE334006F08D7 /* CoreMotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5AAD2B243BE334006F08D7 /* CoreMotionManager.swift */; };
+		EF5AAD2C243BE334006F08D7 /* SensorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5AAD2B243BE334006F08D7 /* SensorManager.swift */; };
 		EF5AAD30243BE8FC006F08D7 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5AAD2F243BE8FC006F08D7 /* HealthKit.framework */; };
 		EF90CC94243B6670006180D7 /* DontTouchYourFace WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = EF90CC93243B6670006180D7 /* DontTouchYourFace WatchKit App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EF90CC9A243B6670006180D7 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF90CC98243B6670006180D7 /* Interface.storyboard */; };
@@ -78,7 +78,7 @@
 		EF573E21243B9770000E2E08 /* SetupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupManager.swift; sourceTree = "<group>"; };
 		EF5AAD27243BD60C006F08D7 /* DetectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectionManager.swift; sourceTree = "<group>"; };
 		EF5AAD29243BDDC6006F08D7 /* MessageInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInterfaceController.swift; sourceTree = "<group>"; };
-		EF5AAD2B243BE334006F08D7 /* CoreMotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreMotionManager.swift; sourceTree = "<group>"; };
+		EF5AAD2B243BE334006F08D7 /* SensorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorManager.swift; sourceTree = "<group>"; };
 		EF5AAD2D243BE8FC006F08D7 /* DontTouchYourFace WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "DontTouchYourFace WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		EF5AAD2F243BE8FC006F08D7 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.1.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		EF90CC8F243B666F006180D7 /* DontTouchYourFace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DontTouchYourFace.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -140,6 +140,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		EF8DA8A0243D0F7200C45D12 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				EF573E21243B9770000E2E08 /* SetupManager.swift */,
+				EF5AAD27243BD60C006F08D7 /* DetectionManager.swift */,
+				EF5AAD2B243BE334006F08D7 /* SensorManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		EF90CC88243B666F006180D7 = {
 			isa = PBXGroup;
 			children = (
@@ -175,9 +185,7 @@
 			children = (
 				EF5AAD2D243BE8FC006F08D7 /* DontTouchYourFace WatchKit Extension.entitlements */,
 				EF573E0B243B88BC000E2E08 /* Controllers */,
-				EF573E21243B9770000E2E08 /* SetupManager.swift */,
-				EF5AAD27243BD60C006F08D7 /* DetectionManager.swift */,
-				EF5AAD2B243BE334006F08D7 /* CoreMotionManager.swift */,
+				EF8DA8A0243D0F7200C45D12 /* Managers */,
 				EF90CCA9243B6672006180D7 /* ExtensionDelegate.swift */,
 				EF573E0C243B88C7000E2E08 /* Supporting Files */,
 			);
@@ -315,7 +323,7 @@
 				EF5AAD28243BD60C006F08D7 /* DetectionManager.swift in Sources */,
 				EF573E08243B83DD000E2E08 /* PrivacyInterfaceController.swift in Sources */,
 				EF573E0E243B88F6000E2E08 /* Extensions.swift in Sources */,
-				EF5AAD2C243BE334006F08D7 /* CoreMotionManager.swift in Sources */,
+				EF5AAD2C243BE334006F08D7 /* SensorManager.swift in Sources */,
 				EF573E0A243B8556000E2E08 /* HandInterfaceController.swift in Sources */,
 				EF573E20243B96F8000E2E08 /* Constant.swift in Sources */,
 				EF90CCAC243B6672006180D7 /* NotificationController.swift in Sources */,

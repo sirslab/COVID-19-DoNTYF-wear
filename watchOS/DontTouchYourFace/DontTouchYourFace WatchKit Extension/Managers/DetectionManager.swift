@@ -33,7 +33,7 @@ final class DetectionManager {
 
 	enum Result {
 		case error(String)
-		case data(AxisValue)
+		case data([SensorManager.SensorData])
 	}
 
 	private(set) var threshold: Float
@@ -107,7 +107,7 @@ final class DetectionManager {
 		workoutSession = try? HKWorkoutSession(healthStore: .init(), configuration: workoutConfiguration)
 		workoutSession?.startActivity(with: nil)
 
-		sensorManager.startContinousDataUpdates(to: .main) { [weak self] (sensorValue, error) in
+		sensorManager.startContinousDataUpdates(to: .main) { [weak self] (sensorsData, error) in
 			guard let _self = self else {
 				return
 			}
@@ -119,12 +119,12 @@ final class DetectionManager {
 			}
 
 			// Magnetometer's outcome is a valid measurement
-			guard let sensorValue = sensorValue else {
+			guard let sensorsData = sensorsData else {
 				_self.sensorCallback?(.error(Constant.Message.internalError))
 				return
 			}
 
-			if _self.shuoldTriggerAlert(value: sensorValue) {
+			if _self.shuoldTriggerAlert(sensorsData: sensorsData) {
 				_self.isAlertInAction = true
 
 				let date = Date().timeIntervalSinceReferenceDate
@@ -143,7 +143,7 @@ final class DetectionManager {
 				print("Vibration")
 				WKInterfaceDevice.current().play(.failure)
 			}
-			_self.sensorCallback?(.data(sensorValue))
+			_self.sensorCallback?(.data(sensorsData))
 		}
 	}
 
@@ -152,9 +152,20 @@ final class DetectionManager {
 		workoutSession?.end()
 	}
 
-	private func shuoldTriggerAlert(value: AxisValue) -> Bool {
+	private func shuoldTriggerAlert(sensorsData: [SensorManager.SensorData]) -> Bool {
 		let didPreviousTriggerEnd = isAlertInAction == false
-		let isValueOverThreshold = value.z >= Double(threshold)
-		return didPreviousTriggerEnd && isValueOverThreshold
+
+		let shouldRaiseAlert: Bool = sensorsData.map { sensorData in
+			switch sensorData.type {
+			case .gravity:
+				return sensorData.x >= -1 && sensorData.x <= -0.25
+			case .magnetometer:
+				// TO BE FIXED
+				return true
+			case .userAccelerometer:
+				return sensorData.z >= Double(threshold)
+			}
+		}.allSatisfy { $0 }
+		return didPreviousTriggerEnd && shouldRaiseAlert
 	}
 }
