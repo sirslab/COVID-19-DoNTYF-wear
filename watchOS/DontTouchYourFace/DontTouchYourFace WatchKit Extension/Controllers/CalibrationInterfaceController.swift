@@ -36,7 +36,7 @@ final class CalibrationInterfaceController: WKInterfaceController {
 		calibrateButton.setHidden(true)
 		calibrationLabel.setHidden(true)
 		startTimer()
-		SensorManager.shared.motionManager.startDeviceMotionUpdates()
+		SensorManager.shared.startCalibration()
 	}
 
 	private func startTimer() {
@@ -53,7 +53,7 @@ final class CalibrationInterfaceController: WKInterfaceController {
 				WKInterfaceController.reloadRootControllers(withNames: [MeasurementInterfaceController.identifier], contexts: nil)
 			}
 
-			SensorManager.shared.motionManager.stopDeviceMotionUpdates()
+			SensorManager.shared.stopCalibration()
 			return
 		}
 		countdown -= 1

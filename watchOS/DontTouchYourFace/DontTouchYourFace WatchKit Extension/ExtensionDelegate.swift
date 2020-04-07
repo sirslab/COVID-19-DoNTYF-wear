@@ -12,7 +12,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     func applicationDidFinishLaunching() {
 		let setupManager = SetupManager(userDefaults: .standard)
 
-		guard SensorManager.shared.motionManager.isAccelerometerAvailable else {
+		guard SensorManager.shared.isDeviceSupported else {
 			WKInterfaceController.reloadRootControllers(withNames: [MessageInterfaceController.identifier], contexts: [Constant.Message.unsopportedDevice])
 			return
 		}

@@ -47,8 +47,8 @@ final class MeasurementInterfaceController: WKInterfaceController {
 			switch result {
 			case .error(let errorString):
 				_self.dataLabel.setText(errorString)
-			case .data(let acceleration):
-				guard let value = _self.numberFormatter.string(from: NSNumber(floatLiteral: acceleration.z)) else {
+			case .data(let sensorValue):
+				guard let value = _self.numberFormatter.string(from: NSNumber(floatLiteral: sensorValue.z)) else {
 					return
 				}
 				_self.dataLabel.setText("Data: \(value)")
@@ -90,13 +90,13 @@ final class MeasurementInterfaceController: WKInterfaceController {
 
 	private func setStopActivityUI() {
 		startStopButton.setBackgroundColor(Constant.Color.green)
-		startStopButton.setTitle("Start")
-		dataLabel.setText("Press start")
+		startStopButton.setTitle(Constant.startButtonText)
+		dataLabel.setText(Constant.notReadingDataText)
 	}
 
 	private func setRunningActivityUI() {
 		startStopButton.setBackgroundColor(Constant.Color.red)
-		startStopButton.setTitle("Stop")
+		startStopButton.setTitle(Constant.stopButtonText)
 		dataLabel.setText("")
 	}
 }

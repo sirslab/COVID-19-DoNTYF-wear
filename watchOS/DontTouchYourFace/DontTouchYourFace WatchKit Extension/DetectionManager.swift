@@ -33,15 +33,15 @@ final class DetectionManager {
 
 	enum Result {
 		case error(String)
-		case data(CMAcceleration)
+		case data(AxisValue)
 	}
 
 	private(set) var threshold: Float
-	private let coreMotionManager: CMMotionManager
+	private let sensorManager: SensorManager
 	private let notificationCenter: UNUserNotificationCenter
 	private var workoutSession: HKWorkoutSession?
 
-	private var didRecognizeMovement = false
+	private var isAlertInAction = false
 	private var didEnabledNotification = false
 
 	private lazy var workoutConfiguration: HKWorkoutConfiguration = {
@@ -68,7 +68,6 @@ final class DetectionManager {
 				stopCollectingData()
 			}
 			delegate?.manager(self, didChangeState: state)
-
 		}
 	}
 	
@@ -76,11 +75,11 @@ final class DetectionManager {
 	weak var delegate: DetectionManagerDelegate?
 
 	init(
-		coreMotionManager: CMMotionManager = SensorManager.shared.motionManager,
+		sensorManager: SensorManager = SensorManager.shared,
 		notificationCenter: UNUserNotificationCenter = UNUserNotificationCenter.current(),
 		threshold: Float
 	) {
-		self.coreMotionManager = coreMotionManager
+		self.sensorManager = sensorManager
 		self.notificationCenter = notificationCenter
 		self.threshold = threshold
 
@@ -100,18 +99,19 @@ final class DetectionManager {
 	}
 
 	private func startCollectingData() {
-		guard coreMotionManager.isAccelerometerAvailable else{
-			sensorCallback?(.error("Magnetometer not available"))
+		guard sensorManager.isDeviceSupported else{
+			sensorCallback?(.error(Constant.Message.sensorNotAvailable))
 			return
 		}
 
 		workoutSession = try? HKWorkoutSession(healthStore: .init(), configuration: workoutConfiguration)
 		workoutSession?.startActivity(with: nil)
 
-		coreMotionManager.startDeviceMotionUpdates(to: .main) { [weak self] (deviceMotion, error) in
+		sensorManager.startContinousDataUpdates(to: .main) { [weak self] (sensorValue, error) in
 			guard let _self = self else {
 				return
 			}
+
 			// Magnetometer's outcome is an error
 			if let error = error {
 				_self.sensorCallback?(.error(error.localizedDescription))
@@ -119,36 +119,42 @@ final class DetectionManager {
 			}
 
 			// Magnetometer's outcome is a valid measurement
-			guard let deviceMotion = deviceMotion else {
-				_self.sensorCallback?(.error("Error is not nil but no data available!"))
+			guard let sensorValue = sensorValue else {
+				_self.sensorCallback?(.error(Constant.Message.internalError))
 				return
 			}
 
-			if deviceMotion.userAcceleration.z > Double(_self.threshold) && _self.didRecognizeMovement == false {
-				_self.didRecognizeMovement = true
+			if _self.shuoldTriggerAlert(value: sensorValue) {
+				_self.isAlertInAction = true
 
-				let id = String(Date().timeIntervalSinceReferenceDate)
+				let date = Date().timeIntervalSinceReferenceDate
+				let id = String(date)
+
 				let trigger = UNTimeIntervalNotificationTrigger.init(timeInterval: 0.01, repeats: false)
-
 				let request = UNNotificationRequest(identifier: id, content: _self.contentNotification, trigger: trigger)
+
 				_self.notificationCenter.add(request) { _ in
 					DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
 						print("Notification")
-						_self.didRecognizeMovement = false
+						_self.isAlertInAction = false
 					}
 				}
 
 				print("Vibration")
 				WKInterfaceDevice.current().play(.failure)
-				_self.didRecognizeMovement = false
-
 			}
-			_self.sensorCallback?(.data(deviceMotion.userAcceleration))
+			_self.sensorCallback?(.data(sensorValue))
 		}
 	}
 
 	private func stopCollectingData() {
-		coreMotionManager.stopDeviceMotionUpdates()
+		sensorManager.stopContinousDataUpdates()
 		workoutSession?.end()
+	}
+
+	private func shuoldTriggerAlert(value: AxisValue) -> Bool {
+		let didPreviousTriggerEnd = isAlertInAction == false
+		let isValueOverThreshold = value.z >= Double(threshold)
+		return didPreviousTriggerEnd && isValueOverThreshold
 	}
 }

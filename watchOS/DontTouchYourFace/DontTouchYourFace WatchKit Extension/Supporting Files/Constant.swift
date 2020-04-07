@@ -22,9 +22,15 @@ enum Constant {
 
 	static let crownSensitivity: Double = 0.1
 
+	static let startButtonText = "Start"
+	static let notReadingDataText = "Press start"
+	static let stopButtonText = "Stop"
+	
 	enum Message {
 		static let deniedPrivacy = "Sorry you have to accept the privacy policy to continue to use this app."
 		static let unsopportedDevice = "Sorry your device is not supported"
+		static let internalError = "Error is not nil but no data available!"
+		static let sensorNotAvailable = "Sensor not available"
 	}
 
 	enum Color {
