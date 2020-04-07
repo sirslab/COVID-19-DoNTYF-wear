@@ -13,20 +13,20 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 		let setupManager = SetupManager(userDefaults: .standard)
 
 		guard SensorManager.shared.isDeviceSupported else {
-			WKInterfaceController.reloadRootControllers(withNames: [MessageInterfaceController.identifier], contexts: [Constant.Message.unsopportedDevice])
+			WKInterfaceController.reloadRootPageControllers(withNames: [MessageInterfaceController.identifier], contexts: [Constant.Message.unsopportedDevice], orientation: .vertical, pageIndex: 0)
 			return
 		}
 
 		guard setupManager.didUserAcceptPrivacy else {
-			WKInterfaceController.reloadRootControllers(withNames: [PrivacyInterfaceController.identifier], contexts: nil)
+			WKInterfaceController.reloadRootPageControllers(withNames: [PrivacyInterfaceController.identifier], contexts: nil, orientation: .vertical, pageIndex: 0)
 			return
 		}
 
 		guard setupManager.didUserSelectHand else {
-			WKInterfaceController.reloadRootControllers(withNames: [HandInterfaceController.identifier], contexts: nil)
+			WKInterfaceController.reloadRootPageControllers(withNames: [HandInterfaceController.identifier], contexts: nil, orientation: .vertical, pageIndex: 0)
 			return
 		}
-		WKInterfaceController.reloadRootControllers(withNames: [MeasurementInterfaceController.identifier], contexts: nil)
+		WKInterfaceController.reloadRootPageControllers(withNames: [MeasurementInterfaceController.identifier], contexts: nil, orientation: .vertical, pageIndex: 0)
     }
 
     func applicationDidBecomeActive() {

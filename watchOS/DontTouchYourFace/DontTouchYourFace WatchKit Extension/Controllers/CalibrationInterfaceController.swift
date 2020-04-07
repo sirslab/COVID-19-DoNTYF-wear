@@ -50,7 +50,7 @@ final class CalibrationInterfaceController: WKInterfaceController {
 			if isRecalibration {
 				pop()
 			} else {
-				WKInterfaceController.reloadRootControllers(withNames: [MeasurementInterfaceController.identifier], contexts: nil)
+				WKInterfaceController.reloadRootPageControllers(withNames: [MeasurementInterfaceController.identifier],  contexts: nil, orientation: .vertical, pageIndex: 0)
 			}
 
 			SensorManager.shared.stopCalibration()
