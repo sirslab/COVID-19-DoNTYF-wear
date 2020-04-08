@@ -36,8 +36,10 @@ final class SensorManager {
 			case .gravity:
 				return x >= -1 && x <= -0.25
 			case .magnetometer:
-				// TO BE FIXED
-				return true
+				guard let average = average else {
+					return false
+				}
+				return average >= 0.15
 			case .userAccelerometer:
 				return z >= Double(Threshold.Acceleration.accelerationThreshold)
 			}
