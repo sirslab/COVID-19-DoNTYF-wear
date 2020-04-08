@@ -34,4 +34,4 @@ Considering that the magnetic field shows substantial fluctutations in the envir
 ## Block diagram
 
 ### Hand Selection Screen
-![Hand selection screen diagram](/images/logo.png)
+![Hand selection screen diagram](Block_hand_select.html)
