@@ -37,3 +37,6 @@ Considering that the magnetic field shows substantial fluctutations in the envir
 
 ### Hand Selection Screen
 ![](Hand_choice_block.png)
+
+### Calibration Screen
+![](Block_calib_screen.png)
