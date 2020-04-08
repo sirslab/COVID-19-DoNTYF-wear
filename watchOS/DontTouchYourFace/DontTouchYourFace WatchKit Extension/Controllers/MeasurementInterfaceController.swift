@@ -12,30 +12,25 @@ import CoreMotion
 
 final class MeasurementInterfaceController: WKInterfaceController {
 	@IBOutlet private var dataLabel: WKInterfaceLabel!
-	@IBOutlet private var thresholdLabel: WKInterfaceLabel!
-	@IBOutlet private var thresholdSlider: WKInterfaceSlider!
+
+	@IBOutlet private var accelerationThresholdLabel: WKInterfaceLabel!
+	@IBOutlet private var accelerationThresholdSlider: WKInterfaceSlider!
+
 	@IBOutlet private var startStopButton: WKInterfaceButton!
-	@IBOutlet var calibrateButton: WKInterfaceButton!
+	@IBOutlet private var calibrateButton: WKInterfaceButton!
 
-	private lazy var numberFormatter: NumberFormatter = {
-		let numberFormatter = NumberFormatter()
-		numberFormatter.numberStyle = .decimal
-		numberFormatter.maximumFractionDigits = 2
-		return numberFormatter
-	}()
-
-	private let detectionManager = DetectionManager(threshold: Constant.initialThreshold)
+	private let detectionManager = DetectionManager()
 	private var crownAccumulator = 0.0
 
 	override func awake(withContext context: Any?) {
         super.awake(withContext: context)
 
+		setupAccelerationThresholdSlider()
+		updateAccelerationThreshold(Float(Threshold.Acceleration.accelerationThreshold))
 
-		setupSlider()
 		calibrateButton.setBackgroundColor(Constant.Color.blue)
 		dataLabel.setText("Press start")
 
-		updateThreshold(Constant.initialThreshold)
 		crownSequencer.delegate = self
 
 		detectionManager.delegate = self
@@ -51,17 +46,19 @@ final class MeasurementInterfaceController: WKInterfaceController {
 
 				let gravityValues = sensorsData.first { $0.type == .gravity }
 				let accelerometerValues = sensorsData.first { $0.type == .userAccelerometer }
+				let magnetometerValues = sensorsData.first { $0.type == .magnetometer }
 
 				guard
 					let xGravityComponent = gravityValues?.x,
-					let zAccelerationComponent = accelerometerValues?.z
+					let zAccelerationComponent = accelerometerValues?.z,
+					let magnetometerAverage = magnetometerValues?.average
 				else {
 					return
 				}
 
 				// Check wirst side for asin
-				let theha = asin(xGravityComponent) * 180 / .pi
-				let dataString = String(format: "X Θ: %.2f \nZ acc: %.2f", theha, zAccelerationComponent)
+				let theha = -asin(xGravityComponent) * 180 / .pi
+				let dataString = String(format: "X Θ: %.2f\nZ acc: %.2f\n M𝜇: %.2f", theha, zAccelerationComponent, magnetometerAverage)
 
 				#if !DEBUG
 				// Add Magnetometer
@@ -76,13 +73,13 @@ final class MeasurementInterfaceController: WKInterfaceController {
 		crownSequencer.focus()
 	}
 
-	private func setupSlider() {
-		let steps = (Constant.maxValue - Constant.minValue) / Constant.step
-		thresholdSlider.setNumberOfSteps(Int(steps))
+	private func setupAccelerationThresholdSlider() {
+		let steps = (Threshold.Acceleration.maxValue - Threshold.Acceleration.minValue) / Constant.crownStep
+		accelerationThresholdSlider.setNumberOfSteps(Int(steps))
 	}
 
 	@IBAction func didChangeSliderValue(_ value: Float) {
-		updateThreshold(value)
+		updateAccelerationThreshold(value)
 	}
 
 	@IBAction func didTapStartStop() {
@@ -94,13 +91,13 @@ final class MeasurementInterfaceController: WKInterfaceController {
 		pushController(withName: CalibrationInterfaceController.identifier, context: isRecalibration)
 	}
 
-	private func updateThreshold(_ value: Float) {
-		guard value <= Constant.maxValue && value >= Constant.minValue else {
+	private func updateAccelerationThreshold(_ value: Float) {
+		guard value <= Threshold.Acceleration.maxValue && value >= Threshold.Acceleration.minValue else {
 			return
 		}
-		thresholdLabel.setText("\(value)")
-		thresholdSlider.setValue(value)
-		detectionManager.setThreshold(value)
+		accelerationThresholdLabel.setText("\(value)")
+		accelerationThresholdSlider.setValue(value)
+		Threshold.Acceleration.accelerationThreshold = value
 	}
 
 	private func setStopActivityUI() {
@@ -120,10 +117,10 @@ extension MeasurementInterfaceController: WKCrownDelegate {
 	func crownDidRotate(_ crownSequencer: WKCrownSequencer?, rotationalDelta: Double) {
 		crownAccumulator += rotationalDelta
 		if crownAccumulator > Constant.crownSensitivity {
-			updateThreshold(detectionManager.threshold + Constant.step)
+			updateAccelerationThreshold(Threshold.Acceleration.accelerationThreshold + Constant.crownStep)
 		   crownAccumulator = 0.0
 		} else if crownAccumulator < -Constant.crownSensitivity {
-			updateThreshold(detectionManager.threshold - Constant.step)
+			updateAccelerationThreshold(Threshold.Acceleration.accelerationThreshold - Constant.crownStep)
 		   crownAccumulator = 0.0
 		}
 	}

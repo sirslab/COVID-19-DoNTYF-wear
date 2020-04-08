@@ -13,7 +13,6 @@ import CoreMotion
 final class CalibrationInterfaceController: WKInterfaceController {
 	@IBOutlet var countdownLabel: WKInterfaceLabel!
 	@IBOutlet var calibrateButton: WKInterfaceButton!
-	
 	@IBOutlet var calibrationLabel: WKInterfaceLabel!
 
 	private var timer: Timer?
@@ -36,7 +35,9 @@ final class CalibrationInterfaceController: WKInterfaceController {
 		calibrateButton.setHidden(true)
 		calibrationLabel.setHidden(true)
 		startTimer()
-		SensorManager.shared.startCalibration()
+
+		// Enable reception of the sensors' data and calibrate the magnetometer
+		SensorManager.shared.startMagnetometerCalibration()
 	}
 
 	private func startTimer() {
@@ -53,7 +54,7 @@ final class CalibrationInterfaceController: WKInterfaceController {
 				WKInterfaceController.reloadRootPageControllers(withNames: [MeasurementInterfaceController.identifier],  contexts: nil, orientation: .vertical, pageIndex: 0)
 			}
 
-			SensorManager.shared.stopCalibration()
+			SensorManager.shared.stopMagnetometerCalibration()
 			return
 		}
 		countdown -= 1

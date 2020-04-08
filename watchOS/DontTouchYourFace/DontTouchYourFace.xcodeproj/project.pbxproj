@@ -25,6 +25,8 @@
 		EF90CCAA243B6672006180D7 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF90CCA9243B6672006180D7 /* ExtensionDelegate.swift */; };
 		EF90CCAC243B6672006180D7 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF90CCAB243B6672006180D7 /* NotificationController.swift */; };
 		EF90CCAE243B6673006180D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF90CCAD243B6673006180D7 /* Assets.xcassets */; };
+		EFF8D7D2243E191A001510F2 /* CircleBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF8D7D1243E191A001510F2 /* CircleBuffer.swift */; };
+		EFF8D7D5243E367E001510F2 /* Thresholds.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF8D7D4243E367E001510F2 /* Thresholds.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +95,8 @@
 		EF90CCAD243B6673006180D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EF90CCAF243B6673006180D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF90CCB0243B6673006180D7 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		EFF8D7D1243E191A001510F2 /* CircleBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleBuffer.swift; sourceTree = "<group>"; };
+		EFF8D7D4243E367E001510F2 /* Thresholds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Thresholds.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,9 +191,19 @@
 				EF573E0B243B88BC000E2E08 /* Controllers */,
 				EF8DA8A0243D0F7200C45D12 /* Managers */,
 				EF90CCA9243B6672006180D7 /* ExtensionDelegate.swift */,
+				EFF8D7D3243E3672001510F2 /* Model */,
 				EF573E0C243B88C7000E2E08 /* Supporting Files */,
 			);
 			path = "DontTouchYourFace WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		EFF8D7D3243E3672001510F2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EFF8D7D1243E191A001510F2 /* CircleBuffer.swift */,
+				EFF8D7D4243E367E001510F2 /* Thresholds.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -322,6 +336,7 @@
 				EF573E22243B9770000E2E08 /* SetupManager.swift in Sources */,
 				EF5AAD28243BD60C006F08D7 /* DetectionManager.swift in Sources */,
 				EF573E08243B83DD000E2E08 /* PrivacyInterfaceController.swift in Sources */,
+				EFF8D7D5243E367E001510F2 /* Thresholds.swift in Sources */,
 				EF573E0E243B88F6000E2E08 /* Extensions.swift in Sources */,
 				EF5AAD2C243BE334006F08D7 /* SensorManager.swift in Sources */,
 				EF573E0A243B8556000E2E08 /* HandInterfaceController.swift in Sources */,
@@ -330,6 +345,7 @@
 				EF90CCAA243B6672006180D7 /* ExtensionDelegate.swift in Sources */,
 				EF573E10243B8A51000E2E08 /* CalibrationInterfaceController.swift in Sources */,
 				EF5AAD2A243BDDC6006F08D7 /* MessageInterfaceController.swift in Sources */,
+				EFF8D7D2243E191A001510F2 /* CircleBuffer.swift in Sources */,
 				EF90CCA8243B6672006180D7 /* MeasurementInterfaceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -24,14 +24,40 @@ final class SensorManager {
 		let x: Double
 		let y: Double
 		let z: Double
+		var average: Double? = nil // for magnetometer
+
+		var norm: Double {
+			let powNorm = pow(x, 2) + pow(y, 2) + pow(z, 2)
+			return sqrt(powNorm)
+		}
+
+		var isAlertConditionVerified: Bool {
+			switch type {
+			case .gravity:
+				return x >= -1 && x <= -0.25
+			case .magnetometer:
+				// TO BE FIXED
+				return true
+			case .userAccelerometer:
+				return z >= Double(Threshold.Acceleration.accelerationThreshold)
+			}
+		}
 	}
 
-	private init() {}
+	private var collectMagnetometerData: Bool = false
+	private var magnetometerBuffer: RingBuffer<Double>
+
+	private let queue: OperationQueue = {
+		let queue = OperationQueue()
+		queue.qualityOfService = .userInteractive
+		return queue
+	}()
+
 	static let shared = SensorManager()
 
 	lazy var motionManager: CMMotionManager = {
 		let motionManager = CMMotionManager()
-		motionManager.deviceMotionUpdateInterval = 1/50
+		motionManager.deviceMotionUpdateInterval = 1/Constant.sensorDataFrequency
 		return motionManager
 	}()
 
@@ -43,24 +69,40 @@ final class SensorManager {
 		#endif
 	}
 
-	func startCalibration() {
-		motionManager.startDeviceMotionUpdates()
+	private init() {
+		magnetometerBuffer = RingBuffer(count: Int(Constant.sensorDataFrequency) * Constant.collectionDataSeconds)
 	}
 
-	func stopCalibration() {
-		motionManager.stopDeviceMotionUpdates()
+	func startMagnetometerCalibration() {
+		collectMagnetometerData = true
+		startContinousDataUpdates()
 	}
 
-	func startContinousDataUpdates(to queue: OperationQueue, withHandler: @escaping SensorHandler) {
-		motionManager.startDeviceMotionUpdates(to: queue) { (deviceMotion, error) in
+	func stopMagnetometerCalibration() {
+		collectMagnetometerData = false
+		stopContinousDataUpdates()
+	}
+
+	func startContinousDataUpdates(withHandler: SensorHandler? = nil) {
+		motionManager.startDeviceMotionUpdates(to: queue) { [weak self] (deviceMotion, error) in
+			guard let _self = self else {
+				return
+			}
+
+			let callHandler: SensorHandler = { deviceMotion, error in
+				DispatchQueue.main.async {
+					withHandler?(deviceMotion, error)
+				}
+			}
+
 			// Magnetometer's outcome is an error
 			if let error = error {
-				withHandler(nil, error)
+				callHandler(nil, error)
 				return
 			}
 
 			guard let deviceMotion = deviceMotion else {
-				withHandler(nil, nil)
+				callHandler(nil, nil)
 				return
 			}
 
@@ -83,16 +125,41 @@ final class SensorManager {
 				accelerometer
 			]
 
-			#if !DEBUG
-			let magnetometer = SensorData(
+			// If the x component of the gravity is not between a certain range
+			// it means the user is not raising the hand
+			if !gravity.isAlertConditionVerified {
+				_self.collectMagnetometerData = true
+			} else {
+			// Otherwise stop calibrating
+				_self.collectMagnetometerData = false
+			}
+
+			#if DEBUG
+			var magnetometer = SensorData(
+				type: .magnetometer,
+				x: deviceMotion.userAcceleration.x,
+				y: deviceMotion.userAcceleration.y,
+				z: deviceMotion.userAcceleration.z
+			)
+			#else
+			var magnetometer = SensorData(
 				type: .magnetotemer,
 				x: deviceMotion.magneticField.field.x,
 				y: deviceMotion.magneticField.field.y,
 				z: deviceMotion.magneticField.field.z
 			)
-			sensorsData.append(contentsOf: magnetometer)
 			#endif
-			withHandler(sensorsData, nil)
+
+			// if we are still calibrating, then add the value to the buffer
+			if _self.collectMagnetometerData {
+				_self.magnetometerBuffer.write(magnetometer.norm)
+			}
+
+			// set up the average for the magnetometer
+			magnetometer.average = _self.magnetometerBuffer.average
+			sensorsData.append(magnetometer)
+
+			callHandler(sensorsData, nil)
 		}
 	}
 

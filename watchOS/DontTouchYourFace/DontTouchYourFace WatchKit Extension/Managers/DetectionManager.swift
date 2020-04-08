@@ -36,7 +36,6 @@ final class DetectionManager {
 		case data([SensorManager.SensorData])
 	}
 
-	private(set) var threshold: Float
 	private let sensorManager: SensorManager
 	private let notificationCenter: UNUserNotificationCenter
 	private var workoutSession: HKWorkoutSession?
@@ -48,15 +47,6 @@ final class DetectionManager {
 		let workoutConfiguration = HKWorkoutConfiguration()
 		workoutConfiguration.activityType = .running
 		return workoutConfiguration
-	}()
-
-	private lazy var contentNotification: UNMutableNotificationContent = {
-		let content = UNMutableNotificationContent()
-		content.title = "Hey"
-		content.body = "Don't touch your face!"
-		content.sound = UNNotificationSound.default
-		content.categoryIdentifier = "REMINDER_CATEGORY"
-		return content
 	}()
 
 	private(set) var state: State = .stopped {
@@ -76,22 +66,16 @@ final class DetectionManager {
 
 	init(
 		sensorManager: SensorManager = SensorManager.shared,
-		notificationCenter: UNUserNotificationCenter = UNUserNotificationCenter.current(),
-		threshold: Float
+		notificationCenter: UNUserNotificationCenter = UNUserNotificationCenter.current()
 	) {
 		self.sensorManager = sensorManager
 		self.notificationCenter = notificationCenter
-		self.threshold = threshold
 
 		defer {
 			notificationCenter.requestAuthorization(options: [.alert, .sound]) { [weak self] (granted, _) in
 				self?.didEnabledNotification = granted
 			}
 		}
-	}
-
-	func setThreshold(_ value: Float) {
-		threshold = value
 	}
 
 	func toggleState() {
@@ -107,10 +91,7 @@ final class DetectionManager {
 		workoutSession = try? HKWorkoutSession(healthStore: .init(), configuration: workoutConfiguration)
 		workoutSession?.startActivity(with: nil)
 
-		let queue = OperationQueue()
-		queue.qualityOfService = .userInteractive
-
-		sensorManager.startContinousDataUpdates(to: queue) { [weak self] (sensorsData, error) in
+		sensorManager.startContinousDataUpdates { [weak self] (sensorsData, error) in
 			guard let _self = self else {
 				return
 			}
@@ -146,18 +127,7 @@ final class DetectionManager {
 
 	private func shuoldTriggerAlert(sensorsData: [SensorManager.SensorData]) -> Bool {
 		let didPreviousTriggerEnd = isAlertInAction == false
-
-		let shouldRaiseAlert: Bool = sensorsData.map { sensorData in
-			switch sensorData.type {
-			case .gravity:
-				return sensorData.x >= -1 && sensorData.x <= -0.25
-			case .magnetometer:
-				// TO BE FIXED
-				return true
-			case .userAccelerometer:
-				return sensorData.z >= Double(threshold)
-			}
-		}.allSatisfy { $0 }
+		let shouldRaiseAlert: Bool = sensorsData.map { $0.isAlertConditionVerified }.allSatisfy { $0 }
 		return didPreviousTriggerEnd && shouldRaiseAlert
 	}
 }

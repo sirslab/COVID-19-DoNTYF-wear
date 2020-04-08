@@ -132,11 +132,11 @@
                         </group>
                     </items>
                     <connections>
+                        <outlet property="accelerationThresholdLabel" destination="AoK-Hg-TrN" id="QGe-0Y-b2F"/>
+                        <outlet property="accelerationThresholdSlider" destination="0AZ-ZL-g3t" id="aYp-tD-K4J"/>
                         <outlet property="calibrateButton" destination="8ev-bm-FTv" id="ZV1-6f-0ho"/>
                         <outlet property="dataLabel" destination="m2L-Bm-nky" id="pkh-tF-Ws5"/>
                         <outlet property="startStopButton" destination="yMb-xM-Y2x" id="Yij-3F-hLC"/>
-                        <outlet property="thresholdLabel" destination="AoK-Hg-TrN" id="QGe-0Y-b2F"/>
-                        <outlet property="thresholdSlider" destination="0AZ-ZL-g3t" id="aYp-tD-K4J"/>
                     </connections>
                 </controller>
             </objects>
