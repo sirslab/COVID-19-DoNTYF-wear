@@ -25,7 +25,9 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.media.AudioManager
 import android.media.ToneGenerator
+import android.media.ToneGenerator.TONE_CDMA_SOFT_ERROR_LITE
 import android.os.Bundle
 import android.os.Vibrator
 import android.support.wearable.activity.WearableActivity
@@ -61,6 +63,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
     private var lastTimeOn =0.toLong()
 
     private lateinit var vibrator: Vibrator
+    private lateinit var toneGen: ToneGenerator ///////////////
     private val tone = ToneGenerator.TONE_PROP_BEEP
 
     private var RECORD_REQUEST_CODE = 1
@@ -115,6 +118,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
         setAmbientEnabled()
 
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        toneGen = ToneGenerator(AudioManager.STREAM_NOTIFICATION,100)
 
         sensitivitySeekBar.max = maxThreshold
         sensitivitySeekBar.progress = maxThreshold/2
@@ -173,6 +177,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
         val t = System.currentTimeMillis()
         if (activeMonitoring && stateDanger && (lastVibTime +vibrationLength < t)) {
             vibrator .vibrate(vibrationLength.toLong())
+            toneGen.startTone(TONE_CDMA_SOFT_ERROR_LITE,vibrationLength) ///
             lastVibTime = t
             /*
             if (lastNotificationTime+2000 < t) {
