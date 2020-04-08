@@ -210,7 +210,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
                 calib = updateAverage(rawValue)
                 n = (rawValue - calib).absoluteValue
             }
-            return // per non aggiornare la GUI
+            return
         }
 
         if (event?.sensor == mag && isNFTscreen) {
