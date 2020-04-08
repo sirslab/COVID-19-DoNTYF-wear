@@ -12,8 +12,6 @@
 - [ ] Aggiungere file per salvataggio preferenze (Privacy, Soglia, Mano)
 - [x] Mettere il testo della privacy scrollabile
 - [ ] Aggiungere un bip
-## Prova tommi
-[![](https://mermaid.ink/img/eyJjb2RlIjoicGllIHRpdGxlIFBldHMgYWRvcHRlZCBieSB2b2x1bnRlZXJzXG5cdFwiRG9nc1wiIDogMzg2XG5cdFwiQ2F0c1wiIDogODVcblx0XCJSYXRzXCIgOiAxNVxuXHRcdFx0XHRcdCIsIm1lcm1haWQiOnsidGhlbWUiOiJkZWZhdWx0In0sInVwZGF0ZUVkaXRvciI6ZmFsc2V9)](https://mermaid-js.github.io/mermaid-live-editor/#/edit/eyJjb2RlIjoicGllIHRpdGxlIFBldHMgYWRvcHRlZCBieSB2b2x1bnRlZXJzXG5cdFwiRG9nc1wiIDogMzg2XG5cdFwiQ2F0c1wiIDogODVcblx0XCJSYXRzXCIgOiAxNVxuXHRcdFx0XHRcdCIsIm1lcm1haWQiOnsidGhlbWUiOiJkZWZhdWx0In0sInVwZGF0ZUVkaXRvciI6ZmFsc2V9)
 
 ## The idea behind the app
 To help us stopping to touch our faces we developed a simple and free app that let your smartwatch vibrate and ring as soon as you get closer to your face. The face is detected by using a small cheap magnet at your necklace.  
@@ -40,3 +38,15 @@ Considering that the magnetic field shows substantial fluctutations in the envir
 
 ### Calibration Screen
 ![](images/Block_calib_screen.png)
+
+
+### Main Screen
+![](images/Block_main_screen.png)
+
+To calculate Roll, Pitch and Yaw we used the following formula:
+```
+roll = atan2(acc[1], acc[2]) * 180/PI
+pitch = atan2(-acc[0], sqrt(acc[1]*acc[1] + acc[2]*acc[2])) * 180/PI
+yaw = 0
+```
+where acc[0], acc[1] and acc[2] represent the accelerations sensed along the x, y and z axes, respectively. At this development stage we find the yaw unuseful for our purpose.
