@@ -11,12 +11,12 @@ import Foundation
 import CoreMotion
 
 final class CalibrationInterfaceController: WKInterfaceController {
-	@IBOutlet var countdownLabel: WKInterfaceLabel!
-	@IBOutlet var calibrateButton: WKInterfaceButton!
-	@IBOutlet var calibrationLabel: WKInterfaceLabel!
+	@IBOutlet private var countdownLabel: WKInterfaceLabel!
+	@IBOutlet private var calibrateButton: WKInterfaceButton!
+	@IBOutlet private var calibrationLabel: WKInterfaceLabel!
 
 	private var timer: Timer?
-	private var countdown = 5
+	private var countdown = Constant.calibrationCountdown
 	private var isRecalibration: Bool = false
 
 	override func awake(withContext context: Any?) {
@@ -29,15 +29,17 @@ final class CalibrationInterfaceController: WKInterfaceController {
 	}
 	
 	@IBAction func didTapCalibrate() {
-		countdownLabel.setText("\(countdown)")
+		setupCountdownUI()
+		startTimer()
+		// Enable reception of the sensors' data and calibrate the magnetometer
+		SensorManager.shared.startMagnetometerCalibration()
+	}
 
+	private func setupCountdownUI() {
+		countdownLabel.setText("\(countdown)")
 		countdownLabel.setHidden(false)
 		calibrateButton.setHidden(true)
 		calibrationLabel.setHidden(true)
-		startTimer()
-
-		// Enable reception of the sensors' data and calibrate the magnetometer
-		SensorManager.shared.startMagnetometerCalibration()
 	}
 
 	private func startTimer() {

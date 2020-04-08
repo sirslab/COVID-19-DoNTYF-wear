@@ -11,12 +11,12 @@ import Foundation
 
 final class HandInterfaceController: WKInterfaceController {
 	@IBAction private func didTapLeftHandButton() {
-		UserDefaults.standard.set(Constant.leftHand, forKey: Constant.handKey)
+		UserDefaults.standard.set(Hand.left.rawValue, forKey: Constant.handKey)
 		showNextController()
 	}
 
 	@IBAction private func didTapRightHandButton() {
-		UserDefaults.standard.set(Constant.rightHand, forKey: Constant.handKey)
+		UserDefaults.standard.set(Hand.right.rawValue, forKey: Constant.handKey)
 		showNextController()
 	}
 

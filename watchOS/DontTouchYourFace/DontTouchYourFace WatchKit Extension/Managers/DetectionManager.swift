@@ -14,6 +14,7 @@ import UserNotifications
 
 protocol DetectionManagerDelegate: AnyObject {
 	func manager(_ manager: DetectionManager, didChangeState state: DetectionManager.State)
+	func managerDidRaiseAlert(_ manager: DetectionManager)
 }
 
 final class DetectionManager {
@@ -110,8 +111,8 @@ final class DetectionManager {
 
 			if _self.shuoldTriggerAlert(sensorsData: sensorsData) {
 				_self.isAlertInAction = true
-				print("Vibration")
-				WKInterfaceDevice.current().play(.failure)
+				_self.delegate?.managerDidRaiseAlert(_self)
+
 				DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
 					_self.isAlertInAction = false
 				}

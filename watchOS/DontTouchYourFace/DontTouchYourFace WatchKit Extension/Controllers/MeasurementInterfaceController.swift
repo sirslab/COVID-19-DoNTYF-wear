@@ -59,10 +59,6 @@ final class MeasurementInterfaceController: WKInterfaceController {
 				// Check wirst side for asin
 				let theha = -asin(xGravityComponent) * 180 / .pi
 				let dataString = String(format: "X Θ: %.2f\nZ acc: %.2f\n M𝜇: %.2f", theha, zAccelerationComponent, magnetometerAverage)
-
-				#if !DEBUG
-				// Add Magnetometer
-				#endif
 				_self.dataLabel.setText(dataString)
 			}
 		}
@@ -134,5 +130,10 @@ extension MeasurementInterfaceController: DetectionManagerDelegate {
 		case .stopped:
 			setStopActivityUI()
 		}
+	}
+
+	func managerDidRaiseAlert(_ manager: DetectionManager) {
+		print("Vibration")
+		WKInterfaceDevice.current().play(.failure)
 	}
 }

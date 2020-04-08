@@ -10,8 +10,8 @@ import UIKit
 
 enum Constant {
 	static let grantPermissionKey = "didAcceptPrivacy"
-	static let leftHand = "leftHand"
-	static let rightHand = "rightHand"
+	static let leftHand = "left"
+	static let rightHand = "right"
 	static let handKey = "handSide"
 
 	static let crownStep: Float = 0.1
@@ -23,6 +23,8 @@ enum Constant {
 	static let startButtonText = "Start"
 	static let notReadingDataText = "Press start"
 	static let stopButtonText = "Stop"
+
+	static let calibrationCountdown = 5
 	
 	enum Message {
 		static let deniedPrivacy = "Sorry you have to accept the privacy policy to continue to use this app."

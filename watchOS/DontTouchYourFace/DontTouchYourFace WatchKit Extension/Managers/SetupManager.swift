@@ -23,4 +23,15 @@ final class SetupManager {
 	var didUserSelectHand: Bool {
 		return userDefaults.string(forKey: Constant.handKey) != nil
 	}
+
+	var selectedHand: Hand? {
+		guard
+			didUserSelectHand,
+			let key = userDefaults.string(forKey: Constant.handKey)
+		else {
+			return nil
+		}
+
+		return Hand(rawValue: key)
+	}
 }
