@@ -30,3 +30,29 @@ The threshold scaling was defined empirically during the app debugging, any diff
 After the calibration, the app estimates the hand orientation through accelerometer readings (for this reason we ask to the user where is he wearing the smartwatch). The app sends a vibration whenever the hand turns upward and the sensed magnetic field exceeds the current threshold.
 
 Considering that the magnetic field shows substantial fluctutations in the enviroment, mostly due to EM sources and ferromagnetic materials, the baseline value is updated frequently. In particular, when the accelerometer data suggest that the hand is not pointing upward, the alerts (vibrations) are disabled and the magnetic field measurements are collected in the list to update the baseline value. 
+
+## Block diagram
+
+### Hand Selection Screen
+
+```flow
+st=>start: Begin hand selection screen
+e=>end: End hand selection screen
+cond1=>condition: Wear watch on right hand?
+saveHand=>operation: Save info for later
+para=>parallel: parallel tasks
+read=>operation: read magnetometer
+norm=>operation: calculate norm
+buffer=>operation: save in buffer
+avg=>operation: buffer avg = offset
+
+
+
+
+st->para
+para(path1, bottom)->cond1(top)
+para(path2,right)->read->norm->buffer->avg->e
+cond1(yes,left)->saveHand->avg
+cond1(no,bottom)->saveHand->avg
+
+```
