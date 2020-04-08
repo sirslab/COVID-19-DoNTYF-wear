@@ -74,15 +74,15 @@ final class MeasurementInterfaceController: WKInterfaceController {
 		accelerationThresholdSlider.setNumberOfSteps(Int(steps))
 	}
 
-	@IBAction func didChangeSliderValue(_ value: Float) {
+	@IBAction private func didChangeSliderValue(_ value: Float) {
 		updateAccelerationThreshold(value)
 	}
 
-	@IBAction func didTapStartStop() {
+	@IBAction private func didTapStartStop() {
 		detectionManager.toggleState()
 	}
 
-	@IBAction func didTapCalibrate() {
+	@IBAction private func didTapCalibrate() {
 		let isRecalibration = true
 		pushController(withName: CalibrationInterfaceController.identifier, context: isRecalibration)
 	}
@@ -127,8 +127,10 @@ extension MeasurementInterfaceController: DetectionManagerDelegate {
 		switch state {
 		case .running:
 			setRunningActivityUI()
+			calibrateButton.setEnabled(false)
 		case .stopped:
 			setStopActivityUI()
+			calibrateButton.setEnabled(true)
 		}
 	}
 
