@@ -10,7 +10,6 @@ import Foundation
 import WatchKit
 import CoreMotion
 import HealthKit
-import UserNotifications
 
 protocol DetectionManagerDelegate: AnyObject {
 	func manager(_ manager: DetectionManager, didChangeState state: DetectionManager.State)
@@ -40,7 +39,6 @@ final class DetectionManager {
 
 	// MARK: - Properties
 	private let sensorManager: SensorManager
-	private let notificationCenter: UNUserNotificationCenter
 	private var workoutSession: HKWorkoutSession?
 
 	// Boolean to avoid multiple recognitions of the alert in a short amount of time
@@ -69,18 +67,8 @@ final class DetectionManager {
 	weak var delegate: DetectionManagerDelegate?
 
 	// MARK: - Init
-	init(
-		sensorManager: SensorManager = SensorManager.shared,
-		notificationCenter: UNUserNotificationCenter = UNUserNotificationCenter.current()
-	) {
+	init(sensorManager: SensorManager = SensorManager.shared) {
 		self.sensorManager = sensorManager
-		self.notificationCenter = notificationCenter
-
-		defer {
-			notificationCenter.requestAuthorization(options: [.alert, .sound]) { [weak self] (granted, _) in
-				self?.didEnabledNotification = granted
-			}
-		}
 	}
 
 	// MARK: - Helper methods
