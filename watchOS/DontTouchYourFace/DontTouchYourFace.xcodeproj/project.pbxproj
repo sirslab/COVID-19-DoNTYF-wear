@@ -17,7 +17,7 @@
 		EF5AAD2A243BDDC6006F08D7 /* MessageInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5AAD29243BDDC6006F08D7 /* MessageInterfaceController.swift */; };
 		EF5AAD2C243BE334006F08D7 /* SensorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5AAD2B243BE334006F08D7 /* SensorManager.swift */; };
 		EF5AAD30243BE8FC006F08D7 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5AAD2F243BE8FC006F08D7 /* HealthKit.framework */; };
-		EF90CC94243B6670006180D7 /* DontTouchYourFace WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = EF90CC93243B6670006180D7 /* DontTouchYourFace WatchKit App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EF90CC94243B6670006180D7 /* DTYF.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = EF90CC93243B6670006180D7 /* DTYF.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EF90CC9A243B6670006180D7 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF90CC98243B6670006180D7 /* Interface.storyboard */; };
 		EF90CC9C243B6672006180D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF90CC9B243B6672006180D7 /* Assets.xcassets */; };
 		EF90CCA3243B6672006180D7 /* DontTouchYourFace WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EF90CCA2243B6672006180D7 /* DontTouchYourFace WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -65,7 +65,7 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				EF90CC94243B6670006180D7 /* DontTouchYourFace WatchKit App.app in Embed Watch Content */,
+				EF90CC94243B6670006180D7 /* DTYF.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,7 +85,7 @@
 		EF5AAD2D243BE8FC006F08D7 /* DontTouchYourFace WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "DontTouchYourFace WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		EF5AAD2F243BE8FC006F08D7 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.1.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		EF90CC8F243B666F006180D7 /* DontTouchYourFace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DontTouchYourFace.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		EF90CC93243B6670006180D7 /* DontTouchYourFace WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DontTouchYourFace WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF90CC93243B6670006180D7 /* DTYF.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DTYF.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF90CC99243B6670006180D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		EF90CC9B243B6672006180D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EF90CC9D243B6672006180D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -170,7 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				EF90CC8F243B666F006180D7 /* DontTouchYourFace.app */,
-				EF90CC93243B6670006180D7 /* DontTouchYourFace WatchKit App.app */,
+				EF90CC93243B6670006180D7 /* DTYF.app */,
 				EF90CCA2243B6672006180D7 /* DontTouchYourFace WatchKit Extension.appex */,
 			);
 			name = Products;
@@ -243,7 +243,7 @@
 			);
 			name = "DontTouchYourFace WatchKit App";
 			productName = "DontTouchYourFace WatchKit App";
-			productReference = EF90CC93243B6670006180D7 /* DontTouchYourFace WatchKit App.app */;
+			productReference = EF90CC93243B6670006180D7 /* DTYF.app */;
 			productType = "com.apple.product-type.application.watchapp2";
 		};
 		EF90CCA1243B6672006180D7 /* DontTouchYourFace WatchKit Extension */ = {
@@ -550,7 +550,7 @@
 				IBSC_MODULE = DontTouchYourFace_WatchKit_Extension;
 				INFOPLIST_FILE = "DontTouchYourFace WatchKit App/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ndppphz.DontTouchYourFace.watchkitapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = DTYF;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -569,7 +569,7 @@
 				IBSC_MODULE = DontTouchYourFace_WatchKit_Extension;
 				INFOPLIST_FILE = "DontTouchYourFace WatchKit App/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ndppphz.DontTouchYourFace.watchkitapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = DTYF;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
