@@ -16,7 +16,7 @@ enum Constant {
 	static let magneticFieldCrownStep: Float = 0.01
 	static let crownSensitivity: Double = 0.1
 
-	static let collectionDataSeconds = 30
+	static let collectionDataSeconds = 5
 	static let sensorDataFrequency: Double = 50 // in hz
 
 	static let startButtonText = "Start"
@@ -26,9 +26,7 @@ enum Constant {
 	
 	enum Message {
 		static let deniedPrivacy = "Sorry you have to accept the privacy policy to continue to use this app."
-		static let unsopportedDevice = "Sorry your device is not supported"
 		static let internalError = "Error is not nil but no data available!"
-		static let sensorNotAvailable = "Sensor not available"
 
 		static let calibrationMessage = "After pressing the button, move your hand in front of you for 5 seconds to calibrate the magnetic sensor."
 		static let handSelectionMessage = "Do you wear the smartwatch on the left or on the right?"

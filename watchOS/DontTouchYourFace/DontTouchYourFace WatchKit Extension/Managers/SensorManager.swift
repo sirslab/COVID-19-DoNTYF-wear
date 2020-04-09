@@ -49,7 +49,7 @@ final class SensorManager {
 	}
 
 	// MARK: - Properties
-	private var collectMagnetometerData: Bool = false
+	private var saveMagnetometerDataInBuffer: Bool = false
 	private var magnetometerBuffer: RingBuffer<Double>
 
 	private let queue: OperationQueue = {
@@ -58,19 +58,29 @@ final class SensorManager {
 		return queue
 	}()
 
-	lazy var motionManager: CMMotionManager = {
+	private lazy var motionManager: CMMotionManager = {
 		let motionManager = CMMotionManager()
 		motionManager.deviceMotionUpdateInterval = 1/Constant.sensorDataFrequency
 		return motionManager
 	}()
 
-	var isDeviceSupported: Bool {
-		#if DEBUG
-		return motionManager.isAccelerometerAvailable
-		#else
-		return motionManager.isMagnetometerAvailable
-		#endif
+	var isMagnetometerAvailable: Bool {
+		guard motionManager.isMagnetometerAvailable else {
+			#if DEBUG
+			return true
+			#else
+			return false
+			#endif
+		}
+		return true
 	}
+
+	lazy var isMagnetometerCollectionDataEnabledFromUser: Bool = {
+		guard isMagnetometerAvailable else {
+			return false
+		}
+		return true
+	}()
 
 	// MARK: - Init
 	static let shared = SensorManager()
@@ -81,13 +91,13 @@ final class SensorManager {
 
 	// MARK: - Helper functions
 	func startMagnetometerCalibration() {
-		collectMagnetometerData = true
+		saveMagnetometerDataInBuffer = true
 		// callback's value is nil since I don't need to show them
 		startContinousDataUpdates()
 	}
 
 	func stopMagnetometerCalibration() {
-		collectMagnetometerData = false
+		saveMagnetometerDataInBuffer = false
 		stopContinousDataUpdates()
 	}
 
@@ -135,48 +145,51 @@ final class SensorManager {
 				accelerometer
 			]
 
-			// If the x component of the gravity is not between a certain range
-			// it means the user is not raising the hand
-			if !gravity.isAlertConditionVerified {
-				_self.collectMagnetometerData = true
-			} else {
-			// Otherwise stop calibrating
-				_self.collectMagnetometerData = false
-			}
-
-			var magnetometer: SensorData?
-			// If the magnetometer isn't available
-			if !_self.motionManager.isMagnetometerAvailable {
-				// In debug add a fake magnetometer data using the user's acceleration
-				#if DEBUG
-				magnetometer = SensorData(
-					type: .magnetometer,
-					x: deviceMotion.userAcceleration.x,
-					y: deviceMotion.userAcceleration.y,
-					z: deviceMotion.userAcceleration.z
-				)
-				#endif
-			} else {
-				// Otherwhise use the real data
-				magnetometer = SensorData(
-					type: .magnetometer,
-					x: deviceMotion.magneticField.field.x,
-					y: deviceMotion.magneticField.field.y,
-					z: deviceMotion.magneticField.field.z
-				)
-			}
-
-			if var notNilMagnetometer = magnetometer {
-				// if we are still calibrating, then add the value to the buffer
-				if _self.collectMagnetometerData {
-					_self.magnetometerBuffer.write(notNilMagnetometer.norm)
+			let magnetometer: SensorData? = {
+				// If the magnetometer isn't available
+				if !_self.motionManager.isMagnetometerAvailable {
+					// In debug mode add a fake magnetometer data using the user's acceleration
+					#if DEBUG
+					return SensorData(
+						type: .magnetometer,
+						x: deviceMotion.userAcceleration.x,
+						y: deviceMotion.userAcceleration.y,
+						z: deviceMotion.userAcceleration.z
+					)
+					#else
+					return nil
+					#endif
+				} else {
+					// Otherwhise use the real data
+					return SensorData(
+						type: .magnetometer,
+						x: deviceMotion.magneticField.field.x,
+						y: deviceMotion.magneticField.field.y,
+						z: deviceMotion.magneticField.field.z
+					)
 				}
+			}()
 
-				// set up the average for the magnetometer
-				notNilMagnetometer.average = _self.magnetometerBuffer.average
-				// Append to the list of available sensor's data
-				sensorsData.append(notNilMagnetometer)
+			// Guard if there are data from the magnetometer
+			guard var notNilMagnetometer = magnetometer else {
+				callHandler(sensorsData, nil)
+				return
 			}
+
+			// If the x component of the gravity is not between a certain range
+			// it means the user is not raising the hand and we want to keep collection
+			// data from the magnetometer
+			let isInContinuosCalibrationMode = !gravity.isAlertConditionVerified
+
+			// If the user wants to collect the magnetometer data
+			if _self.isMagnetometerCollectionDataEnabledFromUser && isInContinuosCalibrationMode {
+				_self.magnetometerBuffer.write(notNilMagnetometer.norm)
+			}
+
+			// set up the average for the magnetometer
+			notNilMagnetometer.average = _self.magnetometerBuffer.average
+			// Append to the list of available sensor's data
+			sensorsData.append(notNilMagnetometer)
 			callHandler(sensorsData, nil)
 		}
 	}

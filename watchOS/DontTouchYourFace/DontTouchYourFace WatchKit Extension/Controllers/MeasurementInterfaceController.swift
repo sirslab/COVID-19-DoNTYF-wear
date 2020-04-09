@@ -12,17 +12,18 @@ import CoreMotion
 
 final class MeasurementInterfaceController: WKInterfaceController {
 	// MARK: - Outlets and properties
-	// Labels for the data
 	@IBOutlet private var armAngleLabel: WKInterfaceLabel!
-	@IBOutlet private var zAccelerationLabel: WKInterfaceLabel!
-	@IBOutlet private var magneticFieldNormAvgLabel: WKInterfaceLabel!
 
-	// Label and slider for the thresholds
+	@IBOutlet private var zAccelerationLabel: WKInterfaceLabel!
 	@IBOutlet private var accelerationThresholdLabel: WKInterfaceLabel!
 	@IBOutlet private var accelerationThresholdSlider: WKInterfaceSlider!
 
 	@IBOutlet private var magneticFieldLabel: WKInterfaceLabel!
 	@IBOutlet private var magneticFieldSlider: WKInterfaceSlider!
+	@IBOutlet private var magneticFieldNormAvgLabel: WKInterfaceLabel!
+	@IBOutlet private var magneticFieldDataGroup: WKInterfaceGroup!
+	@IBOutlet private var magneticFieldSliderGroup: WKInterfaceGroup!
+	@IBOutlet private var magnetometerToggle: WKInterfaceSwitch!
 
 	@IBOutlet private var startStopButton: WKInterfaceButton!
 	@IBOutlet private var calibrateButton: WKInterfaceButton!
@@ -37,7 +38,6 @@ final class MeasurementInterfaceController: WKInterfaceController {
 	override func awake(withContext context: Any?) {
         super.awake(withContext: context)
 		setupUI()
-		setupInitialValue()
 		startDetection()
     }
 
@@ -45,13 +45,17 @@ final class MeasurementInterfaceController: WKInterfaceController {
 	private func setupUI() {
 		crownSequencer.delegate = self
 		setupAccelerationThresholdSlider()
-		setupMagneticFieldThresholdSlider()
-		calibrateButton.setBackgroundColor(Constant.Color.blue)
-	}
-
-	private func setupInitialValue() {
 		updateAccelerationThreshold(Threshold.Acceleration.accelerationThreshold)
-		updateMagneticFieldThreshold(Threshold.MagneticField.magneticFieldThreshold)
+
+		if SensorManager.shared.isMagnetometerAvailable {
+			setupMagneticFieldThresholdSlider()
+			updateMagneticFieldThreshold(Threshold.MagneticField.magneticFieldThreshold)
+		} else {
+			magneticFieldDataGroup.setHidden(true)
+			magneticFieldSliderGroup.setHidden(true)
+		}
+
+		calibrateButton.setBackgroundColor(Constant.Color.blue)
 	}
 
 	private func startDetection() {
@@ -172,6 +176,11 @@ final class MeasurementInterfaceController: WKInterfaceController {
 	@IBAction private func didTapCalibrate() {
 		let isRecalibration = true
 		pushController(withName: CalibrationInterfaceController.identifier, context: isRecalibration)
+	}
+
+	@IBAction func didTapMagnetometerToggle(_ value: Bool) {
+		SensorManager.shared.isMagnetometerCollectionDataEnabledFromUser = value
+		magneticFieldSlider.setEnabled(value)
 	}
 }
 

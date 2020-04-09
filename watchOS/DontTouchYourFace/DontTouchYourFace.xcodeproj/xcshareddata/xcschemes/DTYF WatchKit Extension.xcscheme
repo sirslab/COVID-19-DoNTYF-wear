@@ -29,7 +29,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "EF90CC92243B6670006180D7"
-               BuildableName = "DontTouchYourFace WatchKit App.app"
+               BuildableName = "DTYF.app"
                BlueprintName = "DontTouchYourFace WatchKit App"
                ReferencedContainer = "container:DontTouchYourFace.xcodeproj">
             </BuildableReference>

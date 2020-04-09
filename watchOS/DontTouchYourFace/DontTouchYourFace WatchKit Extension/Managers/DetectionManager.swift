@@ -77,11 +77,6 @@ final class DetectionManager {
 	}
 
 	private func startCollectingData() {
-		guard sensorManager.isDeviceSupported else{
-			sensorCallback?(.error(Constant.Message.sensorNotAvailable))
-			return
-		}
-
 		workoutSession = try? HKWorkoutSession(healthStore: .init(), configuration: workoutConfiguration)
 		workoutSession?.startActivity(with: nil)
 

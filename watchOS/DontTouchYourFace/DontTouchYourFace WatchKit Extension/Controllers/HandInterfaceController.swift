@@ -25,7 +25,9 @@ final class HandInterfaceController: WKInterfaceController {
 	}
 
 	private func showNextController() {
-		pushController(withName: CalibrationInterfaceController.identifier, context: nil)
+		//Skip magnetometer calibration if the device doesn't have an integrated magnetometer
+		let nextController = SensorManager.shared.isMagnetometerAvailable ? CalibrationInterfaceController.identifier : MeasurementInterfaceController.identifier
+		pushController(withName: nextController, context: nil)
 	}
 
 	override func awake(withContext context: Any?) {

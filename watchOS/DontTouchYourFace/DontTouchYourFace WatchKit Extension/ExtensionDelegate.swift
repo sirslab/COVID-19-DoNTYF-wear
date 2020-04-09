@@ -12,11 +12,6 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     func applicationDidFinishLaunching() {
 		let setupManager = SetupManager()
 
-		guard SensorManager.shared.isDeviceSupported else {
-			WKInterfaceController.reloadRootPageControllers(withNames: [MessageInterfaceController.identifier], contexts: [Constant.Message.unsopportedDevice], orientation: .vertical, pageIndex: 0)
-			return
-		}
-
 		guard setupManager.didUserAcceptPrivacy else {
 			WKInterfaceController.reloadRootPageControllers(withNames: [PrivacyInterfaceController.identifier], contexts: nil, orientation: .vertical, pageIndex: 0)
 			return

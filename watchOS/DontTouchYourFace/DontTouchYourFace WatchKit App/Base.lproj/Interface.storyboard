@@ -121,7 +121,7 @@
                                 </button>
                             </items>
                         </group>
-                        <group width="1" alignment="left" layout="vertical" id="a2F-m0-mHi">
+                        <group width="1" alignment="left" layout="vertical" spacing="14" id="a2F-m0-mHi">
                             <items>
                                 <group width="1" alignment="left" layout="vertical" id="OmG-S3-749">
                                     <items>
@@ -160,14 +160,18 @@
                                         </group>
                                     </items>
                                 </group>
-                                <group width="1" alignment="left" layout="vertical" spacing="8" id="tZG-sf-maI">
+                                <group width="1" alignment="left" layout="vertical" spacing="12" id="tZG-sf-maI">
                                     <items>
+                                        <label alignment="left" text="Settings" textAlignment="left" id="coC-g1-Trh">
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="font" style="UICTFontTextStyleCaption2"/>
+                                        </label>
                                         <group width="1" alignment="center" layout="vertical" id="JTT-cH-wYo">
                                             <items>
                                                 <label alignment="left" text="[Z ACC THRESHOLD]" textAlignment="left" id="AoK-Hg-TrN">
                                                     <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                 </label>
-                                                <slider width="1" height="30" alignment="left" value="0.14999999999999999" minimum="0.14999999999999999" maximum="0.5" steps="35" id="0AZ-ZL-g3t">
+                                                <slider width="1" height="35" alignment="left" value="0.14999999999999999" minimum="0.14999999999999999" maximum="0.5" steps="35" id="0AZ-ZL-g3t">
                                                     <connections>
                                                         <action selector="didChangeAccelerationSliderValue:" destination="AgC-eL-Hgc" id="i5C-DW-vaF"/>
                                                     </connections>
@@ -179,7 +183,13 @@
                                                 <label alignment="left" text="[M𝜇 THRESHOLD]" textAlignment="left" id="Z6Y-o5-6h5">
                                                     <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                 </label>
-                                                <slider width="1" height="30" alignment="left" value="0.14999999999999999" minimum="0.14999999999999999" steps="85" id="4mM-6g-owt">
+                                                <switch width="1" height="35" alignment="left" value="YES" title="Magnetometer" numberOfLines="1" minimumScaleFactor="0.20000000000000001" id="uoW-Qi-zUB">
+                                                    <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                                    <connections>
+                                                        <action selector="didTapMagnetometerToggle:" destination="AgC-eL-Hgc" id="4xQ-uR-Sjh"/>
+                                                    </connections>
+                                                </switch>
+                                                <slider width="1" height="35" alignment="left" value="0.14999999999999999" minimum="0.14999999999999999" steps="85" id="4mM-6g-owt">
                                                     <connections>
                                                         <action selector="didChangeMagneticFieldSliderValue:" destination="AgC-eL-Hgc" id="RK0-iu-bOL"/>
                                                     </connections>
@@ -196,9 +206,12 @@
                         <outlet property="accelerationThresholdSlider" destination="0AZ-ZL-g3t" id="aYp-tD-K4J"/>
                         <outlet property="armAngleLabel" destination="m2L-Bm-nky" id="pkh-tF-Ws5"/>
                         <outlet property="calibrateButton" destination="8ev-bm-FTv" id="ZV1-6f-0ho"/>
+                        <outlet property="magneticFieldDataGroup" destination="mtt-OM-0E3" id="Si4-VF-UiA"/>
                         <outlet property="magneticFieldLabel" destination="Z6Y-o5-6h5" id="oaS-p9-G3l"/>
                         <outlet property="magneticFieldNormAvgLabel" destination="Ccr-MY-bEl" id="bMp-7m-eI1"/>
                         <outlet property="magneticFieldSlider" destination="4mM-6g-owt" id="y4l-me-OIM"/>
+                        <outlet property="magneticFieldSliderGroup" destination="7Tp-01-TiU" id="Mi9-w6-2x1"/>
+                        <outlet property="magnetometerToggle" destination="uoW-Qi-zUB" id="ONr-hh-CZ8"/>
                         <outlet property="startStopButton" destination="yMb-xM-Y2x" id="Yij-3F-hLC"/>
                         <outlet property="zAccelerationLabel" destination="bXr-1b-CBs" id="j0y-Jn-pej"/>
                     </connections>
