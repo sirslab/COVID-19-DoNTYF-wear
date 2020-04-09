@@ -163,7 +163,7 @@
                                                 <label alignment="left" text="[Z ACC THRESHOLD]" textAlignment="left" id="AoK-Hg-TrN">
                                                     <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                 </label>
-                                                <slider width="1" height="30" alignment="left" continuous="YES" value="0.10000000000000001" minimum="0.10000000000000001" maximum="0.69999999999999996" steps="7" id="0AZ-ZL-g3t">
+                                                <slider width="1" height="30" alignment="left" value="0.10000000000000001" minimum="0.10000000000000001" maximum="0.69999999999999996" steps="7" id="0AZ-ZL-g3t">
                                                     <connections>
                                                         <action selector="didChangeAccelerationSliderValue:" destination="AgC-eL-Hgc" id="i5C-DW-vaF"/>
                                                     </connections>
@@ -175,7 +175,7 @@
                                                 <label alignment="left" text="[M𝜇 THRESHOLD]" textAlignment="left" id="Z6Y-o5-6h5">
                                                     <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                 </label>
-                                                <slider width="1" height="30" alignment="left" continuous="YES" value="0.10000000000000001" minimum="0.10000000000000001" maximum="0.69999999999999996" steps="7" id="4mM-6g-owt">
+                                                <slider width="1" height="30" alignment="left" value="0.14999999999999999" minimum="0.14999999999999999" maximum="0.90000000000000002" steps="5" id="4mM-6g-owt">
                                                     <connections>
                                                         <action selector="didChangeMagneticFieldSliderValue:" destination="AgC-eL-Hgc" id="RK0-iu-bOL"/>
                                                     </connections>
