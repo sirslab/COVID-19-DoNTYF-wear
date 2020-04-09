@@ -8,6 +8,8 @@
 
 import Foundation
 
+/// Ring Buffers holds N elements at a time.
+/// When the buffer runs out of storage, it starts replacing the longest indersted element and so on
 struct RingBuffer<T> {
 	private(set) var array: [T?]
 	private var writeIndex = 0
@@ -24,6 +26,7 @@ struct RingBuffer<T> {
 
 extension RingBuffer where T == Double {
 	var average: Double {
+		// Improve time complexity
 		return array.compactMap { $0 }.reduce(0, +) / Double(array.count)
 	}
 }

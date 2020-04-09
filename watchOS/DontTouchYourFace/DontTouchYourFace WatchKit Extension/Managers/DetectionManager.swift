@@ -18,6 +18,7 @@ protocol DetectionManagerDelegate: AnyObject {
 }
 
 final class DetectionManager {
+	// MARK: - Nested types
 	enum State {
 		case running
 		case stopped
@@ -37,10 +38,12 @@ final class DetectionManager {
 		case data([SensorManager.SensorData])
 	}
 
+	// MARK: - Properties
 	private let sensorManager: SensorManager
 	private let notificationCenter: UNUserNotificationCenter
 	private var workoutSession: HKWorkoutSession?
 
+	// Boolean to avoid multiple recognitions of the alert in a short amount of time
 	private var isAlertInAction = false
 	private var didEnabledNotification = false
 
@@ -65,6 +68,7 @@ final class DetectionManager {
 	var sensorCallback: ((Result) -> Void)?
 	weak var delegate: DetectionManagerDelegate?
 
+	// MARK: - Init
 	init(
 		sensorManager: SensorManager = SensorManager.shared,
 		notificationCenter: UNUserNotificationCenter = UNUserNotificationCenter.current()
@@ -79,6 +83,7 @@ final class DetectionManager {
 		}
 	}
 
+	// MARK: - Helper methods
 	func toggleState() {
 		state.toggle()
 	}
@@ -97,23 +102,26 @@ final class DetectionManager {
 				return
 			}
 
-			// Magnetometer's outcome is an error
+			// Sensor's outcome is an error
 			if let error = error {
 				_self.sensorCallback?(.error(error.localizedDescription))
 				return
 			}
 
-			// Magnetometer's outcome is a valid measurement
 			guard let sensorsData = sensorsData else {
 				_self.sensorCallback?(.error(Constant.Message.internalError))
 				return
 			}
 
+			// Sensor's outcome is a valid measurement
+			// Check if the received data are matching the condition for raising an alert
 			if _self.shuoldTriggerAlert(sensorsData: sensorsData) {
+				// If yes set that an alert is being sent and inform the delegate
 				_self.isAlertInAction = true
 				_self.delegate?.managerDidRaiseAlert(_self)
 
 				DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+					// A new alert could be detected
 					_self.isAlertInAction = false
 				}
 			}

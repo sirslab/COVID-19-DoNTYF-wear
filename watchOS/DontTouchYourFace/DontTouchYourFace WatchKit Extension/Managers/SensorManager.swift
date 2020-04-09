@@ -11,6 +11,7 @@ import CoreMotion
 
 
 final class SensorManager {
+	// MARK: - Nested types
 	typealias SensorHandler = ([SensorData]?, Error?) -> Void
 
 	enum SensorType {
@@ -47,6 +48,7 @@ final class SensorManager {
 		}
 	}
 
+	// MARK: - Properties
 	private var collectMagnetometerData: Bool = false
 	private var magnetometerBuffer: RingBuffer<Double>
 
@@ -55,8 +57,6 @@ final class SensorManager {
 		queue.qualityOfService = .userInteractive
 		return queue
 	}()
-
-	static let shared = SensorManager()
 
 	lazy var motionManager: CMMotionManager = {
 		let motionManager = CMMotionManager()
@@ -72,12 +72,17 @@ final class SensorManager {
 		#endif
 	}
 
+	// MARK: - Init
+	static let shared = SensorManager()
+
 	private init() {
 		magnetometerBuffer = RingBuffer(count: Int(Constant.sensorDataFrequency) * Constant.collectionDataSeconds)
 	}
 
+	// MARK: - Helper functions
 	func startMagnetometerCalibration() {
 		collectMagnetometerData = true
+		// callback's value is nil since I don't need to show them
 		startContinousDataUpdates()
 	}
 
@@ -92,13 +97,14 @@ final class SensorManager {
 				return
 			}
 
+			// Call handler to ensure the callback is being propagated on the main queue
 			let callHandler: SensorHandler = { deviceMotion, error in
 				DispatchQueue.main.async {
 					withHandler?(deviceMotion, error)
 				}
 			}
 
-			// Magnetometer's outcome is an error
+			// Check if there's any error
 			if let error = error {
 				callHandler(nil, error)
 				return
@@ -109,6 +115,7 @@ final class SensorManager {
 				return
 			}
 
+			// Collect data
 			let gravity = SensorData(
 				type: .gravity,
 				x: deviceMotion.gravity.x,
@@ -137,31 +144,39 @@ final class SensorManager {
 				_self.collectMagnetometerData = false
 			}
 
-			#if DEBUG
-			var magnetometer = SensorData(
-				type: .magnetometer,
-				x: deviceMotion.userAcceleration.x,
-				y: deviceMotion.userAcceleration.y,
-				z: deviceMotion.userAcceleration.z
-			)
-			#else
-			var magnetometer = SensorData(
-				type: .magnetotemer,
-				x: deviceMotion.magneticField.field.x,
-				y: deviceMotion.magneticField.field.y,
-				z: deviceMotion.magneticField.field.z
-			)
-			#endif
-
-			// if we are still calibrating, then add the value to the buffer
-			if _self.collectMagnetometerData {
-				_self.magnetometerBuffer.write(magnetometer.norm)
+			var magnetometer: SensorData?
+			// If the magnetometer isn't available
+			if !_self.motionManager.isMagnetometerAvailable {
+				// In debug add a fake magnetometer data using the user's acceleration
+				#if DEBUG
+				magnetometer = SensorData(
+					type: .magnetometer,
+					x: deviceMotion.userAcceleration.x,
+					y: deviceMotion.userAcceleration.y,
+					z: deviceMotion.userAcceleration.z
+				)
+				#endif
+			} else {
+				// Otherwhise use the real data
+				magnetometer = SensorData(
+					type: .magnetometer,
+					x: deviceMotion.magneticField.field.x,
+					y: deviceMotion.magneticField.field.y,
+					z: deviceMotion.magneticField.field.z
+				)
 			}
 
-			// set up the average for the magnetometer
-			magnetometer.average = _self.magnetometerBuffer.average
-			sensorsData.append(magnetometer)
+			if var notNilMagnetometer = magnetometer {
+				// if we are still calibrating, then add the value to the buffer
+				if _self.collectMagnetometerData {
+					_self.magnetometerBuffer.write(notNilMagnetometer.norm)
+				}
 
+				// set up the average for the magnetometer
+				notNilMagnetometer.average = _self.magnetometerBuffer.average
+				// Append to the list of available sensor's data
+				sensorsData.append(notNilMagnetometer)
+			}
 			callHandler(sensorsData, nil)
 		}
 	}

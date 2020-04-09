@@ -27,7 +27,9 @@ final class MeasurementInterfaceController: WKInterfaceController {
 	@IBOutlet private var startStopButton: WKInterfaceButton!
 	@IBOutlet private var calibrateButton: WKInterfaceButton!
 
+	// MARK: - Properties
 	private let detectionManager = DetectionManager()
+	// Used to determine which slider the crown should control
 	private var lastTouchedSlider: WKInterfaceSlider?
 	private var crownAccumulator = 0.0
 
@@ -54,6 +56,8 @@ final class MeasurementInterfaceController: WKInterfaceController {
 
 	private func startDetection() {
 		detectionManager.delegate = self
+
+		// Start receiving data from the detection manager
 		detectionManager.sensorCallback = { [weak self] result in
 			guard let _self = self else {
 				return
@@ -61,35 +65,43 @@ final class MeasurementInterfaceController: WKInterfaceController {
 
 			switch result {
 			case .error(let errorString):
+				// Show error message
 				let errorMessage = "Error"
 				_self.armAngleLabel.setText(errorMessage)
 				_self.zAccelerationLabel.setText(errorMessage)
 				_self.magneticFieldNormAvgLabel.setText(errorMessage)
-
+				// Print the actual error in the console
 				print(errorString)
 			case .data(let sensorsData):
+				// Retrieve the mandatory sensor's data
 				let gravityValues = sensorsData.first { $0.type == .gravity }
 				let accelerometerValues = sensorsData.first { $0.type == .userAccelerometer }
 				let magnetometerValues = sensorsData.first { $0.type == .magnetometer }
 
 				guard
 					let gravityComponents = gravityValues,
-					let zAccelerationComponent = accelerometerValues?.z,
-					let magnetometerAverage = magnetometerValues?.average
+					let zAccelerationComponent = accelerometerValues?.z
 				else {
 					return
 				}
 
-				// Check wirst side for asin
+				// TODO: Check wirst side for asin
 				let theha = atan2(-gravityComponents.x, sqrt(pow(gravityComponents.y, 2) + pow(gravityComponents.z, 2))) * (180 / .pi)
 
+				// Print values
 				let thetaString = String(format: "%.2f", theha)
 				let zAccelerationString = String(format: "%.2f", zAccelerationComponent)
-				let magneticFieldAverageNormString = String(format: "%.2f", magnetometerAverage)
+
+				// If the magnetometer's data is present show the value otherwise
+				if let magnetometerAverage = magnetometerValues?.average {
+					let magneticFieldAverageNormString = String(format: "%.2f", magnetometerAverage)
+					_self.magneticFieldNormAvgLabel.setText(magneticFieldAverageNormString)
+				} else {
+					_self.magneticFieldNormAvgLabel.setText("Not available")
+				}
 
 				_self.armAngleLabel.setText(thetaString)
 				_self.zAccelerationLabel.setText(zAccelerationString)
-				_self.magneticFieldNormAvgLabel.setText(magneticFieldAverageNormString)
 			}
 		}
 	}
@@ -203,7 +215,9 @@ extension MeasurementInterfaceController: DetectionManagerDelegate {
 	}
 
 	func managerDidRaiseAlert(_ manager: DetectionManager) {
-		print("Vibration")
-		WKInterfaceDevice.current().play(.failure)
+		DispatchQueue.global(qos: .userInteractive).async {
+			print("Vibration")
+			WKInterfaceDevice.current().play(.failure)
+		}
 	}
 }
