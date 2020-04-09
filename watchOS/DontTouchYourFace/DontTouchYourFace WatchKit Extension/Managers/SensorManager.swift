@@ -15,7 +15,7 @@ final class SensorManager {
 	typealias SensorHandler = ([SensorData]?, Error?) -> Void
 
 	enum SensorType {
-		case userAccelerometer
+		case userAcceleration
 		case magnetometer
 		case gravity
 	}
@@ -26,6 +26,7 @@ final class SensorManager {
 		let y: Double
 		let z: Double
 		var average: Double? = nil // for magnetometer
+		var slope: Slope? = nil
 
 		var norm: Double {
 			let powNorm = pow(x, 2) + pow(y, 2) + pow(z, 2)
@@ -36,14 +37,17 @@ final class SensorManager {
 			switch type {
 			case .gravity:
 				let pitch = atan2(-x, sqrt(pow(y, 2) + pow(z, 2))) * (180 / .pi)
-				return pitch >= 20 && pitch <= 100
+				return pitch >= 30 && pitch <= 100
 			case .magnetometer:
 				guard let average = average else {
 					return false
 				}
 				return average >= 0.15
-			case .userAccelerometer:
-				return z >= Double(Threshold.Acceleration.accelerationThreshold)
+			case .userAcceleration:
+				guard let slope = slope else {
+					return false
+				}
+				return slope == .up
 			}
 		}
 	}
@@ -51,6 +55,7 @@ final class SensorManager {
 	// MARK: - Properties
 	private var saveMagnetometerDataInBuffer: Bool = false
 	private var magnetometerBuffer: RingBuffer<Double>
+	private var slopeBuffer: RingBuffer<Double>
 
 	private let queue: OperationQueue = {
 		let queue = OperationQueue()
@@ -86,7 +91,8 @@ final class SensorManager {
 	static let shared = SensorManager()
 
 	private init() {
-		magnetometerBuffer = RingBuffer(count: Int(Constant.sensorDataFrequency) * Constant.collectionDataSeconds)
+		magnetometerBuffer = RingBuffer(count: Int(Constant.sensorDataFrequency) * Constant.magnetometerCollectionDataSeconds)
+		slopeBuffer = RingBuffer(count: Int(Constant.sensorDataFrequency * Constant.accelerationCollectionDataSeconds))
 	}
 
 	// MARK: - Helper functions
@@ -133,16 +139,20 @@ final class SensorManager {
 				z: deviceMotion.gravity.z
 			)
 
-			let accelerometer = SensorData(
-				type: .userAccelerometer,
-				x: deviceMotion.userAcceleration.x,
-				y: deviceMotion.userAcceleration.y,
-				z: deviceMotion.userAcceleration.z
+			var userAcceleration = SensorData(
+				type: .userAcceleration,
+				x: deviceMotion.gravity.x,
+				y: deviceMotion.gravity.y,
+				z: deviceMotion.gravity.z
 			)
+
+			let theha = atan2(-userAcceleration.x, sqrt(pow(userAcceleration.y, 2) + pow(userAcceleration.z, 2))) * (180 / .pi)
+			_self.slopeBuffer.write(theha)
+			userAcceleration.slope = _self.slopeBuffer.slope
 
 			var sensorsData: [SensorData] = [
 				gravity,
-				accelerometer
+				userAcceleration
 			]
 
 			let magnetometer: SensorData? = {
@@ -182,14 +192,16 @@ final class SensorManager {
 			let isInContinuosCalibrationMode = !gravity.isAlertConditionVerified
 
 			// If the user wants to collect the magnetometer data
-			if _self.isMagnetometerCollectionDataEnabledFromUser && isInContinuosCalibrationMode {
-				_self.magnetometerBuffer.write(notNilMagnetometer.norm)
+			if _self.isMagnetometerCollectionDataEnabledFromUser {
+				// Update the buffer with the new incoming data if it's in calibration mode
+				if isInContinuosCalibrationMode {
+					_self.magnetometerBuffer.write(notNilMagnetometer.norm)
+				}
+				// Set the average for the magnetometer
+				notNilMagnetometer.average = _self.magnetometerBuffer.average
+				// Append to the list of available sensor's data
+				sensorsData.append(notNilMagnetometer)
 			}
-
-			// set up the average for the magnetometer
-			notNilMagnetometer.average = _self.magnetometerBuffer.average
-			// Append to the list of available sensor's data
-			sensorsData.append(notNilMagnetometer)
 			callHandler(sensorsData, nil)
 		}
 	}

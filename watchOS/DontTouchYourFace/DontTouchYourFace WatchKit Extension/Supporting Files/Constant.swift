@@ -16,7 +16,8 @@ enum Constant {
 	static let magneticFieldCrownStep: Float = 0.01
 	static let crownSensitivity: Double = 0.1
 
-	static let collectionDataSeconds = 5
+	static let magnetometerCollectionDataSeconds = 5
+	static let accelerationCollectionDataSeconds = 0.25
 	static let sensorDataFrequency: Double = 50 // in hz
 
 	static let startButtonText = "Start"
