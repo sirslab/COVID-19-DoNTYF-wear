@@ -57,7 +57,7 @@ final class MeasurementInterfaceController: WKInterfaceController {
 				}
 
 				// Check wirst side for asin
-				let theha = -asin(xGravityComponent) * 180 / .pi
+				let theha = atan2(-gravityValues!.x, sqrt(pow(gravityValues!.y, 2) + pow(gravityValues!.z, 2))) * (180 / .pi)
 				let dataString = String(format: "X Θ: %.2f\nZ acc: %.2f\n M𝜇: %.2f", theha, zAccelerationComponent, magnetometerAverage)
 				_self.dataLabel.setText(dataString)
 			}

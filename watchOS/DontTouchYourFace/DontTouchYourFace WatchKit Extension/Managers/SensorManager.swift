@@ -34,7 +34,8 @@ final class SensorManager {
 		var isAlertConditionVerified: Bool {
 			switch type {
 			case .gravity:
-				return x >= -1 && x <= -0.25
+				let pitch = atan2(-x, sqrt(pow(y, 2) + pow(z, 2))) * (180 / .pi)
+				return pitch >= 20 && pitch <= 100
 			case .magnetometer:
 				guard let average = average else {
 					return false
