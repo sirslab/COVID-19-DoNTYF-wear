@@ -60,7 +60,8 @@ Yaw is not required for our purpose.
 
 1. During the hand selection phase, fill the buffer with Norm of the magnetometer readings. Then calculate average (AVG) and standard deviation (STDDEV). 
 To calculate the standard deviation use either the function implemeted for the buffer structure if available (e.g. buffer.std) or the standard formula:
-STDDEV = sqrt( (sum(        (     (RAW(t) - AVG)^2     )     /N)    )    ), where RAW(t) is the current raw sample in the buffer.
+![] (images/STDDEV.png)
+where RAW(t) is the current raw sample in the buffer.
 2. After pressing the CALIBRATE button (this should work both during initial calibration and after pressing the calibration button in the main activity) stop filling the offset buffer. Instead, look for the maximum value measured in 5 seconds (always subtracting the offset from the raw value). At the end of the calibration phase, our calibration/scaling factor is given by the MAXIMUM value recorded divided by the standard deviation (STDDEV) previously measured.
 calFactor = MAX/STDDEV
 3. In the main activity, when the accelerometer condition is checked and the current value (raw norm - offset) is higher than (STAND DEV )*(calibration factor), send an alert.
