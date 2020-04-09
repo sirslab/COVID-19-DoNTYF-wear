@@ -11,28 +11,48 @@ import Foundation
 import CoreMotion
 
 final class MeasurementInterfaceController: WKInterfaceController {
-	@IBOutlet private var dataLabel: WKInterfaceLabel!
+	// MARK: - Outlets and properties
+	// Labels for the data
+	@IBOutlet private var armAngleLabel: WKInterfaceLabel!
+	@IBOutlet private var zAccelerationLabel: WKInterfaceLabel!
+	@IBOutlet private var magneticFieldNormAvgLabel: WKInterfaceLabel!
 
+	// Label and slider for the thresholds
 	@IBOutlet private var accelerationThresholdLabel: WKInterfaceLabel!
 	@IBOutlet private var accelerationThresholdSlider: WKInterfaceSlider!
+
+	@IBOutlet private var magneticFieldLabel: WKInterfaceLabel!
+	@IBOutlet private var magneticFieldSlider: WKInterfaceSlider!
 
 	@IBOutlet private var startStopButton: WKInterfaceButton!
 	@IBOutlet private var calibrateButton: WKInterfaceButton!
 
 	private let detectionManager = DetectionManager()
+	private var lastTouchedSlider: WKInterfaceSlider?
 	private var crownAccumulator = 0.0
 
+	// MARK: - Controller Lifecycle
 	override func awake(withContext context: Any?) {
         super.awake(withContext: context)
+		setupUI()
+		setupInitialValue()
+		startDetection()
+    }
 
-		setupAccelerationThresholdSlider()
-		updateAccelerationThreshold(Float(Threshold.Acceleration.accelerationThreshold))
-
-		calibrateButton.setBackgroundColor(Constant.Color.blue)
-		dataLabel.setText("Press start")
-
+	// MARK: - Helper methods
+	private func setupUI() {
 		crownSequencer.delegate = self
+		setupAccelerationThresholdSlider()
+		setupMagneticFieldThresholdSlider()
+		calibrateButton.setBackgroundColor(Constant.Color.blue)
+	}
 
+	private func setupInitialValue() {
+		updateAccelerationThreshold(Threshold.Acceleration.accelerationThreshold)
+		updateMagneticFieldThreshold(Threshold.MagneticField.magneticFieldThreshold)
+	}
+
+	private func startDetection() {
 		detectionManager.delegate = self
 		detectionManager.sensorCallback = { [weak self] result in
 			guard let _self = self else {
@@ -41,15 +61,19 @@ final class MeasurementInterfaceController: WKInterfaceController {
 
 			switch result {
 			case .error(let errorString):
-				_self.dataLabel.setText(errorString)
-			case .data(let sensorsData):
+				let errorMessage = "Error"
+				_self.armAngleLabel.setText(errorMessage)
+				_self.zAccelerationLabel.setText(errorMessage)
+				_self.magneticFieldNormAvgLabel.setText(errorMessage)
 
+				print(errorString)
+			case .data(let sensorsData):
 				let gravityValues = sensorsData.first { $0.type == .gravity }
 				let accelerometerValues = sensorsData.first { $0.type == .userAccelerometer }
 				let magnetometerValues = sensorsData.first { $0.type == .magnetometer }
 
 				guard
-					let xGravityComponent = gravityValues?.x,
+					let gravityComponents = gravityValues,
 					let zAccelerationComponent = accelerometerValues?.z,
 					let magnetometerAverage = magnetometerValues?.average
 				else {
@@ -57,16 +81,17 @@ final class MeasurementInterfaceController: WKInterfaceController {
 				}
 
 				// Check wirst side for asin
-				let theha = atan2(-gravityValues!.x, sqrt(pow(gravityValues!.y, 2) + pow(gravityValues!.z, 2))) * (180 / .pi)
-				let dataString = String(format: "X Θ: %.2f\nZ acc: %.2f\n M𝜇: %.2f", theha, zAccelerationComponent, magnetometerAverage)
-				_self.dataLabel.setText(dataString)
+				let theha = atan2(-gravityComponents.x, sqrt(pow(gravityComponents.y, 2) + pow(gravityComponents.z, 2))) * (180 / .pi)
+
+				let thetaString = String(format: "%.2f", theha)
+				let zAccelerationString = String(format: "%.2f", zAccelerationComponent)
+				let magneticFieldAverageNormString = String(format: "%.2f", magnetometerAverage)
+
+				_self.armAngleLabel.setText(thetaString)
+				_self.zAccelerationLabel.setText(zAccelerationString)
+				_self.magneticFieldNormAvgLabel.setText(magneticFieldAverageNormString)
 			}
 		}
-    }
-
-	override func willActivate() {
-		super.willActivate()
-		crownSequencer.focus()
 	}
 
 	private func setupAccelerationThresholdSlider() {
@@ -74,8 +99,58 @@ final class MeasurementInterfaceController: WKInterfaceController {
 		accelerationThresholdSlider.setNumberOfSteps(Int(steps))
 	}
 
-	@IBAction private func didChangeSliderValue(_ value: Float) {
+	private func setupMagneticFieldThresholdSlider() {
+		let steps = (Threshold.MagneticField.maxValue - Threshold.MagneticField.minValue) / Constant.crownStep
+		magneticFieldSlider.setNumberOfSteps(Int(steps))
+	}
+
+	private func updateAccelerationThreshold(_ value: Float) {
+		guard value <= Threshold.Acceleration.maxValue && value >= Threshold.Acceleration.minValue else {
+			WKInterfaceDevice.current().play(.failure)
+			return
+		}
+
+		WKInterfaceDevice.current().play(.click)
+		let thresholdString = String(format: "Z Acc Thr %.2f", value)
+		accelerationThresholdLabel.setText(thresholdString)
+		accelerationThresholdSlider.setValue(value)
+		Threshold.Acceleration.accelerationThreshold = value
+	}
+
+	private func updateMagneticFieldThreshold(_ value: Float) {
+		guard value <= Threshold.MagneticField.maxValue && value >= Threshold.MagneticField.minValue else {
+			WKInterfaceDevice.current().play(.failure)
+			return
+		}
+
+		WKInterfaceDevice.current().play(.click)
+		let thresholdString = String(format: "M𝜇 Thr %.2f", value)
+		magneticFieldLabel.setText(thresholdString)
+		magneticFieldSlider.setValue(value)
+		Threshold.MagneticField.magneticFieldThreshold = value
+	}
+
+	private func setStopActivityUI() {
+		startStopButton.setBackgroundColor(Constant.Color.green)
+		startStopButton.setTitle(Constant.startButtonText)
+	}
+
+	private func setRunningActivityUI() {
+		startStopButton.setBackgroundColor(Constant.Color.red)
+		startStopButton.setTitle(Constant.stopButtonText)
+	}
+
+	// MARK: - Actions
+	@IBAction private func didChangeAccelerationSliderValue(_ value: Float) {
+		lastTouchedSlider = accelerationThresholdSlider
+		crownSequencer.focus()
 		updateAccelerationThreshold(value)
+	}
+
+	@IBAction func didChangeMagneticFieldSliderValue(_ value: Float) {
+		lastTouchedSlider = magneticFieldSlider
+		crownSequencer.focus()
+		updateMagneticFieldThreshold(value)
 	}
 
 	@IBAction private func didTapStartStop() {
@@ -86,38 +161,31 @@ final class MeasurementInterfaceController: WKInterfaceController {
 		let isRecalibration = true
 		pushController(withName: CalibrationInterfaceController.identifier, context: isRecalibration)
 	}
-
-	private func updateAccelerationThreshold(_ value: Float) {
-		guard value <= Threshold.Acceleration.maxValue && value >= Threshold.Acceleration.minValue else {
-			return
-		}
-		accelerationThresholdLabel.setText("\(value)")
-		accelerationThresholdSlider.setValue(value)
-		Threshold.Acceleration.accelerationThreshold = value
-	}
-
-	private func setStopActivityUI() {
-		startStopButton.setBackgroundColor(Constant.Color.green)
-		startStopButton.setTitle(Constant.startButtonText)
-		dataLabel.setText(Constant.notReadingDataText)
-	}
-
-	private func setRunningActivityUI() {
-		startStopButton.setBackgroundColor(Constant.Color.red)
-		startStopButton.setTitle(Constant.stopButtonText)
-		dataLabel.setText("")
-	}
 }
 
 extension MeasurementInterfaceController: WKCrownDelegate {
 	func crownDidRotate(_ crownSequencer: WKCrownSequencer?, rotationalDelta: Double) {
 		crownAccumulator += rotationalDelta
-		if crownAccumulator > Constant.crownSensitivity {
-			updateAccelerationThreshold(Threshold.Acceleration.accelerationThreshold + Constant.crownStep)
-		   crownAccumulator = 0.0
-		} else if crownAccumulator < -Constant.crownSensitivity {
-			updateAccelerationThreshold(Threshold.Acceleration.accelerationThreshold - Constant.crownStep)
-		   crownAccumulator = 0.0
+
+		switch lastTouchedSlider {
+		case accelerationThresholdSlider?:
+			if crownAccumulator > Constant.crownSensitivity {
+				updateAccelerationThreshold(Threshold.Acceleration.accelerationThreshold + Constant.crownStep)
+			   crownAccumulator = 0.0
+			} else if crownAccumulator < -Constant.crownSensitivity {
+				updateAccelerationThreshold(Threshold.Acceleration.accelerationThreshold - Constant.crownStep)
+			   crownAccumulator = 0.0
+			}
+		case magneticFieldSlider?:
+			if crownAccumulator > Constant.crownSensitivity {
+				updateMagneticFieldThreshold(Threshold.MagneticField.magneticFieldThreshold + Constant.crownStep)
+			   crownAccumulator = 0.0
+			} else if crownAccumulator < -Constant.crownSensitivity {
+				updateMagneticFieldThreshold(Threshold.MagneticField.magneticFieldThreshold - Constant.crownStep)
+			   crownAccumulator = 0.0
+			}
+		default:
+			break
 		}
 	}
 }

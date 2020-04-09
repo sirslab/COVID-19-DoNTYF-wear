@@ -14,4 +14,15 @@ enum Threshold {
 		static let minValue: Float = 0
 		static let maxValue: Float = 0.7
 	}
+
+	enum MagneticField {
+		static let minValue: Float = 0
+		static let maxValue: Float = 1
+		static var magneticFieldThreshold: Float = 0.15
+	}
+
+	enum Angle {
+		static let minValue: Float = 20
+		static let maxValue: Float = 90
+	}
 }

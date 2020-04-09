@@ -59,6 +59,7 @@ final class CalibrationInterfaceController: WKInterfaceController {
 			SensorManager.shared.stopMagnetometerCalibration()
 			return
 		}
+		WKInterfaceDevice.current().play(.directionDown)
 		countdown -= 1
 		countdownLabel.setText("\(countdown)")
 	}

@@ -21,7 +21,6 @@ enum Constant {
 	static let sensorDataFrequency: Double = 50 // in hz
 
 	static let startButtonText = "Start"
-	static let notReadingDataText = "Press start"
 	static let stopButtonText = "Stop"
 
 	static let calibrationCountdown = 5
