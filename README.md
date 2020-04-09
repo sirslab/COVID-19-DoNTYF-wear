@@ -3,7 +3,6 @@
 ## Installation and Usage
 
 ### Website
-[Offical app Website](https://sites.google.com/d/1qzfLlL8PLylVsKk7v1anWFwWKd_z00MN/p/136BS4jahodWvdjo-YWIOxO9dFwGnpBIq)
 [Offical app Website](http://www.nofacetouch.org)
 
 ### APK
