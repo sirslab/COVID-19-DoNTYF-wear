@@ -44,9 +44,9 @@ Considering that the magnetic field shows substantial fluctutations in the envir
      <td>Main Screen</td>
   </tr>
   <tr>
-    <td><a href="images/Hand_choice_block.png" target="_blank"><img src="images/Hand_choice_block.png" width=270></a></td>
-    <td><a href="images/Block_calib_screen.png" target="_blank"><img src="images/Block_calib_screen.png" width=270></a></td>
-    <td><a href="images/Block_main_screen.png" target="_blank"><img src="images/Block_main_screen.png" width=270></a></td>
+    <td><a href="https://github.com/sirslab/COVID-19-DoNTYF-wear/blob/master/images/Hand_choice_block.png" target="_blank"><img src="images/Hand_choice_block.png" width=270></a></td>
+    <td><a href="https://github.com/sirslab/COVID-19-DoNTYF-wear/blob/master/images/Block_calib_screen.png" target="_blank"><img src="images/Block_calib_screen.png" width=270></a></td>
+    <td><a href="https://github.com/sirslab/COVID-19-DoNTYF-wear/blob/master/images/Block_main_screen.png" target="_blank"><img src="images/Block_main_screen.png" width=270></a></td>
   </tr>
  </table>
 
