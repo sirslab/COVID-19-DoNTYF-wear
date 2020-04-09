@@ -31,10 +31,17 @@ After the calibration, the app estimates the hand orientation through accelerome
 
 Considering that the magnetic field shows substantial fluctutations in the enviroment, mostly due to EM sources and ferromagnetic materials, the baseline value is updated frequently. In particular, when the accelerometer data suggest that the hand is not pointing upward, the alerts (vibrations) are disabled and the magnetic field measurements are collected in the list to update the baseline value. 
 
+## Block Diagrams
+<p float="left">
+  <img src="images/Hand_choice_block.png" width="100" />
+  <img src="images/Block_calib_screen.png" width="100" />
+  <img src="images/Block_main_screen.png" width="100" />
+</p>
+
 ## Block diagram
 
 ### Hand Selection Screen
-![](images/Hand_choice_block.png=100x)
+![](images/Hand_choice_block.png)
 
 ### Calibration Screen
 ![](images/Block_calib_screen.png)
