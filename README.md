@@ -32,23 +32,19 @@ After the calibration, the app estimates the hand orientation through accelerome
 Considering that the magnetic field shows substantial fluctutations in the enviroment, mostly due to EM sources and ferromagnetic materials, the baseline value is updated frequently. In particular, when the accelerometer data suggest that the hand is not pointing upward, the alerts (vibrations) are disabled and the magnetic field measurements are collected in the list to update the baseline value. 
 
 ## Block Diagrams
-<p float="left">
-  <img src="images/Hand_choice_block.png" width="100" />
-  <img src="images/Block_calib_screen.png" width="100" />
-  <img src="images/Block_main_screen.png" width="100" />
-</p>
+<table>
+  <tr>
+    <td>Hand Selection</td>
+     <td>Calibration</td>
+     <td>Main Screen</td>
+  </tr>
+  <tr>
+    <td><a href="images/Hand_choice_block.png" target="_blank"><img src="images/Hand_choice_block.png" width=270></a></td>
+    <td><a href="images/Block_calib_screen.png" target="_blank"><img src="images/Block_calib_screen.png" width=270></a></td>
+    <td><a href="images/Block_main_screen.png" target="_blank"><img src="images/Block_main_screen.png" width=270></a></td>
+  </tr>
+ </table>
 
-## Block diagram
-
-### Hand Selection Screen
-![](images/Hand_choice_block.png)
-
-### Calibration Screen
-![](images/Block_calib_screen.png)
-
-
-### Main Screen
-![](images/Block_main_screen.png)
 
 To calculate Roll, Pitch and Yaw we used the following formula:
 ```
@@ -56,4 +52,5 @@ roll = atan2(acc[1], acc[2]) * 180/PI
 pitch = atan2(-acc[0], sqrt(acc[1]*acc[1] + acc[2]*acc[2])) * 180/PI
 yaw = 0
 ```
-where acc[0], acc[1] and acc[2] represent the accelerations sensed along the x, y and z axes, respectively. At this development stage we find the yaw unuseful for our purpose.
+where acc[0], acc[1] and acc[2] represent the accelerations sensed along the x, y and z axes, respectively.
+Yaw is not required for our purpose.
