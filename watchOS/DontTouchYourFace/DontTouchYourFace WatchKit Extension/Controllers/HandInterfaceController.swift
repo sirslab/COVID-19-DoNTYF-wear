@@ -10,6 +10,8 @@ import WatchKit
 import Foundation
 
 final class HandInterfaceController: WKInterfaceController {
+	@IBOutlet private var contentLabel: WKInterfaceLabel!
+
 	@IBAction private func didTapLeftHandButton() {
 		// Save the selected hand side
 		UserDefaults.standard.set(Hand.left.rawValue, forKey: Constant.handKey)
@@ -24,5 +26,10 @@ final class HandInterfaceController: WKInterfaceController {
 
 	private func showNextController() {
 		pushController(withName: CalibrationInterfaceController.identifier, context: nil)
+	}
+
+	override func awake(withContext context: Any?) {
+		super.awake(withContext: context)
+		contentLabel.setText(Constant.Message.handSelectionMessage)
 	}
 }

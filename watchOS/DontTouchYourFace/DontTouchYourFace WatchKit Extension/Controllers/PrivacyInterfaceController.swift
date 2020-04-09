@@ -11,7 +11,8 @@ import WatchKit
 
 final class PrivacyInterfaceController: WKInterfaceController {
 	@IBOutlet private var denyButton: WKInterfaceButton!
-	
+	@IBOutlet private var contentLabel: WKInterfaceLabel!
+
 	@IBAction private func didTapDenyButton() {
 		// Show the message controller with the denied privacy message
 		presentController(withName: MessageInterfaceController.identifier, context: Constant.Message.deniedPrivacy)
@@ -26,5 +27,6 @@ final class PrivacyInterfaceController: WKInterfaceController {
 	override func awake(withContext context: Any?) {
 		super.awake(withContext: context)
 		denyButton.setBackgroundColor(Constant.Color.red)
+		contentLabel.setText(Constant.Message.privacyMessage)
 	}
 }

@@ -27,6 +27,7 @@ final class CalibrationInterfaceController: WKInterfaceController {
 		if let isRecalibration = context as? Bool {
 			self.isRecalibration = isRecalibration
 		}
+		calibrationLabel.setText(Constant.Message.calibrationMessage)
 		calibrateButton.setBackgroundColor(Constant.Color.blue)
 	}
 	
