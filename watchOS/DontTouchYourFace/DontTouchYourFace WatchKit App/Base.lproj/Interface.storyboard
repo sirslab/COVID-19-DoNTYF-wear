@@ -9,7 +9,7 @@
         <!--PrivacyInterfaceController-->
         <scene sceneID="wku-lI-JfL">
             <objects>
-                <controller identifier="PrivacyInterfaceController" id="I87-tb-CZO" customClass="PrivacyInterfaceController" customModule="DontTouchYourFace_WatchKit_App" customModuleProvider="target">
+                <controller identifier="PrivacyInterfaceController" id="I87-tb-CZO" customClass="PrivacyInterfaceController" customModule="DTYF" customModuleProvider="target">
                     <items>
                         <label alignment="left" numberOfLines="0" id="riF-OI-gAC">
                             <string key="text">This app collects data from an accelerometer and magnetometer integrated in the device in order to  estimate the wheater an user is approaching his hands towards his face</string>
@@ -36,7 +36,7 @@
         <!--MessageInterfaceController-->
         <scene sceneID="eeC-Wp-KFv">
             <objects>
-                <controller identifier="MessageInterfaceController" id="U6O-AP-i5U" customClass="MessageInterfaceController" customModule="DontTouchYourFace_WatchKit_App" customModuleProvider="target">
+                <controller identifier="MessageInterfaceController" id="U6O-AP-i5U" customClass="MessageInterfaceController" customModule="DTYF" customModuleProvider="target">
                     <items>
                         <label alignment="center" verticalAlignment="center" text="Sorry but this device is not supported" numberOfLines="0" id="jtv-5G-QOm"/>
                     </items>
@@ -50,7 +50,7 @@
         <!--HandInterfaceController-->
         <scene sceneID="RQN-hR-iBA">
             <objects>
-                <controller identifier="HandInterfaceController" id="K4E-74-e1I" customClass="HandInterfaceController" customModule="DontTouchYourFace_WatchKit_App" customModuleProvider="target">
+                <controller identifier="HandInterfaceController" id="K4E-74-e1I" customClass="HandInterfaceController" customModule="DTYF" customModuleProvider="target">
                     <items>
                         <label alignment="center" text="Do you wear the smartwatch on the left or on the right?" textAlignment="center" numberOfLines="0" minimumScaleFactor="0.80000000000000004" id="Xlh-OU-oo0"/>
                         <group width="1" alignment="left" verticalAlignment="bottom" id="1Lb-EE-22d">
@@ -75,7 +75,7 @@
         <!--CalibrationInterfaceController-->
         <scene sceneID="DFC-rn-yfh">
             <objects>
-                <controller identifier="CalibrationInterfaceController" id="TJB-z1-S2u" customClass="CalibrationInterfaceController" customModule="DontTouchYourFace_WatchKit_App" customModuleProvider="target">
+                <controller identifier="CalibrationInterfaceController" id="TJB-z1-S2u" customClass="CalibrationInterfaceController" customModule="DTYF" customModuleProvider="target">
                     <items>
                         <label alignment="center" verticalAlignment="center" hidden="YES" text="[COUNTDOWN]" id="qgG-rJ-4xy"/>
                         <label alignment="center" text="After pressing the button, move your hand in front of you for 5 seconds to calibrate the magnetic sensor" textAlignment="center" numberOfLines="0" id="5x9-F0-6gU"/>
@@ -98,7 +98,7 @@
         <!--MeasurementInterfaceController-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller identifier="MeasurementInterfaceController" spacing="8" id="AgC-eL-Hgc" customClass="MeasurementInterfaceController" customModule="DontTouchYourFace_WatchKit_App" customModuleProvider="target">
+                <controller identifier="MeasurementInterfaceController" spacing="8" id="AgC-eL-Hgc" customClass="MeasurementInterfaceController" customModule="DTYF" customModuleProvider="target">
                     <items>
                         <group width="1" alignment="center" id="ccl-ed-Sdz">
                             <items>
@@ -163,7 +163,7 @@
                                                 <label alignment="left" text="[Z ACC THRESHOLD]" textAlignment="left" id="AoK-Hg-TrN">
                                                     <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                 </label>
-                                                <slider width="1" height="30" alignment="left" value="0.10000000000000001" minimum="0.10000000000000001" maximum="0.69999999999999996" steps="7" id="0AZ-ZL-g3t">
+                                                <slider width="1" height="30" alignment="left" value="0.14999999999999999" minimum="0.14999999999999999" maximum="0.5" steps="35" id="0AZ-ZL-g3t">
                                                     <connections>
                                                         <action selector="didChangeAccelerationSliderValue:" destination="AgC-eL-Hgc" id="i5C-DW-vaF"/>
                                                     </connections>
@@ -175,7 +175,7 @@
                                                 <label alignment="left" text="[M𝜇 THRESHOLD]" textAlignment="left" id="Z6Y-o5-6h5">
                                                     <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                 </label>
-                                                <slider width="1" height="30" alignment="left" value="0.14999999999999999" minimum="0.14999999999999999" maximum="0.90000000000000002" steps="5" id="4mM-6g-owt">
+                                                <slider width="1" height="30" alignment="left" value="0.14999999999999999" minimum="0.14999999999999999" steps="85" id="4mM-6g-owt">
                                                     <connections>
                                                         <action selector="didChangeMagneticFieldSliderValue:" destination="AgC-eL-Hgc" id="RK0-iu-bOL"/>
                                                     </connections>
@@ -222,14 +222,14 @@
         <!--Notification Controller-->
         <scene sceneID="ZPc-GJ-vnh">
             <objects>
-                <controller id="4sK-HA-Art" customClass="NotificationController" customModule="DontTouchYourFace_WatchKit_App" customModuleProvider="target"/>
+                <controller id="4sK-HA-Art" customClass="NotificationController" customModule="DTYF" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="432" y="1139"/>
         </scene>
         <!--Notification Controller-->
         <scene sceneID="Niz-AI-uX2">
             <objects>
-                <controller id="eXb-UN-Cd0" customClass="NotificationController" customModule="DontTouchYourFace_WatchKit_App" customModuleProvider="target"/>
+                <controller id="eXb-UN-Cd0" customClass="NotificationController" customModule="DTYF" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="412" y="721"/>
         </scene>

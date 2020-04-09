@@ -14,7 +14,8 @@ enum Constant {
 	static let rightHand = "right"
 	static let handKey = "handSide"
 
-	static let crownStep: Float = 0.1
+	static let accelerationCrownStep: Float = 0.01
+	static let magneticFieldCrownStep: Float = 0.01
 	static let crownSensitivity: Double = 0.1
 
 	static let collectionDataSeconds = 10

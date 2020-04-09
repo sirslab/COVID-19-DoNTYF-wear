@@ -107,12 +107,12 @@ final class MeasurementInterfaceController: WKInterfaceController {
 	}
 
 	private func setupAccelerationThresholdSlider() {
-		let steps = (Threshold.Acceleration.maxValue - Threshold.Acceleration.minValue) / Constant.crownStep
+		let steps = (Threshold.Acceleration.maxValue - Threshold.Acceleration.minValue) / Constant.accelerationCrownStep
 		accelerationThresholdSlider.setNumberOfSteps(Int(steps))
 	}
 
 	private func setupMagneticFieldThresholdSlider() {
-		let steps = (Threshold.MagneticField.maxValue - Threshold.MagneticField.minValue) / Constant.crownStep
+		let steps = (Threshold.MagneticField.maxValue - Threshold.MagneticField.minValue) / Constant.magneticFieldCrownStep
 		magneticFieldSlider.setNumberOfSteps(Int(steps))
 	}
 
@@ -136,7 +136,7 @@ final class MeasurementInterfaceController: WKInterfaceController {
 		}
 
 		WKInterfaceDevice.current().play(.click)
-		let thresholdString = String(format: "M𝜇 Thr %.2f", value)
+		let thresholdString = String(format: "M offset %.2f", value)
 		magneticFieldLabel.setText(thresholdString)
 		magneticFieldSlider.setValue(value)
 		Threshold.MagneticField.magneticFieldThreshold = value
@@ -182,18 +182,18 @@ extension MeasurementInterfaceController: WKCrownDelegate {
 		switch lastTouchedSlider {
 		case accelerationThresholdSlider?:
 			if crownAccumulator > Constant.crownSensitivity {
-				updateAccelerationThreshold(Threshold.Acceleration.accelerationThreshold + Constant.crownStep)
+				updateAccelerationThreshold(Threshold.Acceleration.accelerationThreshold + Constant.accelerationCrownStep)
 			   crownAccumulator = 0.0
 			} else if crownAccumulator < -Constant.crownSensitivity {
-				updateAccelerationThreshold(Threshold.Acceleration.accelerationThreshold - Constant.crownStep)
+				updateAccelerationThreshold(Threshold.Acceleration.accelerationThreshold - Constant.accelerationCrownStep)
 			   crownAccumulator = 0.0
 			}
 		case magneticFieldSlider?:
 			if crownAccumulator > Constant.crownSensitivity {
-				updateMagneticFieldThreshold(Threshold.MagneticField.magneticFieldThreshold + Constant.crownStep)
+				updateMagneticFieldThreshold(Threshold.MagneticField.magneticFieldThreshold + Constant.magneticFieldCrownStep)
 			   crownAccumulator = 0.0
 			} else if crownAccumulator < -Constant.crownSensitivity {
-				updateMagneticFieldThreshold(Threshold.MagneticField.magneticFieldThreshold - Constant.crownStep)
+				updateMagneticFieldThreshold(Threshold.MagneticField.magneticFieldThreshold - Constant.magneticFieldCrownStep)
 			   crownAccumulator = 0.0
 			}
 		default:
