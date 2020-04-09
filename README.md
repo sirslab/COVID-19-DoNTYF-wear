@@ -11,7 +11,7 @@
 ## TODOs
 - [ ] Aggiungere file per salvataggio preferenze (Privacy, Soglia, Mano)
 - [x] Mettere il testo della privacy scrollabile
-- [ ] Aggiungere un bip
+- [x] Aggiungere un bip
 
 ## The idea behind the app
 To help us stopping to touch our faces we developed a simple and free app that let your smartwatch vibrate and ring as soon as you get closer to your face. The face is detected by using a small cheap magnet at your necklace.  
@@ -34,7 +34,7 @@ Considering that the magnetic field shows substantial fluctutations in the envir
 ## Block diagram
 
 ### Hand Selection Screen
-![](images/Hand_choice_block.png)
+![](images/Hand_choice_block.png=100x)
 
 ### Calibration Screen
 ![](images/Block_calib_screen.png)
