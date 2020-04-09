@@ -10,7 +10,7 @@ import WatchKit
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
     func applicationDidFinishLaunching() {
-		let setupManager = SetupManager(userDefaults: .standard)
+		let setupManager = SetupManager()
 
 		guard SensorManager.shared.isDeviceSupported else {
 			WKInterfaceController.reloadRootPageControllers(withNames: [MessageInterfaceController.identifier], contexts: [Constant.Message.unsopportedDevice], orientation: .vertical, pageIndex: 0)

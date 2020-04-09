@@ -9,12 +9,13 @@
 import Foundation
 import WatchKit
 
+// A controller which shows a message
 final class MessageInterfaceController: WKInterfaceController {
 	@IBOutlet private var centredLabel: WKInterfaceLabel!
 
 	override func awake(withContext context: Any?) {
 		super.awake(withContext: context)
-
+		// Show the messaged passed as content
 		if let text = context as? String {
 			centredLabel.setText(text)
 		}

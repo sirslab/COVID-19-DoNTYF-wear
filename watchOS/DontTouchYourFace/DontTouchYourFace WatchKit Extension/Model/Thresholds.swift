@@ -10,14 +10,14 @@ import Foundation
 
 enum Threshold {
 	enum Acceleration {
-		static var accelerationThreshold: Float = 0.5
+		static var accelerationThreshold: Float = 0.1
 		static let minValue: Float = 0
 		static let maxValue: Float = 0.7
 	}
 
 	enum MagneticField {
 		static let minValue: Float = 0
-		static let maxValue: Float = 1
+		static let maxValue: Float = 0.90
 		static var magneticFieldThreshold: Float = 0.15
 	}
 
