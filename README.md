@@ -58,8 +58,6 @@ Yaw is not required for our purpose.
 
 ### TODOs
 
-![](images/Block_calib_screen.png)
-
 1. During the hand selection phase, fill the buffer with Norm of the magnetometer readings. Then calculate average (AVG) and standard deviation (STDDEV). 
 To calculate the standard deviation use either the function implemeted for the buffer structure if available (e.g. buffer.std) or the standard formula:
 ![](images/STDDEV.png)
