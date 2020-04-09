@@ -3,7 +3,7 @@
 ## Installation and Usage
 
 ### Website
-[Offical app Website](https://sites.google.com/d/1qzfLlL8PLylVsKk7v1anWFwWKd_z00MN/p/136BS4jahodWvdjo-YWIOxO9dFwGnpBIq)
+[Offical app Website](http://www.nofacetouch.org)
 
 ### APK
 [Click here to download the APK file](https://github.com/sirslab/COVID-19-DoNTYF-wear/raw/master/app/build/outputs/apk/debug/app-debug.apk)
@@ -11,7 +11,7 @@
 ## TODOs
 - [ ] Aggiungere file per salvataggio preferenze (Privacy, Soglia, Mano)
 - [x] Mettere il testo della privacy scrollabile
-- [ ] Aggiungere un bip
+- [x] Aggiungere un bip
 
 ## The idea behind the app
 To help us stopping to touch our faces we developed a simple and free app that let your smartwatch vibrate and ring as soon as you get closer to your face. The face is detected by using a small cheap magnet at your necklace.  
@@ -31,17 +31,20 @@ After the calibration, the app estimates the hand orientation through accelerome
 
 Considering that the magnetic field shows substantial fluctutations in the enviroment, mostly due to EM sources and ferromagnetic materials, the baseline value is updated frequently. In particular, when the accelerometer data suggest that the hand is not pointing upward, the alerts (vibrations) are disabled and the magnetic field measurements are collected in the list to update the baseline value. 
 
-## Block diagram
+## Block Diagrams
+<table>
+  <tr>
+    <td>Hand Selection</td>
+     <td>Calibration</td>
+     <td>Main Screen</td>
+  </tr>
+  <tr>
+    <td><a href="images/Hand_choice_block.png" target="_blank"><img src="images/Hand_choice_block.png" width=270></a></td>
+    <td><a href="images/Block_calib_screen.png" target="_blank"><img src="images/Block_calib_screen.png" width=270></a></td>
+    <td><a href="images/Block_main_screen.png" target="_blank"><img src="images/Block_main_screen.png" width=270></a></td>
+  </tr>
+ </table>
 
-### Hand Selection Screen
-![](images/Hand_choice_block.png)
-
-### Calibration Screen
-![](images/Block_calib_screen.png)
-
-
-### Main Screen
-![](images/Block_main_screen.png)
 
 To calculate Roll, Pitch and Yaw we used the following formula:
 ```
@@ -49,4 +52,17 @@ roll = atan2(acc[1], acc[2]) * 180/PI
 pitch = atan2(-acc[0], sqrt(acc[1]*acc[1] + acc[2]*acc[2])) * 180/PI
 yaw = 0
 ```
-where acc[0], acc[1] and acc[2] represent the accelerations sensed along the x, y and z axes, respectively. At this development stage we find the yaw unuseful for our purpose.
+where acc[0], acc[1] and acc[2] represent the accelerations sensed along the x, y and z axes, respectively.
+Yaw is not required for our purpose.
+
+
+### TODOs
+
+1. During the hand selection phase, fill the buffer with Norm of the magnetometer readings. Then calculate average (AVG) and standard deviation (STDDEV). 
+To calculate the standard deviation use either the function implemeted for the buffer structure if available (e.g. buffer.std) or the standard formula:
+![](images/STDDEV.png)
+where RAW(t) is the current raw sample in the buffer.
+2. After pressing the CALIBRATE button (this should work both during initial calibration and after pressing the calibration button in the main activity) stop filling the offset buffer. Instead, look for the maximum value measured in 5 seconds (always subtracting the offset from the raw value). At the end of the calibration phase, our calibration/scaling factor is given by the MAXIMUM value recorded divided by the standard deviation (STDDEV) previously measured.
+calFactor = MAX/STDDEV
+3. In the main activity, when the accelerometer condition is checked and the current value (raw norm - offset) is higher than (STAND DEV )*(calibration factor), send an alert.
+4. The calibration factor can be automatically calculatd by pressing the CALIBRATE button in the main activity screen, and manually adjusted using the seekbar or (+/-) buttons.

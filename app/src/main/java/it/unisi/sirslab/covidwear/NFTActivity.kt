@@ -27,6 +27,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.media.AudioManager
 import android.media.ToneGenerator
+import android.media.ToneGenerator.TONE_CDMA_ABBR_ALERT
 import android.media.ToneGenerator.TONE_CDMA_SOFT_ERROR_LITE
 import android.os.Bundle
 import android.os.Vibrator
@@ -177,7 +178,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
         val t = System.currentTimeMillis()
         if (activeMonitoring && stateDanger && (lastVibTime +vibrationLength < t)) {
             vibrator .vibrate(vibrationLength.toLong())
-            toneGen.startTone(TONE_CDMA_SOFT_ERROR_LITE,vibrationLength) ///
+            toneGen.startTone(TONE_CDMA_ABBR_ALERT,vibrationLength) ///
             lastVibTime = t
             /*
             if (lastNotificationTime+2000 < t) {
