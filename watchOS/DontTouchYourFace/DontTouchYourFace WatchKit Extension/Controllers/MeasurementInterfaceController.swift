@@ -45,7 +45,6 @@ final class MeasurementInterfaceController: WKInterfaceController {
 			setupMagneticFieldThresholdSlider()
 			updateMagneticFieldThreshold(Threshold.MagneticField.magneticFieldThreshold)
 			calibrateButton.setBackgroundColor(Constant.Color.blue)
-
 		} else {
 			magneticFieldDataGroup.setHidden(true)
 			magneticFieldSliderGroup.setHidden(true)
@@ -152,6 +151,11 @@ final class MeasurementInterfaceController: WKInterfaceController {
 	@IBAction func didTapMagnetometerToggle(_ value: Bool) {
 		SensorManager.shared.isMagnetometerCollectionDataEnabledFromUser = value
 		magneticFieldSlider.setEnabled(value)
+
+		// Magnetometer disabled
+		if value == false {
+			crownSequencer.resignFocus()
+		}
 	}
 }
 

@@ -102,7 +102,7 @@
         <!--MeasurementInterfaceController-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller identifier="MeasurementInterfaceController" spacing="8" id="AgC-eL-Hgc" customClass="MeasurementInterfaceController" customModule="DTYF" customModuleProvider="target">
+                <controller identifier="MeasurementInterfaceController" spacing="8" alwaysBounce="YES" id="AgC-eL-Hgc" customClass="MeasurementInterfaceController" customModule="DTYF" customModuleProvider="target">
                     <items>
                         <group width="1" alignment="center" id="ccl-ed-Sdz">
                             <items>
@@ -160,28 +160,32 @@
                                         </group>
                                     </items>
                                 </group>
-                                <group width="1" alignment="left" layout="vertical" spacing="12" id="tZG-sf-maI">
+                                <group width="1" alignment="left" layout="vertical" spacing="6" id="tZG-sf-maI">
                                     <items>
                                         <label alignment="left" text="Settings" textAlignment="left" id="coC-g1-Trh">
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="font" style="UICTFontTextStyleCaption2"/>
+                                            <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
                                         </label>
-                                        <group width="1" alignment="center" layout="vertical" id="7Tp-01-TiU">
+                                        <group width="1" alignment="center" layout="vertical" spacing="8" id="7Tp-01-TiU">
                                             <items>
-                                                <switch width="1" height="35" alignment="left" value="YES" title="Magnetometer" numberOfLines="1" minimumScaleFactor="0.20000000000000001" id="uoW-Qi-zUB">
+                                                <switch width="1" height="42" alignment="left" value="YES" title="Magnetometer" numberOfLines="1" minimumScaleFactor="0.20000000000000001" id="uoW-Qi-zUB">
                                                     <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                     <connections>
                                                         <action selector="didTapMagnetometerToggle:" destination="AgC-eL-Hgc" id="4xQ-uR-Sjh"/>
                                                     </connections>
                                                 </switch>
-                                                <label alignment="left" text="[M𝜇 THRESHOLD]" textAlignment="left" id="Z6Y-o5-6h5">
-                                                    <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
-                                                </label>
-                                                <slider width="1" height="35" alignment="left" value="0.14999999999999999" minimum="0.14999999999999999" steps="85" id="4mM-6g-owt">
-                                                    <connections>
-                                                        <action selector="didChangeMagneticFieldSliderValue:" destination="AgC-eL-Hgc" id="RK0-iu-bOL"/>
-                                                    </connections>
-                                                </slider>
+                                                <group width="1" alignment="left" layout="vertical" id="sjr-ez-x5n">
+                                                    <items>
+                                                        <label alignment="left" text="[M𝜇 THRESHOLD]" textAlignment="left" id="Z6Y-o5-6h5">
+                                                            <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                                        </label>
+                                                        <slider width="1" height="35" alignment="left" value="0.14999999999999999" minimum="0.14999999999999999" steps="85" id="4mM-6g-owt">
+                                                            <connections>
+                                                                <action selector="didChangeMagneticFieldSliderValue:" destination="AgC-eL-Hgc" id="RK0-iu-bOL"/>
+                                                            </connections>
+                                                        </slider>
+                                                    </items>
+                                                </group>
                                             </items>
                                         </group>
                                     </items>
@@ -196,7 +200,7 @@
                         <outlet property="magneticFieldLabel" destination="Z6Y-o5-6h5" id="oaS-p9-G3l"/>
                         <outlet property="magneticFieldNormAvgLabel" destination="Ccr-MY-bEl" id="bMp-7m-eI1"/>
                         <outlet property="magneticFieldSlider" destination="4mM-6g-owt" id="y4l-me-OIM"/>
-                        <outlet property="magneticFieldSliderGroup" destination="7Tp-01-TiU" id="Mi9-w6-2x1"/>
+                        <outlet property="magneticFieldSliderGroup" destination="tZG-sf-maI" id="WKd-by-bKv"/>
                         <outlet property="magnetometerToggle" destination="uoW-Qi-zUB" id="ONr-hh-CZ8"/>
                         <outlet property="startStopButton" destination="yMb-xM-Y2x" id="Yij-3F-hLC"/>
                         <outlet property="userAccelerationLabel" destination="bXr-1b-CBs" id="j0y-Jn-pej"/>
