@@ -79,16 +79,14 @@ final class MeasurementInterfaceController: WKInterfaceController {
 
 				guard
 					let gravityComponents = gravityValues,
+					let pitch = gravityComponents.pitch,
 					let slope = userAccelerationValues?.slope
 				else {
 					return
 				}
 
-				// TODO: Check wirst side for asin
-				let theha = atan2(-gravityComponents.x, sqrt(pow(gravityComponents.y, 2) + pow(gravityComponents.z, 2))) * (180 / .pi)
-
 				// Print values
-				let thetaString = String(format: "%.2f", theha)
+				let thetaString = String(format: "%.2f", pitch)
 				let zAccelerationString = slope.rawValue
 
 				// If the magnetometer's data is present show the value otherwise

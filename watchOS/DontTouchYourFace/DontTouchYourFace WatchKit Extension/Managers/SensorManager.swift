@@ -8,7 +8,7 @@
 
 import Foundation
 import CoreMotion
-
+import WatchKit
 
 final class SensorManager {
 	// MARK: - Nested types
@@ -27,6 +27,7 @@ final class SensorManager {
 		let z: Double
 		var average: Double? = nil // for magnetometer
 		var slope: Slope? = nil
+		var pitch: Double? = nil
 
 		var norm: Double {
 			let powNorm = pow(x, 2) + pow(y, 2) + pow(z, 2)
@@ -36,7 +37,9 @@ final class SensorManager {
 		var isAlertConditionVerified: Bool {
 			switch type {
 			case .gravity:
-				let pitch = atan2(-x, sqrt(pow(y, 2) + pow(z, 2))) * (180 / .pi)
+				guard let pitch = pitch else {
+					return false
+				}
 				return pitch >= 30 && pitch <= 100
 			case .magnetometer:
 				guard let average = average else {
@@ -132,23 +135,35 @@ final class SensorManager {
 			}
 
 			// Collect data
-			let gravity = SensorData(
-				type: .gravity,
-				x: deviceMotion.gravity.x,
-				y: deviceMotion.gravity.y,
-				z: deviceMotion.gravity.z
-			)
+			// Gravity contains the angle of the inclination of the arm
+			let gravity: SensorData = {
+				var gravitySensorData = SensorData(
+					type: .gravity,
+					x: deviceMotion.gravity.x,
+					y: deviceMotion.gravity.y,
+					z: deviceMotion.gravity.z
+				)
 
-			var userAcceleration = SensorData(
+				let pitch: Double = {
+					let theta = atan2(-gravitySensorData.x, sqrt(pow(gravitySensorData.y, 2) + pow(gravitySensorData.z, 2))) * (180 / .pi)
+					let isOnRightWrist = WKInterfaceDevice.current().wristLocation == .right
+					return isOnRightWrist ? -theta : theta
+				}()
+
+				gravitySensorData.pitch = pitch
+				_self.slopeBuffer.write(pitch)
+				return gravitySensorData
+			}()
+
+			// From the value of the angles collected inside the buffer,\
+			// we can determine the slope of the acceleration
+			let userAcceleration = SensorData(
 				type: .userAcceleration,
 				x: deviceMotion.gravity.x,
 				y: deviceMotion.gravity.y,
-				z: deviceMotion.gravity.z
+				z: deviceMotion.gravity.z,
+				slope: _self.slopeBuffer.slope
 			)
-
-			let theha = atan2(-userAcceleration.x, sqrt(pow(userAcceleration.y, 2) + pow(userAcceleration.z, 2))) * (180 / .pi)
-			_self.slopeBuffer.write(theha)
-			userAcceleration.slope = _self.slopeBuffer.slope
 
 			var sensorsData: [SensorData] = [
 				gravity,
