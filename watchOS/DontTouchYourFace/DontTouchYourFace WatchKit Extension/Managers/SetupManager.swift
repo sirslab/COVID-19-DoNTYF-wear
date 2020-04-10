@@ -20,21 +20,4 @@ final class SetupManager {
 	var didUserAcceptPrivacy: Bool {
 		return userDefaults.bool(forKey: Constant.grantPermissionKey)
 	}
-
-	/// Returns if the user has selected on which side he/she wears the watch
-	var didUserSelectHand: Bool {
-		return userDefaults.string(forKey: Constant.handKey) != nil
-	}
-
-	/// Returns the side the user wears the watch on, nil if not selected yet
-	var selectedHand: Hand? {
-		guard
-			didUserSelectHand,
-			let key = userDefaults.string(forKey: Constant.handKey)
-		else {
-			return nil
-		}
-
-		return Hand(rawValue: key)
-	}
 }

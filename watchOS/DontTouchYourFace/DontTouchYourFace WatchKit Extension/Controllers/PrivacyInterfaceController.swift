@@ -21,7 +21,12 @@ final class PrivacyInterfaceController: WKInterfaceController {
 	@IBAction private func didTapAcceptButton() {
 		// Save the user read accepted the privacy policy
 		UserDefaults.standard.set(true, forKey: Constant.grantPermissionKey)
-		pushController(withName: HandInterfaceController.identifier, context: nil)
+		//Skip magnetometer calibration if the device doesn't have an integrated magnetometer
+		if SensorManager.shared.isMagnetometerAvailable {
+			pushController(withName: CalibrationInterfaceController.identifier, context: nil)
+		} else {
+			WKInterfaceController.reloadRootPageControllers(withNames: [MeasurementInterfaceController.identifier],  contexts: nil, orientation: .vertical, pageIndex: 0)
+		}
 	}
 
 	override func awake(withContext context: Any?) {

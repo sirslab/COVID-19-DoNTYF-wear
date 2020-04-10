@@ -16,11 +16,6 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 			WKInterfaceController.reloadRootPageControllers(withNames: [PrivacyInterfaceController.identifier], contexts: nil, orientation: .vertical, pageIndex: 0)
 			return
 		}
-
-		guard setupManager.didUserSelectHand else {
-			WKInterfaceController.reloadRootPageControllers(withNames: [HandInterfaceController.identifier], contexts: nil, orientation: .vertical, pageIndex: 0)
-			return
-		}
 		WKInterfaceController.reloadRootPageControllers(withNames: [MeasurementInterfaceController.identifier], contexts: nil, orientation: .vertical, pageIndex: 0)
     }
 

@@ -10,7 +10,6 @@ import UIKit
 
 enum Constant {
 	static let grantPermissionKey = "didAcceptPrivacy"
-	static let handKey = "handSide"
 
 	static let accelerationCrownStep: Float = 0.01
 	static let magneticFieldCrownStep: Float = 0.01
@@ -31,7 +30,6 @@ enum Constant {
 		static let internalError = "Error is not nil but no data available!"
 
 		static let calibrationMessage = "After pressing the button, move your hand in front of you for 5 seconds to calibrate the magnetic sensor."
-		static let handSelectionMessage = "Do you wear the smartwatch on the left or on the right?"
 		static let privacyMessage = """
 		This app collects data from the accelerometer and the magnetometer integrated in this device in order to  estimate when the user is approaching his hands towards his face.
 		"""

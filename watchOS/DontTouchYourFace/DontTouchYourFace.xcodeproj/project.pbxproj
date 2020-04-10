@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		EF573E08243B83DD000E2E08 /* PrivacyInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF573E07243B83DD000E2E08 /* PrivacyInterfaceController.swift */; };
-		EF573E0A243B8556000E2E08 /* HandInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF573E09243B8556000E2E08 /* HandInterfaceController.swift */; };
 		EF573E0E243B88F6000E2E08 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF573E0D243B88F6000E2E08 /* Extensions.swift */; };
 		EF573E10243B8A51000E2E08 /* CalibrationInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF573E0F243B8A51000E2E08 /* CalibrationInterfaceController.swift */; };
 		EF573E20243B96F8000E2E08 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF573E1F243B96F8000E2E08 /* Constant.swift */; };
@@ -27,7 +26,6 @@
 		EF90CCAE243B6673006180D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF90CCAD243B6673006180D7 /* Assets.xcassets */; };
 		EFF8D7D2243E191A001510F2 /* RingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF8D7D1243E191A001510F2 /* RingBuffer.swift */; };
 		EFF8D7D5243E367E001510F2 /* Thresholds.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF8D7D4243E367E001510F2 /* Thresholds.swift */; };
-		EFF8D7D7243E427D001510F2 /* Hand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF8D7D6243E427D001510F2 /* Hand.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,7 +72,6 @@
 
 /* Begin PBXFileReference section */
 		EF573E07243B83DD000E2E08 /* PrivacyInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyInterfaceController.swift; sourceTree = "<group>"; };
-		EF573E09243B8556000E2E08 /* HandInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandInterfaceController.swift; sourceTree = "<group>"; };
 		EF573E0D243B88F6000E2E08 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		EF573E0F243B8A51000E2E08 /* CalibrationInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationInterfaceController.swift; sourceTree = "<group>"; };
 		EF573E1F243B96F8000E2E08 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
@@ -98,7 +95,6 @@
 		EF90CCB0243B6673006180D7 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		EFF8D7D1243E191A001510F2 /* RingBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingBuffer.swift; sourceTree = "<group>"; };
 		EFF8D7D4243E367E001510F2 /* Thresholds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Thresholds.swift; sourceTree = "<group>"; };
-		EFF8D7D6243E427D001510F2 /* Hand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hand.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,7 +114,6 @@
 			children = (
 				EF5AAD29243BDDC6006F08D7 /* MessageInterfaceController.swift */,
 				EF573E07243B83DD000E2E08 /* PrivacyInterfaceController.swift */,
-				EF573E09243B8556000E2E08 /* HandInterfaceController.swift */,
 				EF573E0F243B8A51000E2E08 /* CalibrationInterfaceController.swift */,
 				EF90CCA7243B6672006180D7 /* MeasurementInterfaceController.swift */,
 				EF90CCAB243B6672006180D7 /* NotificationController.swift */,
@@ -204,7 +199,6 @@
 			children = (
 				EFF8D7D1243E191A001510F2 /* RingBuffer.swift */,
 				EFF8D7D4243E367E001510F2 /* Thresholds.swift */,
-				EFF8D7D6243E427D001510F2 /* Hand.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -342,12 +336,10 @@
 				EFF8D7D5243E367E001510F2 /* Thresholds.swift in Sources */,
 				EF573E0E243B88F6000E2E08 /* Extensions.swift in Sources */,
 				EF5AAD2C243BE334006F08D7 /* SensorManager.swift in Sources */,
-				EF573E0A243B8556000E2E08 /* HandInterfaceController.swift in Sources */,
 				EF573E20243B96F8000E2E08 /* Constant.swift in Sources */,
 				EF90CCAC243B6672006180D7 /* NotificationController.swift in Sources */,
 				EF90CCAA243B6672006180D7 /* ExtensionDelegate.swift in Sources */,
 				EF573E10243B8A51000E2E08 /* CalibrationInterfaceController.swift in Sources */,
-				EFF8D7D7243E427D001510F2 /* Hand.swift in Sources */,
 				EF5AAD2A243BDDC6006F08D7 /* MessageInterfaceController.swift in Sources */,
 				EFF8D7D2243E191A001510F2 /* RingBuffer.swift in Sources */,
 				EF90CCA8243B6672006180D7 /* MeasurementInterfaceController.swift in Sources */,

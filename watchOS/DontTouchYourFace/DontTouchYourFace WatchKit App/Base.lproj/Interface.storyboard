@@ -48,34 +48,6 @@
             </objects>
             <point key="canvasLocation" x="-282" y="-13"/>
         </scene>
-        <!--HandInterfaceController-->
-        <scene sceneID="RQN-hR-iBA">
-            <objects>
-                <controller identifier="HandInterfaceController" id="K4E-74-e1I" customClass="HandInterfaceController" customModule="DTYF" customModuleProvider="target">
-                    <items>
-                        <label alignment="center" text="Do you wear the smartwatch on the left or on the right?" textAlignment="center" numberOfLines="0" minimumScaleFactor="0.80000000000000004" id="Xlh-OU-oo0"/>
-                        <group width="1" alignment="left" verticalAlignment="bottom" id="1Lb-EE-22d">
-                            <items>
-                                <button width="0.5" alignment="left" title="Left" id="Mdr-t8-yJK">
-                                    <connections>
-                                        <action selector="didTapLeftHandButton" destination="K4E-74-e1I" id="POW-2f-Int"/>
-                                    </connections>
-                                </button>
-                                <button width="0.5" alignment="right" title="Right" id="3v3-cr-lcs">
-                                    <connections>
-                                        <action selector="didTapRightHandButton" destination="K4E-74-e1I" id="y1J-mK-Ftt"/>
-                                    </connections>
-                                </button>
-                            </items>
-                        </group>
-                    </items>
-                    <connections>
-                        <outlet property="contentLabel" destination="Xlh-OU-oo0" id="MXY-gh-hF2"/>
-                    </connections>
-                </controller>
-            </objects>
-            <point key="canvasLocation" x="33" y="302"/>
-        </scene>
         <!--CalibrationInterfaceController-->
         <scene sceneID="DFC-rn-yfh">
             <objects>
