@@ -103,7 +103,7 @@ final class DetectionManager {
 				_self.isAlertInAction = true
 				_self.delegate?.managerDidRaiseAlert(_self)
 
-				DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+				DispatchQueue.main.asyncAfter(deadline: .now() + Constant.nextAlertDelay) {
 					// A new alert could be detected
 					_self.isAlertInAction = false
 				}

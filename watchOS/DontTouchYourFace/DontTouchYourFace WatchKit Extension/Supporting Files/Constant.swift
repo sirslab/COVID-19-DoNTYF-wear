@@ -24,6 +24,7 @@ enum Constant {
 	static let stopButtonText = "Stop"
 
 	static let calibrationCountdown = 5
+	static let nextAlertDelay: Double = 1
 	
 	enum Message {
 		static let deniedPrivacy = "Sorry you have to accept the privacy policy to continue to use this app."
