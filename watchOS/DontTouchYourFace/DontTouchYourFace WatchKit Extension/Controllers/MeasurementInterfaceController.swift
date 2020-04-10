@@ -44,12 +44,14 @@ final class MeasurementInterfaceController: WKInterfaceController {
 		if SensorManager.shared.isMagnetometerAvailable {
 			setupMagneticFieldThresholdSlider()
 			updateMagneticFieldThreshold(Threshold.MagneticField.magneticFieldThreshold)
+			calibrateButton.setBackgroundColor(Constant.Color.blue)
+
 		} else {
 			magneticFieldDataGroup.setHidden(true)
 			magneticFieldSliderGroup.setHidden(true)
+			calibrateButton.setHidden(true)
+			startStopButton.setRelativeWidth(1, withAdjustment: 0)
 		}
-
-		calibrateButton.setBackgroundColor(Constant.Color.blue)
 	}
 
 	private func startDetection() {
