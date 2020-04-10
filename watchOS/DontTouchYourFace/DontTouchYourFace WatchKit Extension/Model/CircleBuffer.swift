@@ -1,5 +1,5 @@
 //
-//  CircleBuffer.swift
+//  RingBuffer.swift
 //  DontTouchYourFace WatchKit Extension
 //
 //  Created by Annino De Petra on 08/04/2020.
@@ -16,38 +16,82 @@ enum Slope: String {
 
 /// Ring Buffers holds N elements at a time.
 /// When the buffer runs out of storage, it starts replacing the longest indersted element and so on
-struct RingBuffer<T> {
+class RingBuffer<T>: NSObject {
 	private(set) var array: [T?]
 	private var writeIndex = 0
-	private var itemsCounter = 0
+	private var insertedElementsCount = 0
+	private var isFull: Bool {
+		return insertedElementsCount >= array.count
+	}
 
 	init(count: Int) {
 		array = [T?](repeating: nil, count: count)
 	}
 
-	mutating func write(_ element: T) {
+	func write(_ element: T) {
 		array[writeIndex % array.count] = element
 		writeIndex += 1
-		if itemsCounter < array.count {
-			itemsCounter += 1
+		if !isFull {
+			insertedElementsCount += 1
 		}
 	}
 }
 
 extension RingBuffer where T == Double {
-	var average: Double {
-		// Improve time complexity
-		return array.compactMap { $0 }.reduce(0, +) / Double(array.count)
+	private struct Key {
+		static var currentSumKey: UInt8 = 0
+	}
+
+	private var currentSum: Double? {
+		get {
+			guard let currentSum = objc_getAssociatedObject(self, &Key.currentSumKey) as? Double else{
+				return nil
+			}
+			return currentSum
+		}
+
+		set {
+			objc_setAssociatedObject(self, &Key.currentSumKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+		}
+	}
+
+	func write(_ element: T) {
+		// It may be useful if the buffer is full
+		let removedElement = array[writeIndex % array.count]
+		array[writeIndex % array.count] = element
+		writeIndex += 1
+
+		let isNotFull = insertedElementsCount < array.count
+		if isNotFull {
+			insertedElementsCount += 1
+			currentSum = (currentSum ?? 0) + element
+		} else if
+			let removedElement = removedElement,
+			let currentSum = currentSum
+		{
+			self.currentSum = currentSum + (element - removedElement)
+		} else {
+			assertionFailure()
+		}
+	}
+
+	var average: Double? {
+		guard
+			let currentSum = currentSum
+		else {
+			return nil
+		}
+		return currentSum / Double(insertedElementsCount)
 	}
 
 	var slope: Slope {
-		guard itemsCounter > 1 else {
+		guard insertedElementsCount > 1 else {
 			return .unknown
 		}
 
 		var ups = 0
 
-		(1..<itemsCounter).forEach { index in
+		(1..<insertedElementsCount).forEach { index in
 			let previous = index - 1
 
 			guard
@@ -61,7 +105,7 @@ extension RingBuffer where T == Double {
 			ups += 1
 		}
 
-		let isGoingUp = Double(ups) / Double(itemsCounter) > 0.5
+		let isGoingUp = Double(ups) / Double(insertedElementsCount) > 0.5
 		return isGoingUp ? .up : .down
 	}
 }
