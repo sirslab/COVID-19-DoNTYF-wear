@@ -56,7 +56,6 @@ final class SensorManager {
 	}
 
 	// MARK: - Properties
-	private var saveMagnetometerDataInBuffer: Bool = false
 	private var magnetometerBuffer: RingBuffer<Double>
 	private var slopeBuffer: RingBuffer<Double>
 
@@ -65,6 +64,8 @@ final class SensorManager {
 		queue.qualityOfService = .userInteractive
 		return queue
 	}()
+
+	private lazy var setupManager = SetupManager()
 
 	private lazy var motionManager: CMMotionManager = {
 		let motionManager = CMMotionManager()
@@ -100,14 +101,85 @@ final class SensorManager {
 
 	// MARK: - Helper functions
 	func startMagnetometerCalibration() {
-		saveMagnetometerDataInBuffer = true
-		// callback's value is nil since I don't need to show them
-		startContinousDataUpdates()
+		magnetometerBuffer = RingBuffer(count: Int(Constant.sensorDataFrequency) * Constant.magnetometerCollectionDataSeconds)
+		motionManager.startDeviceMotionUpdates(to: queue) { [weak self] (deviceMotion, error) in
+			guard let _self = self else {
+				return
+			}
+
+			// Check if there's any error
+			if error != nil {
+				return
+			}
+
+			guard let deviceMotion = deviceMotion else {
+				return
+			}
+
+			let magnetometer: SensorData? = {
+				// If the magnetometer isn't available
+				if !_self.motionManager.isMagnetometerAvailable {
+					// In debug mode add a fake magnetometer data using the user's acceleration
+					#if DEBUG
+					return SensorData(
+						type: .magnetometer,
+						x: deviceMotion.userAcceleration.x,
+						y: deviceMotion.userAcceleration.y,
+						z: deviceMotion.userAcceleration.z
+					)
+					#else
+					return nil
+					#endif
+				} else {
+					// Otherwhise use the real data
+					return SensorData(
+						type: .magnetometer,
+						x: deviceMotion.magneticField.field.x,
+						y: deviceMotion.magneticField.field.y,
+						z: deviceMotion.magneticField.field.z
+					)
+				}
+			}()
+
+			// Guard if there are data from the magnetometer
+			guard let notNilMagnetometer = magnetometer else {
+				return
+			}
+
+			_self.magnetometerBuffer.write(notNilMagnetometer.norm)
+		}
+	}
+	
+	func stopMagnetometerCalibrationForMaximumValue() {
+		stopContinousDataUpdates()
+		let max = magnetometerBuffer.array.compactMap {$0}.max()
+
+		guard max != nil else {
+			return
+		}
+
+		let stddev = UserDefaults.standard.double(forKey: "STDDEV")
+		let factor = max! / stddev
+		print("Max \(max!)")
+		print(factor)
+		UserDefaults.standard.set(factor, forKey: "magneticFactor")
 	}
 
-	func stopMagnetometerCalibration() {
-		saveMagnetometerDataInBuffer = false
+	func stopMagnetometerCalibrationForStandardDeviation() {
 		stopContinousDataUpdates()
+
+		guard let average = magnetometerBuffer.average else {
+			assertionFailure("Average not available")
+			return
+		}
+
+		let count = Double(magnetometerBuffer.array.count)
+		let sumOfSquaredAvgDiff = magnetometerBuffer.array.compactMap{$0}.map {
+			pow($0 - average, 2)
+		}.reduce(0,+)
+		let standardDeviation = sqrt(sumOfSquaredAvgDiff / (count - 1))
+		UserDefaults.standard.set(standardDeviation, forKey: "STDDEV")
+		print("STDDEV \(standardDeviation)")
 	}
 
 	func startContinousDataUpdates(withHandler: SensorHandler? = nil) {

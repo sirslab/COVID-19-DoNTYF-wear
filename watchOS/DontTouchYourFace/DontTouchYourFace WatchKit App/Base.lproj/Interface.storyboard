@@ -6,10 +6,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="15501"/>
     </dependencies>
     <scenes>
-        <!--PrivacyInterfaceController-->
+        <!--Privacy-->
         <scene sceneID="wku-lI-JfL">
             <objects>
-                <controller identifier="PrivacyInterfaceController" id="I87-tb-CZO" customClass="PrivacyInterfaceController" customModule="DTYF" customModuleProvider="target">
+                <controller identifier="PrivacyInterfaceController" title="Privacy" id="I87-tb-CZO" customClass="PrivacyInterfaceController" customModule="DTYF" customModuleProvider="target">
                     <items>
                         <label alignment="left" numberOfLines="0" id="riF-OI-gAC">
                             <string key="text">This app collects data from the accelerometer and the magnetometer integrated in this device in order to  estimate when the user is approaching his hands towards his face.</string>
@@ -34,10 +34,10 @@
             </objects>
             <point key="canvasLocation" x="-282" y="383"/>
         </scene>
-        <!--MessageInterfaceController-->
+        <!--Error-->
         <scene sceneID="eeC-Wp-KFv">
             <objects>
-                <controller identifier="MessageInterfaceController" id="U6O-AP-i5U" customClass="MessageInterfaceController" customModule="DTYF" customModuleProvider="target">
+                <controller identifier="MessageInterfaceController" title="Error" id="U6O-AP-i5U" customClass="MessageInterfaceController" customModule="DTYF" customModuleProvider="target">
                     <items>
                         <label alignment="center" verticalAlignment="center" text="Sorry but this device is not supported" numberOfLines="0" id="jtv-5G-QOm"/>
                     </items>
@@ -48,11 +48,12 @@
             </objects>
             <point key="canvasLocation" x="-282" y="-13"/>
         </scene>
-        <!--CalibrationInterfaceController-->
+        <!--Calibration-->
         <scene sceneID="DFC-rn-yfh">
             <objects>
-                <controller identifier="CalibrationInterfaceController" id="TJB-z1-S2u" customClass="CalibrationInterfaceController" customModule="DTYF" customModuleProvider="target">
+                <controller identifier="CalibrationInterfaceController" title="Calibration" id="TJB-z1-S2u" customClass="CalibrationInterfaceController" customModule="DTYF" customModuleProvider="target">
                     <items>
+                        <label alignment="left" hidden="YES" text="Label" numberOfLines="0" id="xxH-kr-Rny"/>
                         <label alignment="center" verticalAlignment="center" hidden="YES" text="[COUNTDOWN]" id="qgG-rJ-4xy"/>
                         <label alignment="center" text="After pressing the button, move your hand in front of you for 5 seconds to calibrate the magnetic sensor" textAlignment="center" numberOfLines="0" id="5x9-F0-6gU"/>
                         <button width="1" alignment="left" verticalAlignment="bottom" title="Calibrate" id="5X2-yA-JOY">
@@ -66,15 +67,16 @@
                         <outlet property="calibrateButton" destination="5X2-yA-JOY" id="HoB-jB-mbx"/>
                         <outlet property="calibrationLabel" destination="5x9-F0-6gU" id="p1s-OD-MoL"/>
                         <outlet property="countdownLabel" destination="qgG-rJ-4xy" id="2hQ-Sv-HiZ"/>
+                        <outlet property="countdownTextLabel" destination="xxH-kr-Rny" id="JFV-NL-trX"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="323" y="302"/>
+            <point key="canvasLocation" x="271" y="184"/>
         </scene>
-        <!--MeasurementInterfaceController-->
+        <!--Measurement-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller identifier="MeasurementInterfaceController" spacing="8" alwaysBounce="YES" id="AgC-eL-Hgc" customClass="MeasurementInterfaceController" customModule="DTYF" customModuleProvider="target">
+                <controller identifier="MeasurementInterfaceController" title="Measurement" spacing="8" alwaysBounce="YES" id="AgC-eL-Hgc" customClass="MeasurementInterfaceController" customModule="DTYF" customModuleProvider="target">
                     <items>
                         <group width="1" alignment="center" id="ccl-ed-Sdz">
                             <items>
@@ -108,6 +110,9 @@
                                                 </label>
                                             </items>
                                         </group>
+                                        <separator alignment="left" id="dIS-hG-vkU">
+                                            <color key="color" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </separator>
                                         <group width="1" alignment="left" layout="vertical" id="FdZ-6P-zPd">
                                             <items>
                                                 <label alignment="left" text="Z acceleration" textAlignment="left" numberOfLines="0" minimumScaleFactor="0.69999999999999996" id="ZNW-yd-Ry0">
@@ -119,6 +124,9 @@
                                                 </label>
                                             </items>
                                         </group>
+                                        <separator alignment="left" id="bfv-2d-DGc">
+                                            <color key="color" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </separator>
                                         <group width="1" height="43" alignment="left" layout="vertical" id="mtt-OM-0E3">
                                             <items>
                                                 <label alignment="left" text="Mag F Norm Avg" textAlignment="left" numberOfLines="0" minimumScaleFactor="0.69999999999999996" id="Jyc-Xa-c6e">
@@ -130,6 +138,9 @@
                                                 </label>
                                             </items>
                                         </group>
+                                        <separator alignment="left" id="Zmp-ai-e7s">
+                                            <color key="color" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </separator>
                                     </items>
                                 </group>
                                 <group width="1" alignment="left" layout="vertical" spacing="6" id="tZG-sf-maI">

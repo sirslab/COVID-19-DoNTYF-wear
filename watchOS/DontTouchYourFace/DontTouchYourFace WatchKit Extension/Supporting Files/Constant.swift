@@ -30,6 +30,7 @@ enum Constant {
 		static let internalError = "Error is not nil but no data available!"
 
 		static let calibrationMessage = "After pressing the button, move your hand in front of you for 5 seconds to calibrate the magnetic sensor."
+		static let secondCalibrationMessage = "After pressing the button, move your hand in front of you for 5 seconds close to the magnet."
 		static let privacyMessage = """
 		This app collects data from the accelerometer and the magnetometer integrated in this device in order to  estimate when the user is approaching his hands towards his face.
 		"""
