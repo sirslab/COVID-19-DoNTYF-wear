@@ -74,18 +74,17 @@ final class MeasurementInterfaceController: WKInterfaceController {
 
 			case .data(let sensorsData):
 				// Retrieve the mandatory sensor's data
-				let gravityValues = sensorsData.first { $0.type == .gravity }
-				let userAccelerationValues = sensorsData.first { $0.type == .userAcceleration }
-				let magnetometerValues = sensorsData.first { $0.type == .magnetometer }
-
 				guard
-					let gravityComponents = gravityValues,
-					let pitch = gravityComponents.pitch,
-					let slope = userAccelerationValues?.slope
+					let gravityData = sensorsData.first(where: { $0 is GravityData }) as? GravityData,
+					let userAccelerationData = sensorsData.first(where: { $0 is UserAccelerationData }) as? UserAccelerationData,
+					let slope = userAccelerationData.slope
 				else {
 					assertionFailure("This should not happen")
 					return
 				}
+
+				let pitch = gravityData.pitch
+				let magnetometerValues = sensorsData.first { $0 is MagnetometerData} as? MagnetometerData
 
 				// Print values
 				let thetaString = String(format: "%.2f", pitch)

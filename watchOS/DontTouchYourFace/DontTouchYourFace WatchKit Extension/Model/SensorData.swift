@@ -14,14 +14,45 @@ enum SensorType {
 	case gravity
 }
 
-struct SensorData {
-	let type: SensorType
+protocol SensorData {
+	var x: Double { get }
+	var y: Double { get }
+	var z: Double { get }
+	var isAlertConditionVerified: Bool { get }
+}
+
+struct UserAccelerationData: SensorData {
 	let x: Double
 	let y: Double
 	let z: Double
-	var average: Double? = nil // for magnetometer
 	var slope: Slope? = nil
-	var pitch: Double? = nil
+
+	var isAlertConditionVerified: Bool {
+		guard let slope = slope else {
+			return false
+		}
+		return slope == .up
+	}
+}
+
+struct GravityData: SensorData {
+	let x: Double
+	let y: Double
+	let z: Double
+	let pitch: Double
+
+	var isAlertConditionVerified: Bool {
+		return pitch >= 30 && pitch <= 100
+	}
+}
+
+struct MagnetometerData: SensorData {
+	let x: Double
+	let y: Double
+	let z: Double
+	var average: Double? = nil
+	var standardDeviation: Double? = nil
+	var factor: Double? = nil
 
 	var norm: Double {
 		let powNorm = pow(x, 2) + pow(y, 2) + pow(z, 2)
@@ -29,22 +60,13 @@ struct SensorData {
 	}
 
 	var isAlertConditionVerified: Bool {
-		switch type {
-		case .gravity:
-			guard let pitch = pitch else {
-				return false
-			}
-			return pitch >= 30 && pitch <= 100
-		case .magnetometer:
-			guard let average = average else {
-				return false
-			}
-			return average >= 0.15
-		case .userAcceleration:
-			guard let slope = slope else {
-				return false
-			}
-			return slope == .up
+		guard
+			let average = average,
+			let standardDeviation = standardDeviation,
+			let factor = factor
+		else {
+			return false
 		}
+		return (norm - average) >= factor * standardDeviation
 	}
 }

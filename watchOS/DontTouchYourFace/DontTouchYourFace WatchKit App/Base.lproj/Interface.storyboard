@@ -159,7 +159,7 @@
                                                 </switch>
                                                 <group width="1" alignment="left" layout="vertical" id="sjr-ez-x5n">
                                                     <items>
-                                                        <label alignment="left" text="[M𝜇 THRESHOLD]" textAlignment="left" id="Z6Y-o5-6h5">
+                                                        <label alignment="left" text="Factor" textAlignment="left" id="Z6Y-o5-6h5">
                                                             <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                         </label>
                                                         <slider width="1" height="35" alignment="left" value="0.14999999999999999" minimum="0.14999999999999999" steps="85" id="4mM-6g-owt">

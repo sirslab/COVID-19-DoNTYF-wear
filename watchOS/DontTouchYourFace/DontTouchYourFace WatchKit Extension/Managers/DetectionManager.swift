@@ -119,7 +119,7 @@ final class DetectionManager {
 
 	private func shuoldTriggerAlert(sensorsData: [SensorData]) -> Bool {
 		let didPreviousTriggerEnd = isAlertInAction == false
-		let shouldRaiseAlert: Bool = sensorsData.map { $0.isAlertConditionVerified }.allSatisfy { $0 }
+		let shouldRaiseAlert: Bool = sensorsData.lazy.map { $0.isAlertConditionVerified }.allSatisfy { $0 }
 		return didPreviousTriggerEnd && shouldRaiseAlert
 	}
 }
