@@ -32,7 +32,6 @@ final class CalibrationInterfaceController: WKInterfaceController {
 	private var state: State = .environment
 
 	override func awake(withContext context: Any?) {
-		super.awake(withContext: context)
 		isRecalibration = context as? Bool ?? false
 		// Set up the initial UI
 		calibrationLabel.setText(Constant.Message.calibrationMessage)

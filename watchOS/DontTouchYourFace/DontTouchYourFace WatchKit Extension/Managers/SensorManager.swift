@@ -14,50 +14,15 @@ final class SensorManager {
 	// MARK: - Nested types
 	typealias SensorHandler = ([SensorData]?, Error?) -> Void
 
-	enum SensorType {
-		case userAcceleration
-		case magnetometer
-		case gravity
-	}
-
-	struct SensorData {
-		let type: SensorType
-		let x: Double
-		let y: Double
-		let z: Double
-		var average: Double? = nil // for magnetometer
-		var slope: Slope? = nil
-		var pitch: Double? = nil
-
-		var norm: Double {
-			let powNorm = pow(x, 2) + pow(y, 2) + pow(z, 2)
-			return sqrt(powNorm)
-		}
-
-		var isAlertConditionVerified: Bool {
-			switch type {
-			case .gravity:
-				guard let pitch = pitch else {
-					return false
-				}
-				return pitch >= 30 && pitch <= 100
-			case .magnetometer:
-				guard let average = average else {
-					return false
-				}
-				return average >= 0.15
-			case .userAcceleration:
-				guard let slope = slope else {
-					return false
-				}
-				return slope == .up
-			}
-		}
+	enum SensorError: Error {
+		case deviceMotionNotAvailable
+		case gravityNotAvailable
+		case userAccelerationNotAvailable
 	}
 
 	// MARK: - Properties
 	private var magnetometerBuffer: RingBuffer<Double>
-	private var slopeBuffer: RingBuffer<Double>
+	private var armAngleBuffer: RingBuffer<Double>
 
 	private let queue: OperationQueue = {
 		let queue = OperationQueue()
@@ -65,7 +30,7 @@ final class SensorManager {
 		return queue
 	}()
 
-	private lazy var setupManager = SetupManager()
+	private lazy var setupManager: SensorsDataProvider = SetupManager()
 
 	private lazy var motionManager: CMMotionManager = {
 		let motionManager = CMMotionManager()
@@ -96,7 +61,7 @@ final class SensorManager {
 
 	private init() {
 		magnetometerBuffer = RingBuffer(count: Int(Constant.sensorDataFrequency) * Constant.magnetometerCollectionDataSeconds)
-		slopeBuffer = RingBuffer(count: Int(Constant.sensorDataFrequency * Constant.accelerationCollectionDataSeconds))
+		armAngleBuffer = RingBuffer(count: Int(Constant.sensorDataFrequency * Constant.accelerationCollectionDataSeconds))
 	}
 
 	// MARK: - Helper functions
@@ -116,70 +81,43 @@ final class SensorManager {
 				return
 			}
 
-			let magnetometer: SensorData? = {
-				// If the magnetometer isn't available
-				if !_self.motionManager.isMagnetometerAvailable {
-					// In debug mode add a fake magnetometer data using the user's acceleration
-					#if DEBUG
-					return SensorData(
-						type: .magnetometer,
-						x: deviceMotion.userAcceleration.x,
-						y: deviceMotion.userAcceleration.y,
-						z: deviceMotion.userAcceleration.z
-					)
-					#else
-					return nil
-					#endif
-				} else {
-					// Otherwhise use the real data
-					return SensorData(
-						type: .magnetometer,
-						x: deviceMotion.magneticField.field.x,
-						y: deviceMotion.magneticField.field.y,
-						z: deviceMotion.magneticField.field.z
-					)
-				}
-			}()
+			let magnetometerData = _self.sensorData(.magnetometer, deviceMotion: deviceMotion)
 
 			// Guard if there are data from the magnetometer
-			guard let notNilMagnetometer = magnetometer else {
+			guard let notNilMagnetometerData = magnetometerData else {
 				return
 			}
 
-			_self.magnetometerBuffer.write(notNilMagnetometer.norm)
+			_self.magnetometerBuffer.write(notNilMagnetometerData.norm)
 		}
-	}
-	
-	func stopMagnetometerCalibrationForMaximumValue() {
-		stopContinousDataUpdates()
-		let max = magnetometerBuffer.array.compactMap {$0}.max()
-
-		guard max != nil else {
-			return
-		}
-
-		let stddev = UserDefaults.standard.double(forKey: "STDDEV")
-		let factor = max! / stddev
-		print("Max \(max!)")
-		print(factor)
-		UserDefaults.standard.set(factor, forKey: "magneticFactor")
 	}
 
 	func stopMagnetometerCalibrationForStandardDeviation() {
 		stopContinousDataUpdates()
 
-		guard let average = magnetometerBuffer.average else {
+		guard let standardDeviation = magnetometerBuffer.standardDeviation else {
 			assertionFailure("Average not available")
 			return
 		}
 
-		let count = Double(magnetometerBuffer.array.count)
-		let sumOfSquaredAvgDiff = magnetometerBuffer.array.compactMap{$0}.map {
-			pow($0 - average, 2)
-		}.reduce(0,+)
-		let standardDeviation = sqrt(sumOfSquaredAvgDiff / (count - 1))
-		UserDefaults.standard.set(standardDeviation, forKey: "STDDEV")
+		setupManager.setStandardDeviation(standardDeviation)
 		print("STDDEV \(standardDeviation)")
+	}
+
+	func stopMagnetometerCalibrationForMaximumValue() {
+		stopContinousDataUpdates()
+
+		guard
+			let max = magnetometerBuffer.max,
+			let stddev = setupManager.standardDeviation
+		else {
+			assertionFailure("Missing calibration parameters")
+			return
+		}
+
+		let factor = max / stddev
+		print(factor)
+		setupManager.setMagneticFactor(factor)
 	}
 
 	func startContinousDataUpdates(withHandler: SensorHandler? = nil) {
@@ -202,49 +140,74 @@ final class SensorManager {
 			}
 
 			guard let deviceMotion = deviceMotion else {
-				callHandler(nil, nil)
+				callHandler(nil, SensorError.deviceMotionNotAvailable)
 				return
 			}
 
 			// Collect data
 			// Gravity contains the angle of the inclination of the arm
-			let gravity: SensorData = {
-				var gravitySensorData = SensorData(
-					type: .gravity,
-					x: deviceMotion.gravity.x,
-					y: deviceMotion.gravity.y,
-					z: deviceMotion.gravity.z
-				)
-
-				let pitch: Double = {
-					let theta = atan2(-gravitySensorData.x, sqrt(pow(gravitySensorData.y, 2) + pow(gravitySensorData.z, 2))) * (180 / .pi)
-					let isOnRightWrist = WKInterfaceDevice.current().wristLocation == .right
-					return isOnRightWrist ? -theta : theta
-				}()
-
-				gravitySensorData.pitch = pitch
-				_self.slopeBuffer.write(pitch)
-				return gravitySensorData
-			}()
+			guard
+				let gravity = _self.sensorData(.gravity, deviceMotion: deviceMotion),
+				let pitch = gravity.pitch
+			else {
+				callHandler(nil, SensorError.gravityNotAvailable)
+				return
+			}
+			
+			_self.armAngleBuffer.write(pitch)
 
 			// From the value of the angles collected inside the buffer,\
 			// we can determine the slope of the acceleration
-			let userAcceleration = SensorData(
-				type: .userAcceleration,
-				x: deviceMotion.gravity.x,
-				y: deviceMotion.gravity.y,
-				z: deviceMotion.gravity.z,
-				slope: _self.slopeBuffer.slope
-			)
+			guard var userAcceleration = _self.sensorData(.userAcceleration, deviceMotion: deviceMotion) else {
+				callHandler(nil, SensorError.userAccelerationNotAvailable)
+				return
+			}
+
+			userAcceleration.slope = _self.armAngleBuffer.slope
 
 			var sensorsData: [SensorData] = [
 				gravity,
 				userAcceleration
 			]
 
+			// Guard if there are data from the magnetometer
+			guard var magnetometer = _self.sensorData(.magnetometer, deviceMotion: deviceMotion) else {
+				callHandler(sensorsData, nil)
+				return
+			}
+
+			// If the x component of the gravity is not between a certain range
+			// it means the user is not raising the hand and we want to keep collection
+			// data from the magnetometer
+			let isInContinuosCalibrationMode = !gravity.isAlertConditionVerified
+
+			// If the user wants to collect the magnetometer data
+			if _self.isMagnetometerCollectionDataEnabledFromUser {
+				// Update the buffer with the new incoming data if it's in calibration mode
+				if isInContinuosCalibrationMode {
+					_self.magnetometerBuffer.write(magnetometer.norm)
+				}
+				// Set the average for the magnetometer
+				magnetometer.average = _self.magnetometerBuffer.average
+				// Append to the list of available sensor's data
+				sensorsData.append(magnetometer)
+			}
+			callHandler(sensorsData, nil)
+		}
+	}
+
+	func stopContinousDataUpdates() {
+		motionManager.stopDeviceMotionUpdates()
+	}
+}
+
+extension SensorManager {
+	func sensorData(_ type: SensorType, deviceMotion: CMDeviceMotion) -> SensorData? {
+		switch type {
+		case .magnetometer:
 			let magnetometer: SensorData? = {
 				// If the magnetometer isn't available
-				if !_self.motionManager.isMagnetometerAvailable {
+				if !motionManager.isMagnetometerAvailable {
 					// In debug mode add a fake magnetometer data using the user's acceleration
 					#if DEBUG
 					return SensorData(
@@ -266,34 +229,34 @@ final class SensorManager {
 					)
 				}
 			}()
+			return magnetometer
+		case .gravity:
+			let gravity: SensorData = {
+				var gravitySensorData = SensorData(
+					type: .gravity,
+					x: deviceMotion.gravity.x,
+					y: deviceMotion.gravity.y,
+					z: deviceMotion.gravity.z
+				)
 
-			// Guard if there are data from the magnetometer
-			guard var notNilMagnetometer = magnetometer else {
-				callHandler(sensorsData, nil)
-				return
-			}
+				let pitch: Double = {
+					let theta = atan2(-gravitySensorData.x, sqrt(pow(gravitySensorData.y, 2) + pow(gravitySensorData.z, 2))) * (180 / .pi)
+					let isOnRightWrist = WKInterfaceDevice.current().wristLocation == .right
+					return isOnRightWrist ? -theta : theta
+				}()
 
-			// If the x component of the gravity is not between a certain range
-			// it means the user is not raising the hand and we want to keep collection
-			// data from the magnetometer
-			let isInContinuosCalibrationMode = !gravity.isAlertConditionVerified
-
-			// If the user wants to collect the magnetometer data
-			if _self.isMagnetometerCollectionDataEnabledFromUser {
-				// Update the buffer with the new incoming data if it's in calibration mode
-				if isInContinuosCalibrationMode {
-					_self.magnetometerBuffer.write(notNilMagnetometer.norm)
-				}
-				// Set the average for the magnetometer
-				notNilMagnetometer.average = _self.magnetometerBuffer.average
-				// Append to the list of available sensor's data
-				sensorsData.append(notNilMagnetometer)
-			}
-			callHandler(sensorsData, nil)
+				gravitySensorData.pitch = pitch
+				return gravitySensorData
+			}()
+			return gravity
+		case .userAcceleration:
+			let userAcceleration = SensorData(
+				type: .userAcceleration,
+				x: deviceMotion.gravity.x,
+				y: deviceMotion.gravity.y,
+				z: deviceMotion.gravity.z
+			)
+			return userAcceleration
 		}
-	}
-
-	func stopContinousDataUpdates() {
-		motionManager.stopDeviceMotionUpdates()
 	}
 }

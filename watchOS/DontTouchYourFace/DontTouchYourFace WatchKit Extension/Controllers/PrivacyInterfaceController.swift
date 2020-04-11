@@ -30,7 +30,6 @@ final class PrivacyInterfaceController: WKInterfaceController {
 	}
 
 	override func awake(withContext context: Any?) {
-		super.awake(withContext: context)
 		denyButton.setBackgroundColor(Constant.Color.red)
 		contentLabel.setText(Constant.Message.privacyMessage)
 	}

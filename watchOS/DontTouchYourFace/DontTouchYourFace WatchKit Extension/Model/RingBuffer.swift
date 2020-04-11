@@ -108,4 +108,19 @@ extension RingBuffer where T == Double {
 		let isGoingUp = Double(ups) / Double(insertedElementsCount) > 0.5
 		return isGoingUp ? .up : .down
 	}
+
+	var standardDeviation: Double? {
+		guard let average = average else {
+			return nil
+		}
+		
+		let count = Double(array.count)
+		let sumOfSquaredAvgDiff = array.compactMap{$0}.map { pow($0 - average, 2)}.reduce(0,+)
+		let standardDeviation = sqrt(sumOfSquaredAvgDiff / (count - 1))
+		return standardDeviation
+	}
+
+	var max: Double? {
+		return array.compactMap({$0}).max()
+	}
 }

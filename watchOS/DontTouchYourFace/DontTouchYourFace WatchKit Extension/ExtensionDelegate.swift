@@ -10,12 +10,18 @@ import WatchKit
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
     func applicationDidFinishLaunching() {
-		let setupManager = SetupManager()
+		let setupManager: OnboardingProvider = SetupManager()
 
 		guard setupManager.didUserAcceptPrivacy else {
 			WKInterfaceController.reloadRootPageControllers(withNames: [PrivacyInterfaceController.identifier], contexts: nil, orientation: .vertical, pageIndex: 0)
 			return
 		}
+
+		guard setupManager.didUserMakeFirstCalibration else {
+			WKInterfaceController.reloadRootPageControllers(withNames: [CalibrationInterfaceController.identifier], contexts: nil, orientation: .vertical, pageIndex: 0)
+			return
+		}
+
 		WKInterfaceController.reloadRootPageControllers(withNames: [MeasurementInterfaceController.identifier], contexts: nil, orientation: .vertical, pageIndex: 0)
     }
 

@@ -71,6 +71,7 @@ final class MeasurementInterfaceController: WKInterfaceController {
 				_self.magneticFieldNormAvgLabel.setText(errorMessage)
 				// Print the actual error in the console
 				print(errorString)
+
 			case .data(let sensorsData):
 				// Retrieve the mandatory sensor's data
 				let gravityValues = sensorsData.first { $0.type == .gravity }
@@ -82,6 +83,7 @@ final class MeasurementInterfaceController: WKInterfaceController {
 					let pitch = gravityComponents.pitch,
 					let slope = userAccelerationValues?.slope
 				else {
+					assertionFailure("This should not happen")
 					return
 				}
 
@@ -147,11 +149,12 @@ final class MeasurementInterfaceController: WKInterfaceController {
 	}
 
 	@IBAction func didTapMagnetometerToggle(_ value: Bool) {
-		SensorManager.shared.isMagnetometerCollectionDataEnabledFromUser = value
-		magneticFieldSlider.setEnabled(value)
+		let didEnableMagnetometer = value
+		SensorManager.shared.isMagnetometerCollectionDataEnabledFromUser = didEnableMagnetometer
+		magneticFieldSlider.setEnabled(didEnableMagnetometer)
 
 		// Magnetometer disabled
-		if value == false {
+		if !didEnableMagnetometer {
 			crownSequencer.resignFocus()
 		}
 	}
