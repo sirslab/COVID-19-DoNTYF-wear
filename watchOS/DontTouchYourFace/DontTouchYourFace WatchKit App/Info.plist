@@ -19,7 +19,11 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>To recognise self-touches face movements in background</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>To recognise self-touches face movements in background</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -27,9 +31,5 @@
 	</array>
 	<key>WKWatchKitApp</key>
 	<true/>
-	<key>NSHealthUpdateUsageDescription</key>
-	<string>To recognise self-touches face movements in background</string>
-	<key>NSHealthShareUsageDescription</key>
-	<string>To recognise self-touches face movements in background</string>
 </dict>
 </plist>
