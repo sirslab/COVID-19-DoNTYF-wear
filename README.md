@@ -21,13 +21,6 @@ The current App is available for all the Apple Watch series. The ones with a mag
 
 
 
-
-
-## TODOs
-- [ ] Aggiungere file per salvataggio preferenze (Privacy, Soglia, Mano)
-- [x] Mettere il testo della privacy scrollabile
-- [x] Aggiungere un bip
-
 ## The idea behind the app
 To help us stopping to touch our faces we developed a simple and free app that let your smartwatch vibrate and ring as soon as you get closer to your face. The face is detected by using a small cheap magnet at your necklace.  
 The smartwatch is worn on the arm whose hand more frequently touches your face. We are using it on the left arm but you can choose the one you like. Of course we cannot alert if the hand without the smartwatch touches your face but we hope that preventing one hand only to touch our face can help us building safe habits for both hands. In any case for sure we reduce the risk by a factor 2. 
@@ -81,3 +74,8 @@ where RAW(t) is the current raw sample in the buffer.
 calFactor = MAX/STDDEV
 3. In the main activity, when the accelerometer condition is checked and the current value (raw norm - offset) is higher than (STAND DEV )*(calibration factor), send an alert.
 4. The calibration factor can be automatically calculatd by pressing the CALIBRATE button in the main activity screen, and manually adjusted using the seekbar or (+/-) buttons.
+
+
+- [ ] Aggiungere file per salvataggio preferenze (Privacy, Soglia, Mano) in Android
+- [x] Mettere il testo della privacy scrollabile
+- [x] Aggiungere un bip
