@@ -37,9 +37,7 @@ import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_nft3.*
-import kotlin.math.absoluteValue
-import kotlin.math.atan2
-import kotlin.math.sqrt
+import kotlin.math.*
 
 
 class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListener {
@@ -52,6 +50,8 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
 
     private var nRimaningCalib=0
     private var calib = 0.0f
+    private var stddev = 0.0f // new
+    private var calibrFactor = 1.0f // new
     private var caliblist = ArrayList<Float>()
     private var activeMonitoring = false;
     private var rawValue = 0.0f
@@ -64,7 +64,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
     private var lastTimeOn =0.toLong()
 
     private lateinit var vibrator: Vibrator
-    private lateinit var toneGen: ToneGenerator ///////////////
+    private lateinit var toneGen: ToneGenerator
     private val tone = ToneGenerator.TONE_PROP_BEEP
 
     private var RECORD_REQUEST_CODE = 1
@@ -178,7 +178,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
         val t = System.currentTimeMillis()
         if (activeMonitoring && stateDanger && (lastVibTime +vibrationLength < t)) {
             vibrator .vibrate(vibrationLength.toLong())
-            toneGen.startTone(TONE_CDMA_ABBR_ALERT,vibrationLength) ///
+            toneGen.startTone(TONE_CDMA_ABBR_ALERT,vibrationLength)
             lastVibTime = t
             /*
             if (lastNotificationTime+2000 < t) {
@@ -193,9 +193,16 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
         }
     }
 
+    fun stdDev(array: ArrayList<Float>): Float {
+        var variance = 0.0f
+        for (sample: Float in array){
+            variance += (sample - calib).pow(2)
+        }
+        variance /= array.size - 1
+        return sqrt(variance)
+    }
 
-
-    private fun updateAverage(value: Float): Float {
+    private fun updateAverage(value: Float) {
         if (caliblist.size < averageSamples) {
             caliblist.add(value)
         }
@@ -203,8 +210,10 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
             caliblist.removeAt(0)
             caliblist.add(value)
         }
-        return caliblist.average().toFloat()
+        calib = caliblist.average().toFloat()
+        stddev = stdDev(caliblist)
     }
+
 
 
     override fun onSensorChanged(event: SensorEvent?) {
@@ -213,7 +222,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
                 val v = event?.values ?: return
                 rawValue = (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]) / 100
 
-                calib = updateAverage(rawValue)
+                updateAverage(rawValue)
                 n = (rawValue - calib).absoluteValue
             }
             return
@@ -224,7 +233,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
             rawValue = (v[0]*v[0] + v[1]*v[1] + v[2]*v[2])/100
 
             if (!activeMonitoring && ! updateMaxValue) {
-                calib = updateAverage(rawValue)
+                updateAverage(rawValue)
             }
 
             if (updateMaxValue) {
@@ -234,11 +243,13 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
 
                     if (tempval > maxValue) {
                         maxValue = tempval
+                        calibrFactor = floor(maxValue / stddev)
+
                     }
                 } else {
 
                     updateMaxValue = false
-                    sensitivitySeekBar.progress = 3 * (maxValue).absoluteValue.toInt()
+                    sensitivitySeekBar.progress = calibrFactor.toInt()
                     if (sensitivitySeekBar.progress < 0) sensitivitySeekBar.progress = 0
                     if (sensitivitySeekBar.progress > maxThreshold) sensitivitySeekBar.progress =
                         maxThreshold
@@ -247,7 +258,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
             }
 
             n = (rawValue - calib).absoluteValue
-            stateDanger = n > sensitivitySeekBar.progress
+            stateDanger = n > stddev*sensitivitySeekBar.progress
             updateVibration()
         }
 
