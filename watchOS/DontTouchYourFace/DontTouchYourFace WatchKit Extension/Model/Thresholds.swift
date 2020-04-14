@@ -11,8 +11,7 @@ import Foundation
 enum Threshold {
 	enum MagneticField {
 		static let minValue: Float = 0
-		static let maxValue: Float = 0.90
-		static var magneticFieldThreshold: Float = 0.15
+		static let maxValue: Float = 10
 	}
 
 	enum Angle {

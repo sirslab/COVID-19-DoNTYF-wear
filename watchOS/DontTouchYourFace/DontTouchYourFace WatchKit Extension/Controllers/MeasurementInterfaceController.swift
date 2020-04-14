@@ -29,6 +29,8 @@ final class MeasurementInterfaceController: WKInterfaceController {
 	// MARK: - Properties
 	private let detectionManager = DetectionManager()
 	private let sensorManager = SensorManager.shared
+	private let setupManager: SensorsDataProvider = SetupManager.shared
+
 	private var crownAccumulator = 0.0
 
 	// MARK: - Controller Lifecycle
@@ -38,13 +40,22 @@ final class MeasurementInterfaceController: WKInterfaceController {
 		startDetection()
     }
 
+	override func willActivate() {
+		super.willActivate()
+		setupUI()
+	}
+
 	// MARK: - Helper methods
 	private func setupUI() {
 		crownSequencer.delegate = self
 
-		if sensorManager.isMagnetometerAvailable {
-			setupMagneticFieldThresholdSlider()
-			updateMagneticFieldThreshold(Threshold.MagneticField.magneticFieldThreshold)
+		if
+			sensorManager.isMagnetometerAvailable,
+			let userDefinedMagneticFactor = SetupManager.shared.userDefinedMagneticFactor,
+			let magneticFactor = setupManager.magneticFactor
+		{
+			setupMagneticFieldThresholdSlider(magneticFactor: magneticFactor)
+			updateMagneticFieldThreshold(Float(userDefinedMagneticFactor))
 			calibrateButton.setBackgroundColor(Constant.Color.blue)
 		} else {
 			magneticFieldDataGroup.setHidden(true)
@@ -105,22 +116,26 @@ final class MeasurementInterfaceController: WKInterfaceController {
 		}
 	}
 
-	private func setupMagneticFieldThresholdSlider() {
-		let steps = (Threshold.MagneticField.maxValue - Threshold.MagneticField.minValue) / Constant.magneticFieldCrownStep
+	private func setupMagneticFieldThresholdSlider(magneticFactor: Double) {
+		let maxValue = Threshold.MagneticField.maxValue + Float(magneticFactor)
+		let steps = (maxValue - Threshold.MagneticField.minValue) / Constant.magneticFieldCrownStep
 		magneticFieldSlider.setNumberOfSteps(Int(steps))
 	}
 
 	private func updateMagneticFieldThreshold(_ value: Float) {
-		guard value <= Threshold.MagneticField.maxValue && value >= Threshold.MagneticField.minValue else {
+		let maxValue = Threshold.MagneticField.maxValue + value
+
+		guard value <= maxValue && value >= Threshold.MagneticField.minValue else {
 			WKInterfaceDevice.current().play(.failure)
 			return
 		}
 
 		WKInterfaceDevice.current().play(.click)
-		let thresholdString = String(format: "M offset %.2f", value)
+		let thresholdString = String(format: "M Factor %.2f", value)
 		magneticFieldLabel.setText(thresholdString)
 		magneticFieldSlider.setValue(value)
-		Threshold.MagneticField.magneticFieldThreshold = value
+		setupManager.setUserDefinedMagneticFactor(Double(value))
+		sensorManager.userDefinedMagneticFactor = Double(value)
 	}
 
 	private func setStopActivityUI() {
@@ -164,11 +179,15 @@ extension MeasurementInterfaceController: WKCrownDelegate {
 	func crownDidRotate(_ crownSequencer: WKCrownSequencer?, rotationalDelta: Double) {
 		crownAccumulator += rotationalDelta
 
+		guard let userDefinedMagneticFactor = setupManager.userDefinedMagneticFactor else {
+			return
+		}
+
 		if crownAccumulator > Constant.crownSensitivity {
-			updateMagneticFieldThreshold(Threshold.MagneticField.magneticFieldThreshold + Constant.magneticFieldCrownStep)
+			updateMagneticFieldThreshold(Float(userDefinedMagneticFactor) + Constant.magneticFieldCrownStep)
 		   crownAccumulator = 0.0
 		} else if crownAccumulator < -Constant.crownSensitivity {
-			updateMagneticFieldThreshold(Threshold.MagneticField.magneticFieldThreshold - Constant.magneticFieldCrownStep)
+			updateMagneticFieldThreshold(Float(userDefinedMagneticFactor) - Constant.magneticFieldCrownStep)
 		   crownAccumulator = 0.0
 		}
 	}

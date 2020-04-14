@@ -38,7 +38,7 @@ final class DetectionManager {
 	}
 
 	// MARK: - Properties
-	private let sensorManager: SensorManager
+	private let sensorManager: CalibrationInterface
 	private var workoutSession: HKWorkoutSession?
 
 	// Boolean to avoid multiple recognitions of the alert in a short amount of time
@@ -67,7 +67,7 @@ final class DetectionManager {
 	weak var delegate: DetectionManagerDelegate?
 
 	// MARK: - Init
-	init(sensorManager: SensorManager = SensorManager.shared) {
+	init(sensorManager: CalibrationInterface = SensorManager.shared) {
 		self.sensorManager = sensorManager
 	}
 
@@ -119,6 +119,7 @@ final class DetectionManager {
 
 	private func shuoldTriggerAlert(sensorsData: [SensorData]) -> Bool {
 		let didPreviousTriggerEnd = isAlertInAction == false
+		// Make it lazy. Then at the first false condition, it stops.
 		let shouldRaiseAlert: Bool = sensorsData.lazy.map { $0.isAlertConditionVerified }.allSatisfy { $0 }
 		return didPreviousTriggerEnd && shouldRaiseAlert
 	}

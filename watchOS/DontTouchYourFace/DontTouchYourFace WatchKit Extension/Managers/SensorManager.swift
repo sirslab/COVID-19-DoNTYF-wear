@@ -10,7 +10,20 @@ import Foundation
 import CoreMotion
 import WatchKit
 
-final class SensorManager {
+protocol CalibrationInterface {
+	func startMagnetometerCalibration()
+	func stopMagnetometerCalibrationForStandardDeviation()
+	func stopMagnetometerCalibrationForMaximumValue()
+	func startContinousDataUpdates(withHandler: SensorManager.SensorHandler?)
+	func stopContinousDataUpdates()
+}
+
+protocol SensorManagerInterface {
+	var userDefinedMagneticFactor: Double? { get set }
+	var isMagnetometerAvailable: Bool { get }
+}
+
+final class SensorManager: SensorManagerInterface, CalibrationInterface {
 	// MARK: - Nested types
 	typealias SensorHandler = ([SensorData]?, Error?) -> Void
 
@@ -21,7 +34,11 @@ final class SensorManager {
 	}
 
 	// MARK: - Properties
-	private var magneticFieldFactor: Double? = nil
+	var userDefinedMagneticFactor: Double? {
+		didSet {
+			print("Updated userDefinedMagneticFactor to \(userDefinedMagneticFactor)")
+		}
+	}
 	private var magnetometerBuffer: RingBuffer<Double>
 	private var armAngleBuffer: RingBuffer<Double>
 
@@ -63,7 +80,7 @@ final class SensorManager {
 	private init() {
 		magnetometerBuffer = RingBuffer(count: Int(Constant.sensorDataFrequency) * Constant.magnetometerCollectionDataSeconds)
 		armAngleBuffer = RingBuffer(count: Int(Constant.sensorDataFrequency * Constant.accelerationCollectionDataSeconds))
-		magneticFieldFactor = setupManager.magneticFactor
+		userDefinedMagneticFactor = setupManager.userDefinedMagneticFactor
 	}
 
 	// MARK: - Helper functions
@@ -122,8 +139,9 @@ final class SensorManager {
 
 		// Calculate the factor and save it
 		let factor = max / stddev
-		magneticFieldFactor = factor
 		setupManager.setMagneticFactor(factor)
+		setupManager.setUserDefinedMagneticFactor(factor)
+		print("Factor \(factor)")
 	}
 
 	func startContinousDataUpdates(withHandler: SensorHandler? = nil) {
@@ -193,7 +211,7 @@ final class SensorManager {
 				}
 				magnetometer.average = _self.magnetometerBuffer.average
 				magnetometer.standardDeviation = _self.magnetometerBuffer.standardDeviation
-				magnetometer.factor = _self.magneticFieldFactor
+				magnetometer.factor = _self.userDefinedMagneticFactor
 				// Append to the list of available sensor's data
 				sensorsData.append(magnetometer)
 			}
@@ -207,7 +225,7 @@ final class SensorManager {
 }
 
 extension SensorManager {
-	func sensorData(_ type: SensorType, deviceMotion: CMDeviceMotion) -> SensorData? {
+	private func sensorData(_ type: SensorType, deviceMotion: CMDeviceMotion) -> SensorData? {
 		switch type {
 		case .magnetometer:
 			// If the magnetometer isn't available

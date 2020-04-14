@@ -162,7 +162,7 @@
                                                         <label alignment="left" text="Factor" textAlignment="left" id="Z6Y-o5-6h5">
                                                             <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                         </label>
-                                                        <slider width="1" height="35" alignment="left" value="0.14999999999999999" minimum="0.14999999999999999" steps="85" id="4mM-6g-owt">
+                                                        <slider width="1" height="35" alignment="left" value="0.14999999999999999" minimum="0.14999999999999999" maximum="50" steps="85" id="4mM-6g-owt">
                                                             <connections>
                                                                 <action selector="didChangeMagneticFieldSliderValue:" destination="AgC-eL-Hgc" id="RK0-iu-bOL"/>
                                                             </connections>

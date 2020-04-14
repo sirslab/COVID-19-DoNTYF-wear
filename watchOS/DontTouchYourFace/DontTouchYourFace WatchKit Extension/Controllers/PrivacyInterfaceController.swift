@@ -10,8 +10,8 @@ import Foundation
 import WatchKit
 
 final class PrivacyInterfaceController: WKInterfaceController {
-	private let setupManager = SetupManager.shared
-	private let sensorManager = SensorManager.shared
+	private let setupManager: OnboardingProvider = SetupManager.shared
+	private let sensorManager: SensorManagerInterface = SensorManager.shared
 	@IBOutlet private var denyButton: WKInterfaceButton!
 	@IBOutlet private var contentLabel: WKInterfaceLabel!
 

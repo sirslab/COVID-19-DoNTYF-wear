@@ -12,7 +12,7 @@ enum Constant {
 	static let grantPermissionKey = "didAcceptPrivacy"
 
 	static let accelerationCrownStep: Float = 0.01
-	static let magneticFieldCrownStep: Float = 0.01
+	static let magneticFieldCrownStep: Float = 0.5
 	static let crownSensitivity: Double = 0.1
 
 	static let magnetometerCollectionDataSeconds = 5

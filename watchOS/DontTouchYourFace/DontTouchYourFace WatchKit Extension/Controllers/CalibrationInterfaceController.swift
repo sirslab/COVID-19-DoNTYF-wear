@@ -30,7 +30,7 @@ final class CalibrationInterfaceController: WKInterfaceController {
 	private var isRecalibration: Bool = false
 	// State of the calibration
 	private var state: State = .environment
-	private let sensorManager = SensorManager.shared
+	private let sensorManager: CalibrationInterface = SensorManager.shared
 
 	override func awake(withContext context: Any?) {
 		isRecalibration = context as? Bool ?? false
@@ -57,6 +57,7 @@ final class CalibrationInterfaceController: WKInterfaceController {
 	}
 
 	private func updateUI(showCountdown: Bool) {
+		// Based on the showCountdown value, hide or not some components
 		countdownTextLabel.setHidden(!showCountdown)
 		countdownLabel.setHidden(!showCountdown)
 		calibrateButton.setHidden(showCountdown)
@@ -98,7 +99,12 @@ final class CalibrationInterfaceController: WKInterfaceController {
 				pop()
 			} else {
 				// Otherwise present the MeasurementInterfaceController
-				WKInterfaceController.reloadRootPageControllers(withNames: [MeasurementInterfaceController.identifier],  contexts: nil, orientation: .vertical, pageIndex: 0)
+				WKInterfaceController.reloadRootPageControllers(
+					withNames: [MeasurementInterfaceController.identifier],
+					contexts: nil,
+					orientation: .vertical,
+					pageIndex: 0
+				)
 			}
 		}
 	}

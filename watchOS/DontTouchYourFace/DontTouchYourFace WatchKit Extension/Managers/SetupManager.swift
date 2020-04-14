@@ -17,9 +17,11 @@ protocol OnboardingProvider {
 
 protocol SensorsDataProvider {
 	var magneticFactor: Double? { get }
+	var userDefinedMagneticFactor: Double? { get }
 	var standardDeviation: Double? { get }
 	func setMagneticFactor(_ factor: Double)
 	func setStandardDeviation(_ standardDeviation: Double)
+	func setUserDefinedMagneticFactor(_ factor: Double)
 }
 
 final class SetupManager: OnboardingProvider, SensorsDataProvider {
@@ -49,6 +51,15 @@ final class SetupManager: OnboardingProvider, SensorsDataProvider {
 		return magneticFactor
 	}
 
+	/// Returns the adjusted magnetic factor by the user
+	var userDefinedMagneticFactor: Double? {
+		let userDefinedMagneticFactor = userDefaults.double(forKey: "userDefinedMagneticFactor")
+		guard userDefinedMagneticFactor != 0 else {
+			return nil
+		}
+		return userDefinedMagneticFactor
+	}
+
 	/// Returns the standard deviation calculated over the first calibration
 	var standardDeviation: Double? {
 		let standardDeviation = userDefaults.double(forKey: "STDDEV")
@@ -64,6 +75,10 @@ final class SetupManager: OnboardingProvider, SensorsDataProvider {
 
 	func setMagneticFactor(_ factor: Double) {
 		userDefaults.set(factor, forKey: "magneticFactor")
+	}
+
+	func setUserDefinedMagneticFactor(_ factor: Double) {
+		userDefaults.set(factor, forKey: "userDefinedMagneticFactor")
 	}
 
 	func setStandardDeviation(_ standardDeviation: Double) {
