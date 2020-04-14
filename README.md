@@ -1,5 +1,8 @@
 # No Face-Touch project
 
+## Website
+[Offical app Website](http://www.nofacetouch.org)
+
 ## License
 
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org) **[MIT license](http://opensource.org/licenses/mit-license.php)**
@@ -7,9 +10,6 @@
 - Android App  Copyright 2020 © SIRSLab - University of Siena
 
 ## Installation and Usage
-
-### Website
-[Offical app Website](http://www.nofacetouch.org)
 
 ### Android APK
 [Click here to download the APK file](https://github.com/sirslab/COVID-19-DoNTYF-wear/raw/master/app/build/outputs/apk/debug/app-debug.apk)
@@ -25,7 +25,7 @@ The current App is available for all the Apple Watch series. The ones with a mag
 To help us stopping to touch our faces we developed a simple and free app that let your smartwatch vibrate and ring as soon as you get closer to your face. The face is detected by using a small cheap magnet at your necklace.  
 The smartwatch is worn on the arm whose hand more frequently touches your face. We are using it on the left arm but you can choose the one you like. Of course we cannot alert if the hand without the smartwatch touches your face but we hope that preventing one hand only to touch our face can help us building safe habits for both hands. In any case for sure we reduce the risk by a factor 2. 
 
-## WearOS app flow
+## App flow
 We developed a WearOS standalone app that reads magnetometer measurements and detects the proximity with a magnet attached to a necklace or an ad-hoc accessory worn close to the face.
 The app is composed of the following activities:
 - Main activity: shows logos and collects users' agreements on using accelerometer and magnetometer data from the smartwatch
