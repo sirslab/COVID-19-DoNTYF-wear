@@ -1,0 +1,645 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EF573E08243B83DD000E2E08 /* PrivacyInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF573E07243B83DD000E2E08 /* PrivacyInterfaceController.swift */; };
+		EF573E0E243B88F6000E2E08 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF573E0D243B88F6000E2E08 /* Extensions.swift */; };
+		EF573E10243B8A51000E2E08 /* CalibrationInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF573E0F243B8A51000E2E08 /* CalibrationInterfaceController.swift */; };
+		EF573E20243B96F8000E2E08 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF573E1F243B96F8000E2E08 /* Constant.swift */; };
+		EF573E22243B9770000E2E08 /* SetupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF573E21243B9770000E2E08 /* SetupManager.swift */; };
+		EF5AAD28243BD60C006F08D7 /* DetectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5AAD27243BD60C006F08D7 /* DetectionManager.swift */; };
+		EF5AAD2A243BDDC6006F08D7 /* MessageInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5AAD29243BDDC6006F08D7 /* MessageInterfaceController.swift */; };
+		EF5AAD2C243BE334006F08D7 /* SensorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5AAD2B243BE334006F08D7 /* SensorManager.swift */; };
+		EF5AAD30243BE8FC006F08D7 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5AAD2F243BE8FC006F08D7 /* HealthKit.framework */; };
+		EF90CC94243B6670006180D7 /* DTYF.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = EF90CC93243B6670006180D7 /* DTYF.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EF90CC9A243B6670006180D7 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF90CC98243B6670006180D7 /* Interface.storyboard */; };
+		EF90CC9C243B6672006180D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF90CC9B243B6672006180D7 /* Assets.xcassets */; };
+		EF90CCA3243B6672006180D7 /* DontTouchYourFace WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EF90CCA2243B6672006180D7 /* DontTouchYourFace WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EF90CCA8243B6672006180D7 /* MeasurementInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF90CCA7243B6672006180D7 /* MeasurementInterfaceController.swift */; };
+		EF90CCAA243B6672006180D7 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF90CCA9243B6672006180D7 /* ExtensionDelegate.swift */; };
+		EF90CCAC243B6672006180D7 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF90CCAB243B6672006180D7 /* NotificationController.swift */; };
+		EF90CCAE243B6673006180D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF90CCAD243B6673006180D7 /* Assets.xcassets */; };
+		EF939D4E2442229C00F0C0D8 /* SensorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF939D4D2442229C00F0C0D8 /* SensorData.swift */; };
+		EFF8D7D2243E191A001510F2 /* RingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF8D7D1243E191A001510F2 /* RingBuffer.swift */; };
+		EFF8D7D5243E367E001510F2 /* Thresholds.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF8D7D4243E367E001510F2 /* Thresholds.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EF90CC95243B6670006180D7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EF90CC89243B666F006180D7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EF90CC92243B6670006180D7;
+			remoteInfo = "DontTouchYourFace WatchKit App";
+		};
+		EF90CCA4243B6672006180D7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EF90CC89243B666F006180D7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EF90CCA1243B6672006180D7;
+			remoteInfo = "DontTouchYourFace WatchKit Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EF90CCB6243B6673006180D7 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				EF90CCA3243B6672006180D7 /* DontTouchYourFace WatchKit Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EF90CCBA243B6673006180D7 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				EF90CC94243B6670006180D7 /* DTYF.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		EF573E07243B83DD000E2E08 /* PrivacyInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyInterfaceController.swift; sourceTree = "<group>"; };
+		EF573E0D243B88F6000E2E08 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		EF573E0F243B8A51000E2E08 /* CalibrationInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationInterfaceController.swift; sourceTree = "<group>"; };
+		EF573E1F243B96F8000E2E08 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		EF573E21243B9770000E2E08 /* SetupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupManager.swift; sourceTree = "<group>"; };
+		EF5AAD27243BD60C006F08D7 /* DetectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectionManager.swift; sourceTree = "<group>"; };
+		EF5AAD29243BDDC6006F08D7 /* MessageInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInterfaceController.swift; sourceTree = "<group>"; };
+		EF5AAD2B243BE334006F08D7 /* SensorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorManager.swift; sourceTree = "<group>"; };
+		EF5AAD2D243BE8FC006F08D7 /* DontTouchYourFace WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "DontTouchYourFace WatchKit Extension.entitlements"; sourceTree = "<group>"; };
+		EF5AAD2F243BE8FC006F08D7 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.1.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
+		EF90CC8F243B666F006180D7 /* DontTouchYourFace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DontTouchYourFace.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF90CC93243B6670006180D7 /* DTYF.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DTYF.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF90CC99243B6670006180D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		EF90CC9B243B6672006180D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EF90CC9D243B6672006180D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EF90CCA2243B6672006180D7 /* DontTouchYourFace WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "DontTouchYourFace WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF90CCA7243B6672006180D7 /* MeasurementInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementInterfaceController.swift; sourceTree = "<group>"; };
+		EF90CCA9243B6672006180D7 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		EF90CCAB243B6672006180D7 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		EF90CCAD243B6673006180D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EF90CCAF243B6673006180D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EF90CCB0243B6673006180D7 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		EF939D4D2442229C00F0C0D8 /* SensorData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorData.swift; sourceTree = "<group>"; };
+		EFF8D7D1243E191A001510F2 /* RingBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingBuffer.swift; sourceTree = "<group>"; };
+		EFF8D7D4243E367E001510F2 /* Thresholds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Thresholds.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EF90CC9F243B6672006180D7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF5AAD30243BE8FC006F08D7 /* HealthKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EF573E0B243B88BC000E2E08 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				EF5AAD29243BDDC6006F08D7 /* MessageInterfaceController.swift */,
+				EF573E07243B83DD000E2E08 /* PrivacyInterfaceController.swift */,
+				EF573E0F243B8A51000E2E08 /* CalibrationInterfaceController.swift */,
+				EF90CCA7243B6672006180D7 /* MeasurementInterfaceController.swift */,
+				EF90CCAB243B6672006180D7 /* NotificationController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		EF573E0C243B88C7000E2E08 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				EF90CCAD243B6673006180D7 /* Assets.xcassets */,
+				EF90CCAF243B6673006180D7 /* Info.plist */,
+				EF90CCB0243B6673006180D7 /* PushNotificationPayload.apns */,
+				EF573E0D243B88F6000E2E08 /* Extensions.swift */,
+				EF573E1F243B96F8000E2E08 /* Constant.swift */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EF5AAD2E243BE8FC006F08D7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EF5AAD2F243BE8FC006F08D7 /* HealthKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EF8DA8A0243D0F7200C45D12 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				EF573E21243B9770000E2E08 /* SetupManager.swift */,
+				EF5AAD27243BD60C006F08D7 /* DetectionManager.swift */,
+				EF5AAD2B243BE334006F08D7 /* SensorManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		EF90CC88243B666F006180D7 = {
+			isa = PBXGroup;
+			children = (
+				EF90CC97243B6670006180D7 /* DontTouchYourFace WatchKit App */,
+				EF90CCA6243B6672006180D7 /* DontTouchYourFace WatchKit Extension */,
+				EF90CC90243B666F006180D7 /* Products */,
+				EF5AAD2E243BE8FC006F08D7 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		EF90CC90243B666F006180D7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EF90CC8F243B666F006180D7 /* DontTouchYourFace.app */,
+				EF90CC93243B6670006180D7 /* DTYF.app */,
+				EF90CCA2243B6672006180D7 /* DontTouchYourFace WatchKit Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EF90CC97243B6670006180D7 /* DontTouchYourFace WatchKit App */ = {
+			isa = PBXGroup;
+			children = (
+				EF90CC98243B6670006180D7 /* Interface.storyboard */,
+				EF90CC9B243B6672006180D7 /* Assets.xcassets */,
+				EF90CC9D243B6672006180D7 /* Info.plist */,
+			);
+			path = "DontTouchYourFace WatchKit App";
+			sourceTree = "<group>";
+		};
+		EF90CCA6243B6672006180D7 /* DontTouchYourFace WatchKit Extension */ = {
+			isa = PBXGroup;
+			children = (
+				EF5AAD2D243BE8FC006F08D7 /* DontTouchYourFace WatchKit Extension.entitlements */,
+				EF573E0B243B88BC000E2E08 /* Controllers */,
+				EF8DA8A0243D0F7200C45D12 /* Managers */,
+				EF90CCA9243B6672006180D7 /* ExtensionDelegate.swift */,
+				EFF8D7D3243E3672001510F2 /* Model */,
+				EF573E0C243B88C7000E2E08 /* Supporting Files */,
+			);
+			path = "DontTouchYourFace WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		EFF8D7D3243E3672001510F2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EFF8D7D1243E191A001510F2 /* RingBuffer.swift */,
+				EFF8D7D4243E367E001510F2 /* Thresholds.swift */,
+				EF939D4D2442229C00F0C0D8 /* SensorData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EF90CC8E243B666F006180D7 /* DontTouchYourFace */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EF90CCBB243B6673006180D7 /* Build configuration list for PBXNativeTarget "DontTouchYourFace" */;
+			buildPhases = (
+				EF90CC8D243B666F006180D7 /* Resources */,
+				EF90CCBA243B6673006180D7 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EF90CC96243B6670006180D7 /* PBXTargetDependency */,
+			);
+			name = DontTouchYourFace;
+			productName = DontTouchYourFace;
+			productReference = EF90CC8F243B666F006180D7 /* DontTouchYourFace.app */;
+			productType = "com.apple.product-type.application.watchapp2-container";
+		};
+		EF90CC92243B6670006180D7 /* DontTouchYourFace WatchKit App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EF90CCB7243B6673006180D7 /* Build configuration list for PBXNativeTarget "DontTouchYourFace WatchKit App" */;
+			buildPhases = (
+				EF90CC91243B6670006180D7 /* Resources */,
+				EF90CCB6243B6673006180D7 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EF90CCA5243B6672006180D7 /* PBXTargetDependency */,
+			);
+			name = "DontTouchYourFace WatchKit App";
+			productName = "DontTouchYourFace WatchKit App";
+			productReference = EF90CC93243B6670006180D7 /* DTYF.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		EF90CCA1243B6672006180D7 /* DontTouchYourFace WatchKit Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EF90CCB3243B6673006180D7 /* Build configuration list for PBXNativeTarget "DontTouchYourFace WatchKit Extension" */;
+			buildPhases = (
+				EF90CC9E243B6672006180D7 /* Sources */,
+				EF90CC9F243B6672006180D7 /* Frameworks */,
+				EF90CCA0243B6672006180D7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "DontTouchYourFace WatchKit Extension";
+			productName = "DontTouchYourFace WatchKit Extension";
+			productReference = EF90CCA2243B6672006180D7 /* DontTouchYourFace WatchKit Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EF90CC89243B666F006180D7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1130;
+				LastUpgradeCheck = 1130;
+				ORGANIZATIONNAME = "Annino De Petra";
+				TargetAttributes = {
+					EF90CC8E243B666F006180D7 = {
+						CreatedOnToolsVersion = 11.3.1;
+					};
+					EF90CC92243B6670006180D7 = {
+						CreatedOnToolsVersion = 11.3.1;
+					};
+					EF90CCA1243B6672006180D7 = {
+						CreatedOnToolsVersion = 11.3.1;
+					};
+				};
+			};
+			buildConfigurationList = EF90CC8C243B666F006180D7 /* Build configuration list for PBXProject "DontTouchYourFace" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EF90CC88243B666F006180D7;
+			productRefGroup = EF90CC90243B666F006180D7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EF90CC8E243B666F006180D7 /* DontTouchYourFace */,
+				EF90CC92243B6670006180D7 /* DontTouchYourFace WatchKit App */,
+				EF90CCA1243B6672006180D7 /* DontTouchYourFace WatchKit Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EF90CC8D243B666F006180D7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EF90CC91243B6670006180D7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF90CC9C243B6672006180D7 /* Assets.xcassets in Resources */,
+				EF90CC9A243B6670006180D7 /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EF90CCA0243B6672006180D7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF90CCAE243B6673006180D7 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EF90CC9E243B6672006180D7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF573E22243B9770000E2E08 /* SetupManager.swift in Sources */,
+				EF5AAD28243BD60C006F08D7 /* DetectionManager.swift in Sources */,
+				EF573E08243B83DD000E2E08 /* PrivacyInterfaceController.swift in Sources */,
+				EFF8D7D5243E367E001510F2 /* Thresholds.swift in Sources */,
+				EF573E0E243B88F6000E2E08 /* Extensions.swift in Sources */,
+				EF5AAD2C243BE334006F08D7 /* SensorManager.swift in Sources */,
+				EF573E20243B96F8000E2E08 /* Constant.swift in Sources */,
+				EF939D4E2442229C00F0C0D8 /* SensorData.swift in Sources */,
+				EF90CCAC243B6672006180D7 /* NotificationController.swift in Sources */,
+				EF90CCAA243B6672006180D7 /* ExtensionDelegate.swift in Sources */,
+				EF573E10243B8A51000E2E08 /* CalibrationInterfaceController.swift in Sources */,
+				EF5AAD2A243BDDC6006F08D7 /* MessageInterfaceController.swift in Sources */,
+				EFF8D7D2243E191A001510F2 /* RingBuffer.swift in Sources */,
+				EF90CCA8243B6672006180D7 /* MeasurementInterfaceController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EF90CC96243B6670006180D7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EF90CC92243B6670006180D7 /* DontTouchYourFace WatchKit App */;
+			targetProxy = EF90CC95243B6670006180D7 /* PBXContainerItemProxy */;
+		};
+		EF90CCA5243B6672006180D7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EF90CCA1243B6672006180D7 /* DontTouchYourFace WatchKit Extension */;
+			targetProxy = EF90CCA4243B6672006180D7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		EF90CC98243B6670006180D7 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EF90CC99243B6670006180D7 /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		EF90CCB1243B6673006180D7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		EF90CCB2243B6673006180D7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EF90CCB4243B6673006180D7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "DontTouchYourFace WatchKit Extension/DontTouchYourFace WatchKit Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 62KK4CLZ8M;
+				INFOPLIST_FILE = "DontTouchYourFace WatchKit Extension/Supporting Files/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				OTHER_SWIFT_FLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ndppphz.DontTouchYourFace.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
+			};
+			name = Debug;
+		};
+		EF90CCB5243B6673006180D7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "DontTouchYourFace WatchKit Extension/DontTouchYourFace WatchKit Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 62KK4CLZ8M;
+				INFOPLIST_FILE = "DontTouchYourFace WatchKit Extension/Supporting Files/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ndppphz.DontTouchYourFace.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
+			};
+			name = Release;
+		};
+		EF90CCB8243B6673006180D7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 62KK4CLZ8M;
+				IBSC_MODULE = DontTouchYourFace_WatchKit_Extension;
+				INFOPLIST_FILE = "DontTouchYourFace WatchKit App/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ndppphz.DontTouchYourFace.watchkitapp;
+				PRODUCT_NAME = DTYF;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
+			};
+			name = Debug;
+		};
+		EF90CCB9243B6673006180D7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 62KK4CLZ8M;
+				IBSC_MODULE = DontTouchYourFace_WatchKit_Extension;
+				INFOPLIST_FILE = "DontTouchYourFace WatchKit App/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ndppphz.DontTouchYourFace.watchkitapp;
+				PRODUCT_NAME = DTYF;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
+			};
+			name = Release;
+		};
+		EF90CCBC243B6673006180D7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 62KK4CLZ8M;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ndppphz.DontTouchYourFace;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		EF90CCBD243B6673006180D7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 62KK4CLZ8M;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ndppphz.DontTouchYourFace;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EF90CC8C243B666F006180D7 /* Build configuration list for PBXProject "DontTouchYourFace" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF90CCB1243B6673006180D7 /* Debug */,
+				EF90CCB2243B6673006180D7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EF90CCB3243B6673006180D7 /* Build configuration list for PBXNativeTarget "DontTouchYourFace WatchKit Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF90CCB4243B6673006180D7 /* Debug */,
+				EF90CCB5243B6673006180D7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EF90CCB7243B6673006180D7 /* Build configuration list for PBXNativeTarget "DontTouchYourFace WatchKit App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF90CCB8243B6673006180D7 /* Debug */,
+				EF90CCB9243B6673006180D7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EF90CCBB243B6673006180D7 /* Build configuration list for PBXNativeTarget "DontTouchYourFace" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF90CCBC243B6673006180D7 /* Debug */,
+				EF90CCBD243B6673006180D7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EF90CC89243B666F006180D7 /* Project object */;
+}

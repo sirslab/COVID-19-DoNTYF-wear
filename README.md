@@ -1,5 +1,17 @@
 # No Face-Touch project
 
+## WatchOS App
+The current App is available for all the Apple Watch series. The ones with a magnetometer ( 5th edition ) will have the support of the magnetometer along with the accelerometer to determine when an alert should be raised. The previous generations use the accelerometer only and an alert will be raised when the hand is moving towards the face.
+
+<img src="https://user-images.githubusercontent.com/6486741/79162943-034be400-7dd6-11ea-84c4-bf2f85383c7f.PNG" width="150px"> <img src="https://user-images.githubusercontent.com/6486741/79162939-02b34d80-7dd6-11ea-8bdc-03bff1a553ae.PNG" width="150px">
+
+## License
+
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
+
+**[MIT license](http://opensource.org/licenses/mit-license.php)**
+- Copyright 2020 © Annino De Petra
+
 ## Installation and Usage
 
 ### Website
@@ -39,9 +51,9 @@ Considering that the magnetic field shows substantial fluctutations in the envir
      <td>Main Screen</td>
   </tr>
   <tr>
-    <td><a href="images/Hand_choice_block.png" target="_blank"><img src="images/Hand_choice_block.png" width=270></a></td>
-    <td><a href="images/Block_calib_screen.png" target="_blank"><img src="images/Block_calib_screen.png" width=270></a></td>
-    <td><a href="images/Block_main_screen.png" target="_blank"><img src="images/Block_main_screen.png" width=270></a></td>
+    <td><a href="https://github.com/sirslab/COVID-19-DoNTYF-wear/blob/master/images/Hand_choice_block.png" target="_blank"><img src="images/Hand_choice_block.png" width=270></a></td>
+    <td><a href="https://github.com/sirslab/COVID-19-DoNTYF-wear/blob/master/images/Block_calib_screen.png" target="_blank"><img src="images/Block_calib_screen.png" width=270></a></td>
+    <td><a href="https://github.com/sirslab/COVID-19-DoNTYF-wear/blob/master/images/Block_main_screen.png" target="_blank"><img src="images/Block_main_screen.png" width=270></a></td>
   </tr>
  </table>
 
