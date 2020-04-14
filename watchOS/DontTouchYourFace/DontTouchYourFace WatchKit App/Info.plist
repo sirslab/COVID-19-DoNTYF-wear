@@ -27,5 +27,9 @@
 	</array>
 	<key>WKWatchKitApp</key>
 	<true/>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>To recognise self-touches face movements in background</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>To recognise self-touches face movements in background</string>
 </dict>
 </plist>
