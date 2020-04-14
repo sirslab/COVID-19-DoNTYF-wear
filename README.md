@@ -10,14 +10,14 @@ The current App is available for all the Apple Watch series. The ones with a mag
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
 
 **[MIT license](http://opensource.org/licenses/mit-license.php)**
-- Copyright 2020 © Annino De Petra
+- WatchOS App Copyright 2020 © Annino De Petra
 
 ## Installation and Usage
 
 ### Website
 [Offical app Website](http://www.nofacetouch.org)
 
-### APK
+### Android APK
 [Click here to download the APK file](https://github.com/sirslab/COVID-19-DoNTYF-wear/raw/master/app/build/outputs/apk/debug/app-debug.apk)
 
 ## TODOs
