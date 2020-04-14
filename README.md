@@ -2,11 +2,9 @@
 
 ## License
 
-[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
-
-**[MIT license](http://opensource.org/licenses/mit-license.php)**
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org) **[MIT license](http://opensource.org/licenses/mit-license.php)**
 - WatchOS App Copyright 2020 © Annino De Petra
-- Android App Copyright 2020 © SIRSLab - University of Siena
+- Android App  Copyright 2020 © SIRSLab - University of Siena
 
 ## Installation and Usage
 
