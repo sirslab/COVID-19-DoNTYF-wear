@@ -5,6 +5,13 @@ The current App is available for all the Apple Watch series. The ones with a mag
 
 <img src="https://user-images.githubusercontent.com/6486741/79162943-034be400-7dd6-11ea-84c4-bf2f85383c7f.PNG" width="150px"> <img src="https://user-images.githubusercontent.com/6486741/79162939-02b34d80-7dd6-11ea-8bdc-03bff1a553ae.PNG" width="150px">
 
+## License
+
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
+
+**[MIT license](http://opensource.org/licenses/mit-license.php)**
+- Copyright 2020 © Annino De Petra
+
 ## Installation and Usage
 
 ### Website
