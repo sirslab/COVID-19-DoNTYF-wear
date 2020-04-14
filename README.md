@@ -11,6 +11,7 @@ The current App is available for all the Apple Watch series. The ones with a mag
 
 **[MIT license](http://opensource.org/licenses/mit-license.php)**
 - WatchOS App Copyright 2020 © Annino De Petra
+- Android App Copyright 2020 © SIRSLab - University of Siena
 
 ## Installation and Usage
 
