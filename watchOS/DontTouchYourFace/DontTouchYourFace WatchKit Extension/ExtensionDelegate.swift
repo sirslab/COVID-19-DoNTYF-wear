@@ -17,9 +17,11 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 			return
 		}
 
-		guard setupManager.didUserMakeFirstCalibration else {
-			WKInterfaceController.reloadRootPageControllers(withNames: [CalibrationInterfaceController.identifier], contexts: nil, orientation: .vertical, pageIndex: 0)
-			return
+		if SensorManager.shared.isMagnetometerAvailable {
+			guard setupManager.didUserMakeFirstCalibration else {
+				WKInterfaceController.reloadRootPageControllers(withNames: [CalibrationInterfaceController.identifier], contexts: nil, orientation: .vertical, pageIndex: 0)
+				return
+			}
 		}
 
 		WKInterfaceController.reloadRootPageControllers(withNames: [MeasurementInterfaceController.identifier], contexts: nil, orientation: .vertical, pageIndex: 0)
