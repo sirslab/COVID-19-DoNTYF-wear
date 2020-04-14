@@ -28,6 +28,7 @@ final class MeasurementInterfaceController: WKInterfaceController {
 
 	// MARK: - Properties
 	private let detectionManager = DetectionManager()
+	private let sensorManager = SensorManager.shared
 	private var crownAccumulator = 0.0
 
 	// MARK: - Controller Lifecycle
@@ -41,7 +42,7 @@ final class MeasurementInterfaceController: WKInterfaceController {
 	private func setupUI() {
 		crownSequencer.delegate = self
 
-		if SensorManager.shared.isMagnetometerAvailable {
+		if sensorManager.isMagnetometerAvailable {
 			setupMagneticFieldThresholdSlider()
 			updateMagneticFieldThreshold(Threshold.MagneticField.magneticFieldThreshold)
 			calibrateButton.setBackgroundColor(Constant.Color.blue)
@@ -149,7 +150,7 @@ final class MeasurementInterfaceController: WKInterfaceController {
 
 	@IBAction func didTapMagnetometerToggle(_ value: Bool) {
 		let didEnableMagnetometer = value
-		SensorManager.shared.isMagnetometerCollectionDataEnabledFromUser = didEnableMagnetometer
+		sensorManager.isMagnetometerCollectionDataEnabledFromUser = didEnableMagnetometer
 		magneticFieldSlider.setEnabled(didEnableMagnetometer)
 
 		// Magnetometer disabled

@@ -31,7 +31,7 @@ final class SensorManager {
 		return queue
 	}()
 
-	private lazy var setupManager: SensorsDataProvider = SetupManager()
+	private lazy var setupManager: SensorsDataProvider = SetupManager.shared
 
 	private lazy var motionManager: CMMotionManager = {
 		let motionManager = CMMotionManager()

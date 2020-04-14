@@ -10,7 +10,7 @@ import WatchKit
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
     func applicationDidFinishLaunching() {
-		let setupManager: OnboardingProvider = SetupManager()
+		let setupManager: OnboardingProvider = SetupManager.shared
 
 		guard setupManager.didUserAcceptPrivacy else {
 			WKInterfaceController.reloadRootPageControllers(withNames: [PrivacyInterfaceController.identifier], contexts: nil, orientation: .vertical, pageIndex: 0)

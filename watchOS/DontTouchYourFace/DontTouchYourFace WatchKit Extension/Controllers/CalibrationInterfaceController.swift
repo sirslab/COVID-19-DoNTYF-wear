@@ -30,6 +30,7 @@ final class CalibrationInterfaceController: WKInterfaceController {
 	private var isRecalibration: Bool = false
 	// State of the calibration
 	private var state: State = .environment
+	private let sensorManager = SensorManager.shared
 
 	override func awake(withContext context: Any?) {
 		isRecalibration = context as? Bool ?? false
@@ -41,7 +42,7 @@ final class CalibrationInterfaceController: WKInterfaceController {
 	@IBAction func didTapCalibrate() {
 		setupCountdownUI()
 		startTimer()
-		SensorManager.shared.startMagnetometerCalibration()
+		sensorManager.startMagnetometerCalibration()
 	}
 
 	private func setupCountdownUI() {
@@ -82,7 +83,7 @@ final class CalibrationInterfaceController: WKInterfaceController {
 		switch state {
 		case .environment:
 			// Stop the first magnetometer calibration
-			SensorManager.shared.stopMagnetometerCalibrationForStandardDeviation()
+			sensorManager.stopMagnetometerCalibrationForStandardDeviation()
 			// Update the state and the UI again
 			state = .magnet
 			countdown = Constant.calibrationCountdown
@@ -91,7 +92,7 @@ final class CalibrationInterfaceController: WKInterfaceController {
 			updateUI(showCountdown: false)
 		case .magnet:
 			// Stop the magnetometer calibration
-			SensorManager.shared.stopMagnetometerCalibrationForMaximumValue()
+			sensorManager.stopMagnetometerCalibrationForMaximumValue()
 			// If is recalibration, pop the controller and show again the main one
 			if isRecalibration {
 				pop()

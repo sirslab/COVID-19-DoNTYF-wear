@@ -12,6 +12,7 @@ import WatchKit
 protocol OnboardingProvider {
 	var didUserAcceptPrivacy: Bool { get }
 	var didUserMakeFirstCalibration: Bool { get }
+	func usedDidAcceptPrivacyPolicy()
 }
 
 protocol SensorsDataProvider {
@@ -24,8 +25,9 @@ protocol SensorsDataProvider {
 final class SetupManager: OnboardingProvider, SensorsDataProvider {
 	private let userDefaults: UserDefaults
 
-	init(userDefaults: UserDefaults = .standard) {
-		self.userDefaults = userDefaults
+	static let shared: SetupManager = SetupManager()
+	private init() {
+		self.userDefaults = .standard
 	}
 
 	/// Returns if the user has accepted the privacy policy
@@ -54,6 +56,10 @@ final class SetupManager: OnboardingProvider, SensorsDataProvider {
 			return nil
 		}
 		return standardDeviation
+	}
+
+	func usedDidAcceptPrivacyPolicy() {
+		userDefaults.set(true, forKey: Constant.grantPermissionKey)
 	}
 
 	func setMagneticFactor(_ factor: Double) {
