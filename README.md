@@ -1,4 +1,4 @@
-# No Face-Touch project
+# No Face-Touch App project
 
 ## Website
 [Offical app Website](http://www.nofacetouch.org)
