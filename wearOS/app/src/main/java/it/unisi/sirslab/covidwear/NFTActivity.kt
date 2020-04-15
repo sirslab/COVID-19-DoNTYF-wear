@@ -223,7 +223,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
                 rawValue = (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]) / 100
 
                 updateAverage(rawValue)
-                n = (rawValue - calib).absoluteValue
+                n = (rawValue - calib).absoluteValue/stddev
             }
             return
         }
@@ -257,8 +257,8 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
 
             }
 
-            n = (rawValue - calib).absoluteValue
-            stateDanger = n > stddev*sensitivitySeekBar.progress
+            n = (rawValue - calib).absoluteValue/stddev
+            stateDanger = n > sensitivitySeekBar.progress
             updateVibration()
         }
 
