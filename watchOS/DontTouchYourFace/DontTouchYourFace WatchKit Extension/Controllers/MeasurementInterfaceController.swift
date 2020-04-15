@@ -22,6 +22,7 @@ final class MeasurementInterfaceController: WKInterfaceController {
 	@IBOutlet private var magneticFieldDataGroup: WKInterfaceGroup!
 	@IBOutlet private var magneticFieldSliderGroup: WKInterfaceGroup!
 	@IBOutlet private var magnetometerToggle: WKInterfaceSwitch!
+	@IBOutlet private var magneticFieldSeparator: WKInterfaceSeparator!
 
 	@IBOutlet private var startStopButton: WKInterfaceButton!
 	@IBOutlet private var calibrateButton: WKInterfaceButton!
@@ -60,6 +61,7 @@ final class MeasurementInterfaceController: WKInterfaceController {
 		} else {
 			magneticFieldDataGroup.setHidden(true)
 			magneticFieldSliderGroup.setHidden(true)
+			magneticFieldSeparator.setHidden(true)
 			calibrateButton.setHidden(true)
 			startStopButton.setRelativeWidth(1, withAdjustment: 0)
 		}
