@@ -193,7 +193,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
         }
     }
 
-    private fun stdDev(array: ArrayList<Float>): Float {
+    fun stdDev(array: ArrayList<Float>): Float {
         var variance = 0.0f
         for (sample: Float in array){
             variance += (sample - calib).pow(2)
@@ -223,7 +223,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
                 rawValue = (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]) / 100
 
                 updateAverage(rawValue)
-                n = (rawValue - calib).absoluteValue
+                n = (rawValue - calib).absoluteValue/stddev
             }
             return
         }
@@ -246,8 +246,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
                         calibrFactor = floor(maxValue / stddev)
 
                     }
-                }
-                else {
+                } else {
 
                     updateMaxValue = false
                     sensitivitySeekBar.progress = calibrFactor.toInt()
@@ -258,7 +257,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
 
             }
 
-            n = (rawValue - calib).absoluteValue
+            n = (rawValue - calib).absoluteValue/stddev
             stateDanger = n > sensitivitySeekBar.progress
             updateVibration()
         }
