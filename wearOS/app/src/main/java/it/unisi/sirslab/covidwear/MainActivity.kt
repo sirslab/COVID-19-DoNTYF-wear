@@ -1,7 +1,9 @@
 /*
 Copyright (C) 2020 SIRSLab - University of Siena  <Gianluca, Nicole, Tommaso>
 
-This program is free software: you can redistribute it and/or modify
+This program is part of No Touch-Face App.
+
+No Touch-Face App is a free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
