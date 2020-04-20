@@ -1,89 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-    <!--
-    Copyright (C) 2020 SIRSLab - University of Siena  <Gianluca, Nicole, Tommaso>
+<!--
+Copyright (C) 2020 SIRSLab - University of Siena  <Gianluca, Nicole, Tommaso>
 
-    This program is part of No Touch-Face App.
+This program is part of No Touch-Face App.
 
-    No Touch-Face App is a free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+No Touch-Face App is a free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    No Touch-Face App is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+No Touch-Face App is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-    -->
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<androidx.wear.widget.BoxInsetLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_width="match_parent"
     tools:context=".MainActivity"
     tools:deviceIds="wear">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/inner_frame_layout_padding">
-        <LinearLayout
+        app:boxedEdges="all"
+        android:padding="10dp"
+        tools:ignore="MissingPrefix">
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="380dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-            <LinearLayout
+            android:layout_height="100dp">
+
+            <TextView
+                android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                >
-            <ScrollView
-                android:layout_width="200dp"
-                android:layout_height="150dp"
-                android:paddingTop="30dp">
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/personal_data_advice"
-                    android:textAlignment="center"
-                    android:textSize="20sp" />
-            </ScrollView>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-            <Button
-                android:id="@+id/acceptButton"
-                android:layout_width="63dp"
-                android:layout_height="34dp"
-                android:onClick="onClick"
-                android:text="ACCEPT"
+                android:text="@string/personal_data_advice"
                 android:textAlignment="center"
-                android:textColor="#00FF00"
-                android:textSize="10sp"
-                />
-            <Button
-                android:id="@+id/denyButton"
-                android:layout_width="63dp"
-                android:layout_height="34dp"
-                android:onClick="onClick"
-                android:text="DENY"
-                android:textAlignment="center"
-                android:textColor="#FF0000"
-                android:textSize="10sp"
-                />
-        </LinearLayout>
-        </LinearLayout>
-    </FrameLayout>
+                android:textSize="12sp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/acceptButton"
+            android:layout_gravity="bottom|left"
+            android:layout_width="63dp"
+            android:layout_height="34dp"
+            android:onClick="onClick"
+            android:text="ACCEPT"
+            android:textColor="#00FF00"
+            android:textSize="10sp"
+            />
+        <Button
+            android:id="@+id/denyButton"
+            android:layout_gravity="bottom|right"
+            android:layout_width="63dp"
+            android:layout_height="34dp"
+            android:onClick="onClick"
+            android:text="DENY"
+            android:textColor="#FF0000"
+            android:textSize="10sp"
+            />
+
+
+    </FrameLayout>
+</androidx.wear.widget.BoxInsetLayout>
