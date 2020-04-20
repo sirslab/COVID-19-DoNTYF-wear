@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package it.unisi.sirslab.covidwear
+package it.unisi.sirslab.noFaceTouchAppWear
 
 import android.content.Intent
 import android.os.Bundle
@@ -25,8 +25,6 @@ import android.os.Handler
 import android.support.wearable.activity.WearableActivity
 import android.view.View
 import android.view.Window
-import java.util.*
-import kotlin.concurrent.schedule
 import kotlin.system.exitProcess
 
 class MainActivity : WearableActivity(),  View.OnClickListener {

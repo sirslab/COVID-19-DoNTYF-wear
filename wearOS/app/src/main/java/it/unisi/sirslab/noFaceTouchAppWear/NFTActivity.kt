@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package it.unisi.sirslab.covidwear
+package it.unisi.sirslab.noFaceTouchAppWear
 
 import android.Manifest
 import android.content.Context
@@ -30,7 +30,6 @@ import android.hardware.SensorManager
 import android.media.AudioManager
 import android.media.ToneGenerator
 import android.media.ToneGenerator.TONE_CDMA_ABBR_ALERT
-import android.media.ToneGenerator.TONE_CDMA_SOFT_ERROR_LITE
 import android.os.Bundle
 import android.os.Vibrator
 import android.support.wearable.activity.WearableActivity
