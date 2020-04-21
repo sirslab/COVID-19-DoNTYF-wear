@@ -17,9 +17,30 @@
 ### WatchOS App
 The current App is available for all the Apple Watch series. The ones with a magnetometer ( 5th edition ) will have the support of the magnetometer along with the accelerometer to determine when an alert should be raised. The previous generations use the accelerometer only and an alert will be raised when the hand is moving towards the face.
 
-<img src="https://user-images.githubusercontent.com/6486741/79162943-034be400-7dd6-11ea-84c4-bf2f85383c7f.PNG" width="150px"> <img src="https://user-images.githubusercontent.com/6486741/79162939-02b34d80-7dd6-11ea-8bdc-03bff1a553ae.PNG" width="150px">
+## Details
 
+<img src="https://user-images.githubusercontent.com/6486741/79252608-d3eeb300-7e79-11ea-8170-5126025c004d.PNG" width=150px>
 
+The app starts in the following way:
+On the first page at the first launch, it asks the user permission cause the app is going to use the data from the watch.
+Rejecting the auth doesn't let the user to go forward. It's forbidden to manually close the app as per Apple's guidelines. 
+
+<img src="https://user-images.githubusercontent.com/6486741/79252842-2f20a580-7e7a-11ea-8a93-9857c011f7ff.PNG" width=150px><img src="https://user-images.githubusercontent.com/6486741/79252854-334cc300-7e7a-11ea-9ac8-2d58e2b74f2a.PNG" width=150px>
+
+ 
+Now we have two different scenarios based on the user's device capability:
+A) For those devices with the magnetometer sensor, the user will be asked to proceed going through an a calibration process
+
+<img src="https://user-images.githubusercontent.com/6486741/79252882-3d6ec180-7e7a-11ea-89b7-3ff359218081.PNG" width=150px><img src="https://user-images.githubusercontent.com/6486741/79252889-4069b200-7e7a-11ea-8191-8dfceb798f25.PNG" width=150px><img src="https://user-images.githubusercontent.com/6486741/79252892-419adf00-7e7a-11ea-9dd3-f6e35cb10870.PNG" width=150px>
+
+B) For those without the magnetometer, they will be popped up onto the main screen app
+
+The main screen looks slightly different based on the device capabilities.
+The ones with the magnetometer will be let to change the saved magnetic factor ( collected via the calibration process ) and they can see the current magnetometer norm as well as a toggle which turns on/off the magnetometer.
+
+<img src="https://user-images.githubusercontent.com/6486741/79252914-49f31a00-7e7a-11ea-9774-d7bcbc36f299.PNG" width=150px><img src="https://user-images.githubusercontent.com/6486741/79252921-4c557400-7e7a-11ea-8ac5-2937c3928792.PNG" width=150px>
+
+Whereas for those without, they will be only shown the current arm angle and the slope. 
 
 ## The idea behind the app
 To help us stopping to touch our faces we developed a simple and free app that let your smartwatch vibrate and ring as soon as you get closer to your face. The face is detected by using a small cheap magnet at your necklace.  
