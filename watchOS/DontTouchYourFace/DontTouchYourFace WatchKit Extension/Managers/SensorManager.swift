@@ -255,8 +255,8 @@ extension SensorManager {
 
 			let pitch: Double = {
 				let theta = atan2(-x, sqrt(pow(y, 2) + pow(z, 2))) * (180 / .pi)
-				let isOnRightWrist = WKInterfaceDevice.current().wristLocation == .right
-				return isOnRightWrist ? -theta : theta
+				let isCrownOnLeftSide = WKInterfaceDevice.current().crownOrientation == .left
+				return isCrownOnLeftSide ? -theta : theta
 			}()
 
 			let gravitySensorData = GravityData(
