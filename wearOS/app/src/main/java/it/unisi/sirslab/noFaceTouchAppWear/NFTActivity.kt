@@ -1,12 +1,14 @@
 /*
 Copyright (C) 2020 SIRSLab - University of Siena  <Gianluca, Nicole, Tommaso>
 
-This program is free software: you can redistribute it and/or modify
+This program is part of No Touch-Face App.
+
+No Touch-Face App is a free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+No Touch-Face App is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -15,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-package it.unisi.sirslab.covidwear
+package it.unisi.sirslab.noFaceTouchAppWear
 
 import android.Manifest
 import android.content.Context
@@ -28,7 +30,6 @@ import android.hardware.SensorManager
 import android.media.AudioManager
 import android.media.ToneGenerator
 import android.media.ToneGenerator.TONE_CDMA_ABBR_ALERT
-import android.media.ToneGenerator.TONE_CDMA_SOFT_ERROR_LITE
 import android.os.Bundle
 import android.os.Vibrator
 import android.support.wearable.activity.WearableActivity
@@ -147,7 +148,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
             // textViewSamples.text = caliblist.size.toString()
             //textViewStatus.text = if (activeMonitoring)  "Monitoring" else ("calibrating")
             textViewThreshold.text =  sensitivitySeekBar.progress.toString()
-            textViewRPY.text = String.format("%.2f", RPY[0]) + " "+ String.format("%.2f", RPY[1]) +" "+ String.format("%.2f", RPY[2])
+            //textViewRPY.text = String.format("%.2f", RPY[0]) + " "+ String.format("%.2f", RPY[1]) +" "+ String.format("%.2f", RPY[2])
 
 
             when {
@@ -223,7 +224,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
                 rawValue = (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]) / 100
 
                 updateAverage(rawValue)
-                n = (rawValue - calib).absoluteValue
+                n = (rawValue - calib).absoluteValue/stddev
             }
             return
         }
@@ -257,8 +258,8 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
 
             }
 
-            n = (rawValue - calib).absoluteValue
-            stateDanger = n > stddev*sensitivitySeekBar.progress
+            n = (rawValue - calib).absoluteValue/stddev
+            stateDanger = n > sensitivitySeekBar.progress
             updateVibration()
         }
 

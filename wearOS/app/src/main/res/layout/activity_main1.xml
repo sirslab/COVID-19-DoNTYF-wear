@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <!--
+    Copyright (C) 2020 SIRSLab - University of Siena  <Gianluca, Nicole, Tommaso>
+
+    This program is part of No Touch-Face App.
+
+    No Touch-Face App is a free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    No Touch-Face App is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    -->
+
+<androidx.wear.widget.BoxInsetLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    tools:context=".MainActivity"
+    tools:deviceIds="wear">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:boxedEdges="all"
+        tools:ignore="MissingPrefix">
+
+        <ImageView
+            android:id="@+id/imageIIT"
+            android:background="@null"
+            android:layout_gravity="top|right"
+            android:layout_height="80dp"
+            android:layout_width="80dp"
+            android:src="@drawable/iit_logo"
+            android:onClick="onClick"/>
+
+        <ImageView
+            android:id="@+id/imageUnisi"
+            android:background="@null"
+            android:layout_gravity="top|left"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/unisi_bianco"
+            android:onClick="onClick"/>
+
+        <ImageView
+            android:id="@+id/imageSirslab"
+            android:src="@drawable/sirslab_centered"
+            android:background="@null"
+            android:layout_gravity="center"
+            android:layout_height="40dp"
+            android:layout_width="120dp"
+            android:layout_marginTop="15dp"
+            android:onClick="onClick"
+            />
+
+        <TextView
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10dp"
+            android:text="Tap to continue!"
+            android:textSize="10sp"
+            android:textColor="@color/white"
+            android:onClick="onClick"/>
+
+    </FrameLayout>
+
+</androidx.wear.widget.BoxInsetLayout>

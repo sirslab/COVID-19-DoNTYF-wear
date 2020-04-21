@@ -182,6 +182,7 @@
                         <outlet property="magneticFieldDataGroup" destination="mtt-OM-0E3" id="Si4-VF-UiA"/>
                         <outlet property="magneticFieldLabel" destination="Z6Y-o5-6h5" id="oaS-p9-G3l"/>
                         <outlet property="magneticFieldNormAvgLabel" destination="Ccr-MY-bEl" id="bMp-7m-eI1"/>
+                        <outlet property="magneticFieldSeparator" destination="Zmp-ai-e7s" id="H3R-pt-OrC"/>
                         <outlet property="magneticFieldSlider" destination="4mM-6g-owt" id="y4l-me-OIM"/>
                         <outlet property="magneticFieldSliderGroup" destination="tZG-sf-maI" id="WKd-by-bKv"/>
                         <outlet property="magnetometerToggle" destination="uoW-Qi-zUB" id="ONr-hh-CZ8"/>

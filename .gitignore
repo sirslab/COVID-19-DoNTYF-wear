@@ -13,6 +13,24 @@
 .externalNativeBuild
 .cxx
 
+## subfolder wearOS
+*.iml
+.gradle
+/wearOS/local.properties
+/wearOS/.idea/caches
+/wearOS/.idea/libraries
+/wearOS/.idea/modules.xml
+/wearOS/.idea/workspace.xml
+/wearOS/.idea/navEditor.xml
+/wearOS/.idea/assetWizardSettings.xml
+.DS_Store
+/wearOS/build
+/wearOS/captures
+.externalNativeBuild
+.cxx
+
+
+
 // iOS and Mac gitignore
 xcuserdata
 .DS_Store

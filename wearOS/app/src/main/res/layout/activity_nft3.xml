@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <!--
+    Copyright (C) 2020 SIRSLab - University of Siena  <Gianluca, Nicole, Tommaso>
+
+    This program is part of No Touch-Face App.
+
+    No Touch-Face App is a free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    No Touch-Face App is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    -->
+<androidx.wear.widget.BoxInsetLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_height="match_parent"
+android:layout_width="match_parent"
+android:background="@color/dark_grey"
+tools:context=".NFTActivity"
+tools:deviceIds="wear">
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:boxedEdges="all"
+    tools:ignore="MissingPrefix">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="R"
+        android:textAlignment="center"
+        android:textSize="30sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="42dp"
+        android:layout_marginRight="20dp"
+        android:text="Threshold:" />
+
+    <TextView
+        android:id="@+id/textViewThreshold"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="42dp"
+        android:gravity="center"
+        android:text="0" />
+
+
+    <Button
+        android:id="@+id/button_decrement"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="left|center"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/ic_remove_circle_outline_black_24dp"
+        android:onClick="onClick"
+        android:textAlignment="center"
+        android:textSize="10sp" />
+
+    <SeekBar
+        android:id="@+id/sensitivitySeekBar"
+        android:layout_gravity="center"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"/>
+
+    <Button
+        android:id="@+id/button_increment"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="right|center"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/ic_add_circle_outline_black_24dp"
+        android:onClick="onClick"
+        android:text="+"
+        android:textAlignment="center"
+        android:textSize="10sp" />
+
+    <Button
+        android:id="@+id/autoRecalibrate"
+        android:layout_gravity="bottom|left"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:enabled="true"
+        android:onClick="onClick"
+        android:text="Calibrate"
+        android:textSize="10sp"/>
+
+    <Button
+        android:id="@+id/exitButton"
+        android:layout_gravity="bottom|right"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FF0000"
+        android:onClick="onClick"
+        android:text="Exit"
+        android:textSize="10sp"/>
+
+</FrameLayout>
+</androidx.wear.widget.BoxInsetLayout>

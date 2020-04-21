@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <!--
+    Copyright (C) 2020 SIRSLab - University of Siena  <Gianluca, Nicole, Tommaso>
+
+    This program is part of No Touch-Face App.
+
+    No Touch-Face App is a free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    No Touch-Face App is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    -->
+
+<androidx.wear.widget.BoxInsetLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    tools:context=".NFTActivity"
+    tools:deviceIds="wear">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:boxedEdges="all"
+        android:padding="10dp"
+        tools:ignore="MissingPrefix">
+
+        <TextView
+            android:id="@+id/hand_choice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/hand_choice"
+            android:textAlignment="center"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/imageViewL"
+            android:layout_gravity="center|left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:scaleX="-1"
+            android:src="@drawable/ic_pan_tool_black_24dp"/>
+
+        <Button
+            android:id="@+id/leftButton"
+            android:layout_gravity="bottom|left"
+            android:layout_width="63dp"
+            android:layout_height="34dp"
+            android:onClick="onClick"
+            android:text="LEFT"
+            android:textSize="10sp" />
+
+        <ImageView
+            android:id="@+id/imageViewR"
+            android:layout_gravity="center|right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_pan_tool_black_24dp" />
+
+        <Button
+            android:id="@+id/rightButton"
+            android:layout_gravity="bottom|right"
+            android:layout_width="63dp"
+            android:layout_height="34dp"
+            android:onClick="onClick"
+            android:text="RIGHT"
+            android:textSize="10sp" />
+
+
+    </FrameLayout>
+</androidx.wear.widget.BoxInsetLayout>
