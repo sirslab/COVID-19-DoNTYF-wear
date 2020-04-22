@@ -154,7 +154,11 @@
                                                 <label alignment="left" text="Min Angle" id="OLP-x3-Aiy">
                                                     <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                 </label>
-                                                <slider width="1" alignment="left" value="30" minimum="30" maximum="90" steps="60" id="4Nz-7k-qv6"/>
+                                                <slider width="1" alignment="left" value="30" minimum="30" maximum="90" steps="60" id="4Nz-7k-qv6">
+                                                    <connections>
+                                                        <action selector="didChangeMinAngleSliderValue:" destination="AgC-eL-Hgc" id="uu6-Cu-a8u"/>
+                                                    </connections>
+                                                </slider>
                                             </items>
                                         </group>
                                         <group width="1" alignment="center" layout="vertical" spacing="8" id="7Tp-01-TiU">

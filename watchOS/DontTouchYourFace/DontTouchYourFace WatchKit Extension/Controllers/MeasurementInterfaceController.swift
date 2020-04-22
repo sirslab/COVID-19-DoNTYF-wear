@@ -30,6 +30,8 @@ final class MeasurementInterfaceController: WKInterfaceController {
 	@IBOutlet private var calibrateButton: WKInterfaceButton!
 
 	// MARK: - Properties
+	// Used to determine which slider the crown should control
+	private var lastTouchedSlider: WKInterfaceSlider?
 	private let detectionManager = DetectionManager()
 	private let sensorManager = SensorManager.shared
 	private let setupManager: SensorsDataProvider = SetupManager.shared
@@ -69,6 +71,7 @@ final class MeasurementInterfaceController: WKInterfaceController {
 		}
 
 		let initialAngle = setupManager.userDefinedMinAngle ?? Threshold.Angle.minValue
+		setupMinimumAngleThresoldSlider()
 		updateMagneticFieldThreshold(initialAngle)
 	}
 
@@ -178,8 +181,15 @@ final class MeasurementInterfaceController: WKInterfaceController {
 
 	// MARK: - Actions
 	@IBAction func didChangeMagneticFieldSliderValue(_ value: Float) {
+		lastTouchedSlider = magneticFieldSlider
 		crownSequencer.focus()
 		updateMagneticFieldThreshold(value)
+	}
+
+	@IBAction func didChangeMinAngleSliderValue(_ value: Float) {
+		lastTouchedSlider = armAngleSlider
+		crownSequencer.focus()
+		updateMinimumAngleThreshold(value)
 	}
 
 	@IBAction private func didTapStartStop() {
@@ -205,24 +215,40 @@ final class MeasurementInterfaceController: WKInterfaceController {
 	@IBAction private func didTapAboutUs() {
 		pushController(withName: "AboutUs", context: nil)
 	}
-
 }
 
 extension MeasurementInterfaceController: WKCrownDelegate {
 	func crownDidRotate(_ crownSequencer: WKCrownSequencer?, rotationalDelta: Double) {
 		crownAccumulator += rotationalDelta
 
-		guard let userDefinedMagneticFactor = setupManager.userDefinedMagneticFactor else {
-			return
+		switch lastTouchedSlider {
+		case magneticFieldSlider:
+			guard let userDefinedMagneticFactor = setupManager.userDefinedMagneticFactor else {
+				return
+			}
+
+			if crownAccumulator > Constant.crownSensitivity {
+				updateMagneticFieldThreshold(Float(userDefinedMagneticFactor) + Constant.magneticFieldCrownStep)
+			   crownAccumulator = 0.0
+			} else if crownAccumulator < -Constant.crownSensitivity {
+				updateMagneticFieldThreshold(Float(userDefinedMagneticFactor) - Constant.magneticFieldCrownStep)
+			   crownAccumulator = 0.0
+			}
+		case armAngleSlider:
+			guard let userDefinedMinAngle = setupManager.userDefinedMinAngle else {
+				return
+			}
+			if crownAccumulator > Constant.crownSensitivity {
+				updateMinimumAngleThreshold(userDefinedMinAngle + 1)
+				crownAccumulator = 0.0
+			} else if crownAccumulator < -Constant.crownSensitivity {
+				updateMinimumAngleThreshold(userDefinedMinAngle - 1)
+				crownAccumulator = 0.0
+			}
+		default:
+			break
 		}
 
-		if crownAccumulator > Constant.crownSensitivity {
-			updateMagneticFieldThreshold(Float(userDefinedMagneticFactor) + Constant.magneticFieldCrownStep)
-		   crownAccumulator = 0.0
-		} else if crownAccumulator < -Constant.crownSensitivity {
-			updateMagneticFieldThreshold(Float(userDefinedMagneticFactor) - Constant.magneticFieldCrownStep)
-		   crownAccumulator = 0.0
-		}
 	}
 }
 
