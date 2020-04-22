@@ -72,7 +72,7 @@ final class MeasurementInterfaceController: WKInterfaceController {
 
 		let initialAngle = setupManager.userDefinedMinAngle ?? Threshold.Angle.minValue
 		setupMinimumAngleThresoldSlider()
-		updateMagneticFieldThreshold(initialAngle)
+		updateMinimumAngleThreshold(initialAngle)
 	}
 
 	private func startDetection() {
