@@ -20,6 +20,7 @@ protocol CalibrationInterface {
 
 protocol SensorManagerInterface {
 	var userDefinedMagneticFactor: Double? { get set }
+	var userDefinedMinAngle: Float? { get set }
 	var isMagnetometerAvailable: Bool { get }
 }
 
@@ -34,11 +35,9 @@ final class SensorManager: SensorManagerInterface, CalibrationInterface {
 	}
 
 	// MARK: - Properties
-	var userDefinedMagneticFactor: Double? {
-		didSet {
-			print("Updated userDefinedMagneticFactor to \(userDefinedMagneticFactor)")
-		}
-	}
+	var userDefinedMagneticFactor: Double?
+	var userDefinedMinAngle: Float?
+
 	private var magnetometerBuffer: RingBuffer<Double>
 	private var armAngleBuffer: RingBuffer<Double>
 
@@ -81,6 +80,7 @@ final class SensorManager: SensorManagerInterface, CalibrationInterface {
 		magnetometerBuffer = RingBuffer(count: Int(Constant.sensorDataFrequency) * Constant.magnetometerCollectionDataSeconds)
 		armAngleBuffer = RingBuffer(count: Int(Constant.sensorDataFrequency * Constant.accelerationCollectionDataSeconds))
 		userDefinedMagneticFactor = setupManager.userDefinedMagneticFactor
+		userDefinedMinAngle = setupManager.userDefinedMinAngle
 	}
 
 	// MARK: - Helper functions
@@ -170,11 +170,19 @@ final class SensorManager: SensorManagerInterface, CalibrationInterface {
 
 			// Collect data
 			// Gravity contains the angle of the inclination of the arm
-			guard let gravity = _self.sensorData(.gravity, deviceMotion: deviceMotion) as? GravityData else {
+			guard var gravity = _self.sensorData(.gravity, deviceMotion: deviceMotion) as? GravityData else {
 				callHandler(nil, SensorError.gravityNotAvailable)
 				return
 			}
-			
+
+			let angleThreshold: Float = {
+				guard let userDefinedMinAngle = _self.userDefinedMinAngle else {
+					return Threshold.Angle.minValue
+				}
+				return userDefinedMinAngle
+			}()
+
+			gravity.threshold = Double(angleThreshold)
 			_self.armAngleBuffer.write(gravity.pitch)
 
 			// From the value of the angles collected inside the buffer,

@@ -149,9 +149,20 @@
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
                                         </label>
+                                        <group width="1" alignment="left" layout="vertical" id="UXE-bi-lvu">
+                                            <items>
+                                                <label alignment="left" text="Min Angle" id="OLP-x3-Aiy">
+                                                    <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                                </label>
+                                                <slider width="1" alignment="left" value="30" minimum="30" maximum="90" steps="60" id="4Nz-7k-qv6"/>
+                                            </items>
+                                        </group>
                                         <group width="1" alignment="center" layout="vertical" spacing="8" id="7Tp-01-TiU">
                                             <items>
-                                                <switch width="1" height="42" alignment="left" value="YES" title="Magnetometer" numberOfLines="1" minimumScaleFactor="0.20000000000000001" id="uoW-Qi-zUB">
+                                                <label alignment="left" text="Magnetometer" textAlignment="left" id="dk0-KT-jVj">
+                                                    <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                                </label>
+                                                <switch width="1" height="42" alignment="left" value="YES" title="Enable" numberOfLines="1" minimumScaleFactor="0.20000000000000001" id="uoW-Qi-zUB">
                                                     <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                     <connections>
                                                         <action selector="didTapMagnetometerToggle:" destination="AgC-eL-Hgc" id="4xQ-uR-Sjh"/>
@@ -191,14 +202,16 @@
                     </items>
                     <connections>
                         <outlet property="armAngleLabel" destination="m2L-Bm-nky" id="pkh-tF-Ws5"/>
+                        <outlet property="armAngleSlider" destination="4Nz-7k-qv6" id="r4j-c5-G5m"/>
                         <outlet property="calibrateButton" destination="8ev-bm-FTv" id="ZV1-6f-0ho"/>
                         <outlet property="magneticFieldDataGroup" destination="mtt-OM-0E3" id="Si4-VF-UiA"/>
                         <outlet property="magneticFieldLabel" destination="Z6Y-o5-6h5" id="oaS-p9-G3l"/>
                         <outlet property="magneticFieldNormAvgLabel" destination="Ccr-MY-bEl" id="bMp-7m-eI1"/>
                         <outlet property="magneticFieldSeparator" destination="Zmp-ai-e7s" id="H3R-pt-OrC"/>
                         <outlet property="magneticFieldSlider" destination="4mM-6g-owt" id="y4l-me-OIM"/>
-                        <outlet property="magneticFieldSliderGroup" destination="tZG-sf-maI" id="WKd-by-bKv"/>
+                        <outlet property="magneticFieldSliderGroup" destination="7Tp-01-TiU" id="yKU-x3-whN"/>
                         <outlet property="magnetometerToggle" destination="uoW-Qi-zUB" id="ONr-hh-CZ8"/>
+                        <outlet property="minAngleLabel" destination="OLP-x3-Aiy" id="GbC-zn-nMi"/>
                         <outlet property="startStopButton" destination="yMb-xM-Y2x" id="Yij-3F-hLC"/>
                         <outlet property="userAccelerationLabel" destination="bXr-1b-CBs" id="j0y-Jn-pej"/>
                     </connections>

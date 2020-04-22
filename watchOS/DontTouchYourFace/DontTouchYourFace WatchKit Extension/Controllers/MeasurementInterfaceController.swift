@@ -13,6 +13,8 @@ import CoreMotion
 final class MeasurementInterfaceController: WKInterfaceController {
 	// MARK: - Outlets and properties
 	@IBOutlet private var armAngleLabel: WKInterfaceLabel!
+	@IBOutlet private var armAngleSlider: WKInterfaceSlider!
+	@IBOutlet private var minAngleLabel: WKInterfaceLabel!
 
 	@IBOutlet private var userAccelerationLabel: WKInterfaceLabel!
 
@@ -65,6 +67,9 @@ final class MeasurementInterfaceController: WKInterfaceController {
 			calibrateButton.setHidden(true)
 			startStopButton.setRelativeWidth(1, withAdjustment: 0)
 		}
+
+		let initialAngle = setupManager.userDefinedMinAngle ?? Threshold.Angle.minValue
+		updateMagneticFieldThreshold(initialAngle)
 	}
 
 	private func startDetection() {
@@ -124,6 +129,27 @@ final class MeasurementInterfaceController: WKInterfaceController {
 		magneticFieldSlider.setNumberOfSteps(Int(steps))
 	}
 
+	private func setupMinimumAngleThresoldSlider() {
+		let minValue = Threshold.Angle.minValue
+		let maxValue = Threshold.Angle.maxValue
+		let steps = Int(maxValue - minValue)
+		armAngleSlider.setNumberOfSteps(steps)
+	}
+
+	private func updateMinimumAngleThreshold(_ value: Float) {
+		guard value <= Threshold.Angle.maxValue && value >= Threshold.Angle.minValue else {
+			WKInterfaceDevice.current().play(.failure)
+			return
+		}
+
+		WKInterfaceDevice.current().play(.click)
+		let thresholdString = String(format: "Min Angle %.2f°", value)
+		minAngleLabel.setText(thresholdString)
+		armAngleSlider.setValue(value)
+		setupManager.setUserDefinedMinAngle(value)
+		sensorManager.userDefinedMinAngle = value
+	}
+
 	private func updateMagneticFieldThreshold(_ value: Float) {
 		let maxValue = Threshold.MagneticField.maxValue + value
 
@@ -133,7 +159,7 @@ final class MeasurementInterfaceController: WKInterfaceController {
 		}
 
 		WKInterfaceDevice.current().play(.click)
-		let thresholdString = String(format: "M Factor %.2f", value)
+		let thresholdString = String(format: "Mag Factor %.2f", value)
 		magneticFieldLabel.setText(thresholdString)
 		magneticFieldSlider.setValue(value)
 		setupManager.setUserDefinedMagneticFactor(Double(value))
