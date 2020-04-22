@@ -175,6 +175,11 @@ final class MeasurementInterfaceController: WKInterfaceController {
 			crownSequencer.resignFocus()
 		}
 	}
+
+	@IBAction private func didTapAboutUs() {
+		pushController(withName: "AboutUs", context: nil)
+	}
+
 }
 
 extension MeasurementInterfaceController: WKCrownDelegate {

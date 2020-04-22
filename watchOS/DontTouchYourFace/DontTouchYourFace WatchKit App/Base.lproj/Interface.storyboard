@@ -173,6 +173,19 @@
                                         </group>
                                     </items>
                                 </group>
+                                <group width="1" alignment="left" layout="vertical" id="7Ol-bR-cSM">
+                                    <items>
+                                        <label alignment="left" text="Info" textAlignment="left" id="o9g-im-mAU">
+                                            <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                        </label>
+                                        <button width="1" alignment="left" title="About us" id="6MW-S9-ESs">
+                                            <connections>
+                                                <action selector="didTapAboutUs" destination="AgC-eL-Hgc" id="1iK-wf-RKY"/>
+                                            </connections>
+                                        </button>
+                                    </items>
+                                </group>
                             </items>
                         </group>
                     </items>
@@ -192,6 +205,29 @@
                 </controller>
             </objects>
             <point key="canvasLocation" x="577" y="278"/>
+        </scene>
+        <!--AboutUs-->
+        <scene sceneID="hVk-XI-nwc">
+            <objects>
+                <controller identifier="AboutUs" id="EOA-ip-OL6">
+                    <items>
+                        <group width="1" alignment="left" layout="vertical" spacing="6" id="8UU-zU-8UJ">
+                            <items>
+                                <imageView alignment="left" image="unisi_bianco" id="GBP-QH-fxW"/>
+                                <imageView alignment="left" image="sirslab_centered" id="Nr3-Dj-u0X"/>
+                                <imageView alignment="left" image="iit_logo" id="eOP-fl-bWC"/>
+                            </items>
+                        </group>
+                        <group width="1" alignment="left" layout="vertical" spacing="6" id="abz-Vs-Jo1">
+                            <items>
+                                <label alignment="left" text="Website" id="DcK-K5-CRW"/>
+                                <imageView alignment="left" image="website" id="sQ9-Cp-0B0"/>
+                            </items>
+                        </group>
+                    </items>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="880" y="275"/>
         </scene>
         <!--Static Notification Interface Controller-->
         <scene sceneID="AEw-b0-oYE">
@@ -225,4 +261,10 @@
             <point key="canvasLocation" x="412" y="721"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="iit_logo" width="1000" height="427"/>
+        <image name="sirslab_centered" width="1471" height="378"/>
+        <image name="unisi_bianco" width="863" height="884"/>
+        <image name="website" width="200" height="200"/>
+    </resources>
 </document>
