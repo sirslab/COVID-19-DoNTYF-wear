@@ -36,6 +36,7 @@ final class MeasurementInterfaceController: WKInterfaceController {
 	private let sensorManager = SensorManager.shared
 	private let setupManager: SensorsDataProvider = SetupManager.shared
 
+	private var throttlingUITimestamp: TimeInterval = Date().timeIntervalSince1970
 	private var crownAccumulator = 0.0
 
 	// MARK: - Controller Lifecycle
@@ -95,35 +96,42 @@ final class MeasurementInterfaceController: WKInterfaceController {
 				print(errorString)
 
 			case .data(let sensorsData):
-				// Retrieve the mandatory sensor's data
-				guard
-					let gravityData = sensorsData.first(where: { $0 is GravityData }) as? GravityData,
-					let userAccelerationData = sensorsData.first(where: { $0 is UserAccelerationData }) as? UserAccelerationData,
-					let slope = userAccelerationData.slope
-				else {
-					assertionFailure("This should not happen")
-					return
+				let nowTimeInterval = Date().timeIntervalSince1970
+
+				if nowTimeInterval - _self.throttlingUITimestamp > 0.2 {
+					_self.updateUI(with: sensorsData)
+					_self.throttlingUITimestamp = nowTimeInterval
 				}
-
-				let pitch = gravityData.pitch
-				let magnetometerValues = sensorsData.first { $0 is MagnetometerData} as? MagnetometerData
-
-				// Print values
-				let thetaString = String(format: "%.2f", pitch)
-				let zAccelerationString = slope.rawValue
-
-				// If the magnetometer's data is present show the value otherwise
-				if let magnetometerAverage = magnetometerValues?.average {
-					let magneticFieldAverageNormString = String(format: "%.2f", magnetometerAverage)
-					_self.magneticFieldNormAvgLabel.setText(magneticFieldAverageNormString)
-				} else {
-					_self.magneticFieldNormAvgLabel.setText("Not available")
-				}
-
-				_self.armAngleLabel.setText(thetaString)
-				_self.userAccelerationLabel.setText(zAccelerationString)
 			}
 		}
+	}
+
+	private func updateUI(with sensorsData: SensorManager.Data) {
+		// Retrieve the mandatory sensor's data
+		guard
+			let slope = sensorsData.userAcceleration.slope
+		else {
+			assertionFailure("This should not happen")
+			return
+		}
+
+		let pitch = sensorsData.gravity.pitch
+		let magnetometerValues = sensorsData.magnetometer
+
+		// Print values
+		let thetaString = String(format: "%.2f", pitch)
+		let zAccelerationString = slope.rawValue
+
+		// If the magnetometer's data is present show the value otherwise
+		if let magnetometerAverage = magnetometerValues?.average {
+			let magneticFieldAverageNormString = String(format: "%.2f", magnetometerAverage)
+			magneticFieldNormAvgLabel.setText(magneticFieldAverageNormString)
+		} else {
+			magneticFieldNormAvgLabel.setText("Not available")
+		}
+
+		armAngleLabel.setText(thetaString)
+		userAccelerationLabel.setText(zAccelerationString)
 	}
 
 	private func setupMagneticFieldThresholdSlider(magneticFactor: Double) {

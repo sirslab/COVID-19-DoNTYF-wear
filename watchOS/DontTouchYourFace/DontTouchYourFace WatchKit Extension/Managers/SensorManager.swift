@@ -26,7 +26,7 @@ protocol SensorManagerInterface {
 
 final class SensorManager: SensorManagerInterface, CalibrationInterface {
 	// MARK: - Nested types
-	typealias SensorHandler = ([SensorData]?, Error?) -> Void
+	typealias SensorHandler = (Data?, Error?) -> Void
 
 	enum SensorError: Error {
 		case deviceMotionNotAvailable
@@ -34,7 +34,32 @@ final class SensorManager: SensorManagerInterface, CalibrationInterface {
 		case userAccelerationNotAvailable
 	}
 
+	struct Data {
+		let gravity: GravityData
+		let userAcceleration: UserAccelerationData
+		let magnetometer: MagnetometerData?
+
+		var areConditionVerified: Bool {
+			// Check the mandatory condition first
+			guard
+				gravity.isAlertConditionVerified,
+				userAcceleration.isAlertConditionVerified
+			else {
+				return false
+			}
+
+			// Then if the magnetometer is available, check against is value
+			// Otherwise return true if is not available
+			guard let magnetometer = magnetometer else {
+				return true
+			}
+			
+			return magnetometer.isAlertConditionVerified
+		}
+	}
+
 	// MARK: - Properties
+	// These are helpful properties to avoid getting the last state from the disk
 	var userDefinedMagneticFactor: Double?
 	var userDefinedMinAngle: Float?
 
@@ -194,14 +219,10 @@ final class SensorManager: SensorManagerInterface, CalibrationInterface {
 
 			userAcceleration.slope = _self.armAngleBuffer.slope
 
-			var sensorsData: [SensorData] = [
-				gravity,
-				userAcceleration
-			]
-
 			// Guard if there are data from the magnetometer
 			guard var magnetometer = _self.sensorData(.magnetometer, deviceMotion: deviceMotion) as? MagnetometerData else {
-				callHandler(sensorsData, nil)
+				let data = Data(gravity: gravity, userAcceleration: userAcceleration, magnetometer: nil)
+				callHandler(data, nil)
 				return
 			}
 
@@ -221,9 +242,12 @@ final class SensorManager: SensorManagerInterface, CalibrationInterface {
 				magnetometer.standardDeviation = _self.magnetometerBuffer.standardDeviation
 				magnetometer.factor = _self.userDefinedMagneticFactor
 				// Append to the list of available sensor's data
-				sensorsData.append(magnetometer)
+				let data = Data(gravity: gravity, userAcceleration: userAcceleration, magnetometer: magnetometer)
+				callHandler(data, nil)
+			} else {
+				let data = Data(gravity: gravity, userAcceleration: userAcceleration, magnetometer: nil)
+				callHandler(data, nil)
 			}
-			callHandler(sensorsData, nil)
 		}
 	}
 
