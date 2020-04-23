@@ -166,7 +166,7 @@
                                                 <label alignment="left" text="Magnetometer" textAlignment="left" id="dk0-KT-jVj">
                                                     <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                 </label>
-                                                <switch width="1" height="42" alignment="left" value="YES" title="Enable" numberOfLines="1" minimumScaleFactor="0.20000000000000001" id="uoW-Qi-zUB">
+                                                <switch width="1" alignment="left" value="YES" title="Enable" numberOfLines="1" minimumScaleFactor="0.20000000000000001" id="uoW-Qi-zUB">
                                                     <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                     <connections>
                                                         <action selector="didTapMagnetometerToggle:" destination="AgC-eL-Hgc" id="4xQ-uR-Sjh"/>
@@ -177,7 +177,7 @@
                                                         <label alignment="left" text="Factor" textAlignment="left" id="Z6Y-o5-6h5">
                                                             <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                         </label>
-                                                        <slider width="1" height="35" alignment="left" value="0.14999999999999999" minimum="0.14999999999999999" maximum="50" steps="85" id="4mM-6g-owt">
+                                                        <slider width="1" alignment="left" value="0.14999999999999999" minimum="0.14999999999999999" maximum="50" steps="85" id="4mM-6g-owt">
                                                             <connections>
                                                                 <action selector="didChangeMagneticFieldSliderValue:" destination="AgC-eL-Hgc" id="RK0-iu-bOL"/>
                                                             </connections>
