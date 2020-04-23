@@ -24,7 +24,6 @@ final class MeasurementInterfaceController: WKInterfaceController {
 	@IBOutlet private var magneticFieldDataGroup: WKInterfaceGroup!
 	@IBOutlet private var magneticFieldSliderGroup: WKInterfaceGroup!
 	@IBOutlet private var magnetometerToggle: WKInterfaceSwitch!
-	@IBOutlet private var magneticFieldSeparator: WKInterfaceSeparator!
 
 	@IBOutlet private var startStopButton: WKInterfaceButton!
 	@IBOutlet private var calibrateButton: WKInterfaceButton!
@@ -66,7 +65,6 @@ final class MeasurementInterfaceController: WKInterfaceController {
 		} else {
 			magneticFieldDataGroup.setHidden(true)
 			magneticFieldSliderGroup.setHidden(true)
-			magneticFieldSeparator.setHidden(true)
 			calibrateButton.setHidden(true)
 			startStopButton.setRelativeWidth(1, withAdjustment: 0)
 		}
@@ -120,7 +118,7 @@ final class MeasurementInterfaceController: WKInterfaceController {
 
 		// Print values
 		let thetaString = String(format: "%.2f", pitch)
-		let zAccelerationString = slope.rawValue
+		let zAccelerationString = slope == .down ? "No" : "Yes"
 
 		// If the magnetometer's data is present show the value otherwise
 		if let magnetometerAverage = magnetometerValues?.average {

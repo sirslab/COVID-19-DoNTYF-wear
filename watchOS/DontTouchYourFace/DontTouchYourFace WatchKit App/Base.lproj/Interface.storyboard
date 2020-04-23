@@ -99,48 +99,46 @@
                             <items>
                                 <group width="1" alignment="left" layout="vertical" id="OmG-S3-749">
                                     <items>
+                                        <label alignment="left" text="Values" textAlignment="left" id="Lzr-XN-6hO">
+                                            <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                        </label>
                                         <group width="1" alignment="left" layout="vertical" id="e0z-nH-xaf">
                                             <items>
                                                 <label alignment="left" text="Angle" textAlignment="left" numberOfLines="0" minimumScaleFactor="0.69999999999999996" id="Zsv-jP-RVS">
                                                     <color key="textColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                                    <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                 </label>
                                                 <label alignment="left" text="0.0" textAlignment="left" numberOfLines="0" minimumScaleFactor="0.69999999999999996" id="m2L-Bm-nky">
                                                     <color key="textColor" red="0.29939394276968406" green="0.68158555854022462" blue="0.69459378537792849" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <fontDescription key="font" style="UICTFontTextStyleCaption1"/>
                                                 </label>
                                             </items>
                                         </group>
-                                        <separator alignment="left" id="dIS-hG-vkU">
-                                            <color key="color" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </separator>
                                         <group width="1" alignment="left" layout="vertical" id="FdZ-6P-zPd">
                                             <items>
-                                                <label alignment="left" text="Z acceleration" textAlignment="left" numberOfLines="0" minimumScaleFactor="0.69999999999999996" id="ZNW-yd-Ry0">
+                                                <label alignment="left" text="Raising arm" textAlignment="left" numberOfLines="0" minimumScaleFactor="0.69999999999999996" id="ZNW-yd-Ry0">
                                                     <color key="textColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                                    <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                 </label>
-                                                <label alignment="left" text="0.0" textAlignment="left" numberOfLines="0" minimumScaleFactor="0.69999999999999996" id="bXr-1b-CBs">
+                                                <label alignment="left" text="No" textAlignment="left" numberOfLines="0" minimumScaleFactor="0.69999999999999996" id="bXr-1b-CBs">
                                                     <color key="textColor" red="0.29939394279999998" green="0.68158555850000002" blue="0.69459378540000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <fontDescription key="font" style="UICTFontTextStyleCaption1"/>
                                                 </label>
                                             </items>
                                         </group>
-                                        <separator alignment="left" id="bfv-2d-DGc">
-                                            <color key="color" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </separator>
-                                        <group width="1" height="43" alignment="left" layout="vertical" id="mtt-OM-0E3">
+                                        <group width="1" alignment="left" layout="vertical" id="mtt-OM-0E3">
                                             <items>
                                                 <label alignment="left" text="Mag F Norm Avg" textAlignment="left" numberOfLines="0" minimumScaleFactor="0.69999999999999996" id="Jyc-Xa-c6e">
                                                     <color key="textColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                                    <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                 </label>
                                                 <label alignment="left" text="0.0" textAlignment="left" numberOfLines="0" minimumScaleFactor="0.69999999999999996" id="Ccr-MY-bEl">
                                                     <color key="textColor" red="0.29939394279999998" green="0.68158555850000002" blue="0.69459378540000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <fontDescription key="font" style="UICTFontTextStyleCaption1"/>
                                                 </label>
                                             </items>
                                         </group>
-                                        <separator alignment="left" id="Zmp-ai-e7s">
-                                            <color key="color" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </separator>
                                     </items>
                                 </group>
                                 <group width="1" alignment="left" layout="vertical" spacing="6" id="tZG-sf-maI">
@@ -211,7 +209,6 @@
                         <outlet property="magneticFieldDataGroup" destination="mtt-OM-0E3" id="Si4-VF-UiA"/>
                         <outlet property="magneticFieldLabel" destination="Z6Y-o5-6h5" id="oaS-p9-G3l"/>
                         <outlet property="magneticFieldNormAvgLabel" destination="Ccr-MY-bEl" id="bMp-7m-eI1"/>
-                        <outlet property="magneticFieldSeparator" destination="Zmp-ai-e7s" id="H3R-pt-OrC"/>
                         <outlet property="magneticFieldSlider" destination="4mM-6g-owt" id="y4l-me-OIM"/>
                         <outlet property="magneticFieldSliderGroup" destination="7Tp-01-TiU" id="yKU-x3-whN"/>
                         <outlet property="magnetometerToggle" destination="uoW-Qi-zUB" id="ONr-hh-CZ8"/>
