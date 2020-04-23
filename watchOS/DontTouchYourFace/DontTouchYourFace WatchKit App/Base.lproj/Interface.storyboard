@@ -32,7 +32,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="-282" y="383"/>
+            <point key="canvasLocation" x="-321" y="229"/>
         </scene>
         <!--Error-->
         <scene sceneID="eeC-Wp-KFv">
@@ -46,7 +46,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="-282" y="-13"/>
+            <point key="canvasLocation" x="-26" y="148"/>
         </scene>
         <!--Calibration-->
         <scene sceneID="DFC-rn-yfh">
@@ -71,7 +71,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="271" y="184"/>
+            <point key="canvasLocation" x="276" y="151"/>
         </scene>
         <!--Measurement-->
         <scene sceneID="aou-V4-d1y">
@@ -152,6 +152,9 @@
                                                 <label alignment="left" text="Min Angle" id="OLP-x3-Aiy">
                                                     <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                 </label>
+                                                <label alignment="left" text="Suggested value: 30" id="aru-0c-YV0">
+                                                    <fontDescription key="font" type="system" pointSize="11"/>
+                                                </label>
                                                 <slider width="1" alignment="left" value="30" minimum="30" maximum="90" steps="60" id="4Nz-7k-qv6">
                                                     <connections>
                                                         <action selector="didChangeMinAngleSliderValue:" destination="AgC-eL-Hgc" id="uu6-Cu-a8u"/>
@@ -218,7 +221,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="577" y="278"/>
+            <point key="canvasLocation" x="578" y="330"/>
         </scene>
         <!--AboutUs-->
         <scene sceneID="hVk-XI-nwc">
@@ -258,21 +261,21 @@
                     </connections>
                 </notificationController>
             </objects>
-            <point key="canvasLocation" x="78" y="721"/>
+            <point key="canvasLocation" x="-282" y="985"/>
         </scene>
         <!--Notification Controller-->
         <scene sceneID="ZPc-GJ-vnh">
             <objects>
                 <controller id="4sK-HA-Art" customClass="NotificationController" customModule="DTYF" customModuleProvider="target"/>
             </objects>
-            <point key="canvasLocation" x="432" y="1139"/>
+            <point key="canvasLocation" x="-282" y="1364"/>
         </scene>
         <!--Notification Controller-->
         <scene sceneID="Niz-AI-uX2">
             <objects>
                 <controller id="eXb-UN-Cd0" customClass="NotificationController" customModule="DTYF" customModuleProvider="target"/>
             </objects>
-            <point key="canvasLocation" x="412" y="721"/>
+            <point key="canvasLocation" x="9" y="985"/>
         </scene>
     </scenes>
     <resources>
