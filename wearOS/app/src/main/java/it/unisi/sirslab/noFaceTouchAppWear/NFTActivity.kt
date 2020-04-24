@@ -20,6 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package it.unisi.sirslab.noFaceTouchAppWear
 
 import android.Manifest
+import android.R
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -35,9 +36,14 @@ import android.os.Vibrator
 import android.support.wearable.activity.WearableActivity
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_nft3.*
+import java.io.BufferedReader
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.InputStreamReader
 import kotlin.math.*
 
 
@@ -80,6 +86,40 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
         setContentView(R.layout.activity_nft1)
         initSensors()
     }
+    ///////////////////////// Log alert events
+
+
+    private val filenameInternal = "logFile"
+
+    fun writeFileInternalStorage(stringToLog: String) {
+        createUpdateFile(filenameInternal, stringToLog, false)
+    }
+
+    fun appendFileInternalStorage(stringToLog: String) {
+        createUpdateFile(filenameInternal, stringToLog, true)
+    }
+
+    private fun createUpdateFile(fileName: String, content: String, update: Boolean) {
+        val outputStream: FileOutputStream
+        try {
+            outputStream = if (update) {
+                openFileOutput(fileName, Context.MODE_APPEND)
+            } else {
+                openFileOutput(fileName, Context.MODE_PRIVATE)
+            }
+            outputStream.write(content.toByteArray())
+            outputStream.flush()
+            outputStream.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+
+
+    /////////////////////////////////////////////////////////////////////////////////////7
+
+
 
     private fun initSensors(){
 
