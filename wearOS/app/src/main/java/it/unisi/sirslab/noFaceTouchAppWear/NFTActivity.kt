@@ -41,6 +41,7 @@ import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_nft3.*
 import java.io.File
 import java.io.FileOutputStream
+import java.time.LocalDateTime
 import kotlin.math.*
 
 
@@ -87,8 +88,12 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
     }
 
     ///////////////// Added to Log Data ////////////////////
-    private val filenameInternal: String? = "logIntFile"
-    private val filenameExternal: String? = "logExtFile"
+
+
+    val currentDateTime = LocalDateTime.now()
+
+    private val filenameInternal: String? = "logIntFile_$currentDateTime"
+    private val filenameExternal: String? = "logExtFile_$currentDateTime"
 
 
     fun writeFileInternalStorage(dataToLog: String) {
