@@ -37,9 +37,11 @@ import android.os.Vibrator
 import android.support.wearable.activity.WearableActivity
 import android.util.Log
 import android.view.View
+import android.widget.ToggleButton
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import kotlinx.android.synthetic.main.activity_nft1.*
 import kotlinx.android.synthetic.main.activity_nft3.*
 import java.io.File
 import java.io.FileOutputStream
@@ -85,6 +87,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
     private val maxThreshold = 100
     private var isNFTscreen = false
 
+    private var vibrationOn = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,13 +96,17 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
         initSensors()
         writeFileInternalStorage("Start Log...\n")
        // writeFileExternalStorage("Start Log...\n")
+
+        toggleVibration.setOnCheckedChangeListener { buttonView, isChecked ->
+            vibrationOn = isChecked
+        }
     }
 
     ///////////////// Added to Log Data ////////////////////
 
-        private var date = Date();
-        private val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss")
-        private val currentDateTime: String = formatter.format(date)
+    private var date = Date();
+    private val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss")
+    private val currentDateTime: String = formatter.format(date)
 
 
     private val filenameInternal: String? = "logIntFile_$currentDateTime.txt"
@@ -194,7 +201,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
 
     private fun updateGUI() {
         runOnUiThread {
-            textView.text = String.format("%.1f", n) + " " + if (righthanded)  "R" else ("L")
+            textView.text = String.format("%.1f", n) + " " + if (righthanded)  "R" else ("L") + if (vibrationOn)  "Y" else ("N")
             //textViewMaxv.text = String.format("%.1f", maxValue)
             //textViewAvg.text = calib.toString()
             // textViewSamples.text = caliblist.size.toString()
@@ -230,10 +237,12 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
 
         val t = System.currentTimeMillis()
         if (activeMonitoring && stateDanger && (lastVibTime +vibrationLength < t)) {
-            vibrator .vibrate(vibrationLength.toLong())
-            toneGen.startTone(TONE_CDMA_ABBR_ALERT,vibrationLength)
+            if(vibrationOn) {
+                vibrator.vibrate(vibrationLength.toLong())
+                toneGen.startTone(TONE_CDMA_ABBR_ALERT, vibrationLength)
+            }
             lastVibTime = t
-            val toWrite =  formatter.format(Date()) +  " Vibration ON \n"
+            val toWrite =  formatter.format(Date()) +  " Vibration " +vibrationOn +"\n"
             appendFileInternalStorage(toWrite)
 
             /*
@@ -340,6 +349,9 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
         }
         updateGUI()
     }
+
+
+
 
 
     override fun onClick(v: View?) {

@@ -35,14 +35,6 @@
         android:padding="10dp"
         tools:ignore="MissingPrefix">
 
-        <TextView
-            android:id="@+id/hand_choice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/hand_choice"
-            android:textAlignment="center"
-            android:textSize="15sp" />
-
         <ImageView
             android:id="@+id/imageViewL"
             android:layout_gravity="center|left"
@@ -79,6 +71,22 @@
             android:onClick="onClick"
             android:text="RIGHT"
             android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:layout_marginTop="-10dp"
+            android:text="Vibrazione" />
+
+        <ToggleButton
+            android:id="@+id/toggleVibration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="-30dp"
+            android:text="ToggleButton" />
 
 
     </FrameLayout>
