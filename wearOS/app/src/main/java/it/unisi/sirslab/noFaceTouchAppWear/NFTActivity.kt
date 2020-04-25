@@ -31,6 +31,7 @@ import android.media.AudioManager
 import android.media.ToneGenerator
 import android.media.ToneGenerator.TONE_CDMA_ABBR_ALERT
 import android.os.Bundle
+import android.os.Environment
 import android.os.Vibrator
 import android.support.wearable.activity.WearableActivity
 import android.util.Log
@@ -38,6 +39,8 @@ import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_nft3.*
+import java.io.File
+import java.io.FileOutputStream
 import kotlin.math.*
 
 
@@ -79,7 +82,66 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nft1)
         initSensors()
+        writeFileInternalStorage("Start Log...\n")
+        writeFileExternalStorage("Start Log...\n")
     }
+
+    ///////////////// Added to Log Data ////////////////////
+    private val filenameInternal: String? = "logIntFile"
+    private val filenameExternal: String? = "logExtFile"
+
+
+    fun writeFileInternalStorage(dataToLog: String) {
+        createUpdateFile(filenameInternal!!, dataToLog, false)
+    }
+
+    fun appendFileInternalStorage(dataToLog: String) {
+        createUpdateFile(filenameInternal!!, dataToLog, true)
+    }
+
+    private fun createUpdateFile(fileName: String, content: String, update: Boolean) {
+        val outputStream: FileOutputStream
+        try {
+            outputStream = if (update) {
+                openFileOutput(fileName, Context.MODE_APPEND)
+            } else {
+                openFileOutput(fileName, Context.MODE_PRIVATE)
+            }
+            outputStream.write(content.toByteArray())
+            outputStream.flush()
+            outputStream.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun writeFileExternalStorage(dataToLog: String) {
+        val state = Environment.getExternalStorageState()
+        //external storage availability check
+        if (Environment.MEDIA_MOUNTED != state) {
+            return
+        }
+        appendFileInternalStorage("External check: External memory is available.\n")
+        val file = File(
+            Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOCUMENTS
+            ), filenameExternal
+        )
+        appendFileInternalStorage("External check: External memory at path " + Environment.DIRECTORY_DOCUMENTS)
+        var outputStream: FileOutputStream? = null
+        try {
+            file.createNewFile()
+            //second argument of FileOutputStream constructor indicates whether to append or create new file if one exists
+            outputStream = FileOutputStream(file, true)
+            outputStream.write(dataToLog.toByteArray())
+            outputStream.flush()
+            outputStream.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+    ///////////////////////////////////////////////////////
+
 
     private fun initSensors(){
 
@@ -181,6 +243,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
             vibrator .vibrate(vibrationLength.toLong())
             toneGen.startTone(TONE_CDMA_ABBR_ALERT,vibrationLength)
             lastVibTime = t
+            appendFileInternalStorage("Vibration ON \n")
             /*
             if (lastNotificationTime+2000 < t) {
                 val notification: Uri =
