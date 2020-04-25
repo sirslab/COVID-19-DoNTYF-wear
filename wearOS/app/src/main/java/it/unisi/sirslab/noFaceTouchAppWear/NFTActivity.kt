@@ -119,6 +119,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
         val state = Environment.getExternalStorageState()
         //external storage availability check
         if (Environment.MEDIA_MOUNTED != state) {
+            Log.d("filedeb","non c'è media montato")
             return
         }
         appendFileInternalStorage("External check: External memory is available.\n")
@@ -131,6 +132,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
         var outputStream: FileOutputStream? = null
         try {
             file.createNewFile()
+            Log.d("filedeb", "Sto salvando  in " + Environment.DIRECTORY_DOCUMENTS.toString())
             //second argument of FileOutputStream constructor indicates whether to append or create new file if one exists
             outputStream = FileOutputStream(file, true)
             outputStream.write(dataToLog.toByteArray())
@@ -244,6 +246,8 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
             toneGen.startTone(TONE_CDMA_ABBR_ALERT,vibrationLength)
             lastVibTime = t
             appendFileInternalStorage("Vibration ON \n")
+            writeFileExternalStorage("Vibration ON \n")
+
             /*
             if (lastNotificationTime+2000 < t) {
                 val notification: Uri =
