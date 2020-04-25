@@ -30,18 +30,24 @@ import android.hardware.SensorManager
 import android.media.AudioManager
 import android.media.ToneGenerator
 import android.media.ToneGenerator.TONE_CDMA_ABBR_ALERT
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.os.Vibrator
 import android.support.wearable.activity.WearableActivity
 import android.util.Log
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_nft3.*
 import java.io.File
 import java.io.FileOutputStream
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.*
 
 
@@ -79,21 +85,25 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
     private val maxThreshold = 100
     private var isNFTscreen = false
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nft1)
         initSensors()
         writeFileInternalStorage("Start Log...\n")
-        writeFileExternalStorage("Start Log...\n")
+       // writeFileExternalStorage("Start Log...\n")
     }
 
     ///////////////// Added to Log Data ////////////////////
 
+        private var date = Date();
+        private val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss")
+        private val currentDateTime: String = formatter.format(date)
 
-    val currentDateTime = LocalDateTime.now()
 
-    private val filenameInternal: String? = "logIntFile_$currentDateTime"
-    private val filenameExternal: String? = "logExtFile_$currentDateTime"
+    private val filenameInternal: String? = "logIntFile_$currentDateTime.txt"
+    private val filenameExternal: String? = "logExtFile_$currentDateTime.txt"
 
 
     fun writeFileInternalStorage(dataToLog: String) {
@@ -120,33 +130,6 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
         }
     }
 
-    fun writeFileExternalStorage(dataToLog: String) {
-        val state = Environment.getExternalStorageState()
-        //external storage availability check
-        if (Environment.MEDIA_MOUNTED != state) {
-            Log.d("filedeb","non c'è media montato")
-            return
-        }
-        appendFileInternalStorage("External check: External memory is available.\n")
-        val file = File(
-            Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOCUMENTS
-            ), filenameExternal
-        )
-        appendFileInternalStorage("External check: External memory at path " + Environment.DIRECTORY_DOCUMENTS)
-        var outputStream: FileOutputStream? = null
-        try {
-            file.createNewFile()
-            Log.d("filedeb", "Sto salvando  in " + Environment.DIRECTORY_DOCUMENTS.toString())
-            //second argument of FileOutputStream constructor indicates whether to append or create new file if one exists
-            outputStream = FileOutputStream(file, true)
-            outputStream.write(dataToLog.toByteArray())
-            outputStream.flush()
-            outputStream.close()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
     ///////////////////////////////////////////////////////
 
 
@@ -250,8 +233,8 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
             vibrator .vibrate(vibrationLength.toLong())
             toneGen.startTone(TONE_CDMA_ABBR_ALERT,vibrationLength)
             lastVibTime = t
-            appendFileInternalStorage("Vibration ON \n")
-            writeFileExternalStorage("Vibration ON \n")
+            val toWrite =  formatter.format(Date()) +  " Vibration ON \n"
+            appendFileInternalStorage(toWrite)
 
             /*
             if (lastNotificationTime+2000 < t) {
