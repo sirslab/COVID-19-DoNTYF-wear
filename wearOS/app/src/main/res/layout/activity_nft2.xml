@@ -54,6 +54,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             android:textSize="10sp"
             />
 
+        <Button
+            android:id="@+id/noMag"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="-15dp"
+            android:onClick="onClick"
+            android:text="No Magnetometer"
+            android:textColor="@color/dark_red"
+            android:textSize="10sp" />
 
     </FrameLayout>
 </androidx.wear.widget.BoxInsetLayout>

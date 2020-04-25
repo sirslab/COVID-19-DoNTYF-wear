@@ -63,6 +63,13 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
     private var lastNotificationTime:Long = 0
     private var updateMaxValue = false
     private var lastTimeOn =0.toLong()
+    private var useMagnetometer = true;
+    private var slope = ArrayList<Float>()
+    private var old_pitch =0.0f
+    private var alpha = 0.1
+    private var rising = false
+    private var accBuffer = ArrayList<Float>()
+    private var pitch_dot=0.0f
 
     private lateinit var vibrator: Vibrator
     private lateinit var toneGen: ToneGenerator
@@ -72,7 +79,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
 
     private val vibrationLength = 1000
     private val averageSamples = 20
-    private val maxThreshold = 100
+    private val maxThreshold = 10
     private var isNFTscreen = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -113,8 +120,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
         if(caliblist.isEmpty()) {caliblist.add(0.0f)}
     }
 
-
-    private fun initNFT(){
+      private fun initNFT(){
 
         // Enables Always-on
         setAmbientEnabled()
@@ -142,7 +148,13 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
 
     private fun updateGUI() {
         runOnUiThread {
-            textView.text = String.format("%.1f", n) + " " + if (righthanded)  "R" else ("L")
+            if(useMagnetometer){
+                textView.text = String.format("%.1f", n) + " " + if (righthanded)  "R" else ("L")
+            }
+            else
+            {
+                textView.text = String.format("%.4f", slope.average()) + " " + if (righthanded)  "R" else ("L")
+            }
             //textViewMaxv.text = String.format("%.1f", maxValue)
             //textViewAvg.text = calib.toString()
             // textViewSamples.text = caliblist.size.toString()
@@ -194,6 +206,18 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
         }
     }
 
+    fun calculateSD(numArray: ArrayList<Float>): Double {
+        var standardDeviation = 0.0
+
+        val mean = numArray.average()
+
+        for (num in numArray) {
+            standardDeviation += Math.pow(num - mean, 2.0)
+        }
+
+        return sqrt(standardDeviation / (numArray.size - 1))
+    }
+
     fun stdDev(array: ArrayList<Float>): Float {
         var variance = 0.0f
         for (sample: Float in array){
@@ -215,52 +239,66 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
         stddev = stdDev(caliblist)
     }
 
+    private fun updateSlope(value: Float) {
+        if (slope.size < averageSamples) {
+            slope.add(value)
+        }
+        else {
+            slope.removeAt(0)
+            slope.add(value)
+        }
+        //calib = slope.average().toFloat()
+    }
 
 
     override fun onSensorChanged(event: SensorEvent?) {
-        if (!isNFTscreen) {
-            if(event?.sensor == mag ) {
+
+        if (useMagnetometer) {
+            if (!isNFTscreen) {
+
+                if (event?.sensor == mag) {
+                    val v = event?.values ?: return
+                    rawValue = (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]) / 100
+
+                    updateAverage(rawValue)
+                    n = (rawValue - calib).absoluteValue / stddev
+                }
+                return
+            }
+
+            if (event?.sensor == mag && isNFTscreen) {
                 val v = event?.values ?: return
                 rawValue = (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]) / 100
 
-                updateAverage(rawValue)
-                n = (rawValue - calib).absoluteValue/stddev
-            }
-            return
-        }
-
-        if (event?.sensor == mag && isNFTscreen) {
-            val v = event?.values ?: return
-            rawValue = (v[0]*v[0] + v[1]*v[1] + v[2]*v[2])/100
-
-            if (!activeMonitoring && ! updateMaxValue) {
-                updateAverage(rawValue)
-            }
-
-            if (updateMaxValue) {
-                val tempval = (rawValue - calib).absoluteValue
-
-                if (System.currentTimeMillis() - lastTimeOn < 5000) {
-
-                    if (tempval > maxValue) {
-                        maxValue = tempval
-                        calibrFactor = floor(maxValue / stddev)
-
-                    }
-                } else {
-
-                    updateMaxValue = false
-                    sensitivitySeekBar.progress = calibrFactor.toInt()
-                    if (sensitivitySeekBar.progress < 0) sensitivitySeekBar.progress = 0
-                    if (sensitivitySeekBar.progress > maxThreshold) sensitivitySeekBar.progress =
-                        maxThreshold
+                if (!activeMonitoring && !updateMaxValue) {
+                    updateAverage(rawValue)
                 }
 
-            }
+                if (updateMaxValue) {
+                    val tempval = (rawValue - calib).absoluteValue
 
-            n = (rawValue - calib).absoluteValue/stddev
-            stateDanger = n > sensitivitySeekBar.progress
-            updateVibration()
+                    if (System.currentTimeMillis() - lastTimeOn < 5000) {
+
+                        if (tempval > maxValue) {
+                            maxValue = tempval
+                            calibrFactor = floor(maxValue / stddev)
+
+                        }
+                    } else {
+
+                        updateMaxValue = false
+                        sensitivitySeekBar.progress = calibrFactor.toInt()
+                        if (sensitivitySeekBar.progress < 0) sensitivitySeekBar.progress = 0
+                        if (sensitivitySeekBar.progress > maxThreshold) sensitivitySeekBar.progress =
+                            maxThreshold
+                    }
+
+                }
+
+                n = (rawValue - calib).absoluteValue / stddev
+                stateDanger = n > sensitivitySeekBar.progress
+                updateVibration()
+            }
         }
 
         if(event?.sensor == acc && isNFTscreen){
@@ -272,7 +310,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
             RPY[0] = roll.toFloat()
             RPY[1] = pitch.toFloat()
             RPY[2] = yaw
-            //  Log.d("orient", "Orientation:" + RPY.contentToString())
+            Log.d("acc", "Orientation:" + RPY.contentToString())
 
             if(!righthanded) { //left handed
                 //activeMonitoring = roll > -80 && roll < 20 && pitch > -100 && pitch < -30
@@ -282,6 +320,46 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
                 //  activeMonitoring = roll > -20 && roll < 80 && pitch > 30 && pitch < 100
                 activeMonitoring = pitch > 20 && pitch < 100
             }
+
+            if(!useMagnetometer) {
+
+                pitch_dot = RPY[1] - old_pitch;
+                old_pitch = RPY[1]
+                if (old_pitch< 0 &&  pitch_dot < -alpha) {
+                    updateSlope(1.0f)
+                } else {
+                    updateSlope(-1.0f)
+                }
+                stateDanger = slope.average().toFloat() > 0
+                if (stateDanger && activeMonitoring) {
+                    updateVibration()
+                    Log.d("acc", "Vibro!")
+
+                }
+
+
+
+
+                if (updateMaxValue) {
+
+                    if (System.currentTimeMillis() - lastTimeOn < 2000) {
+                        accBuffer.add(RPY[1])
+                    } else {
+                        val stdAcc = calculateSD(accBuffer)
+                        updateMaxValue = false
+                        val numSTD = sensitivitySeekBar.progress
+                        alpha = (numSTD * stdAcc)
+                        Log.d("Acc", "alpha " + alpha + " "+ stdAcc)
+                        //    sensitivitySeekBar.progress = Math.ceil(alpha).toInt()
+                        if (sensitivitySeekBar.progress < 0) sensitivitySeekBar.progress = 0
+                        if (sensitivitySeekBar.progress > maxThreshold) sensitivitySeekBar.progress =
+                            maxThreshold
+                    }
+
+                }
+
+            }
+
         }
         updateGUI()
     }
@@ -318,6 +396,13 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
                     updateMaxValue = true
                     initNFT()
                 }
+
+                R.id.noMag -> {
+                    setContentView(R.layout.activity_nft3)
+                    useMagnetometer =false
+                    initNFT()
+                }
+
                 R.id.button_decrement -> {
                     sensitivitySeekBar.progress = sensitivitySeekBar.progress-2
                     if (sensitivitySeekBar.progress < 0)
@@ -338,7 +423,9 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
                     maxValue = 0.0f
                     updateMaxValue = true
                     lastTimeOn = System.currentTimeMillis()
-
+                    if(!useMagnetometer){
+                        accBuffer.clear()
+                    }
                     updateGUI()
                 }
                 R.id.exitButton -> {
