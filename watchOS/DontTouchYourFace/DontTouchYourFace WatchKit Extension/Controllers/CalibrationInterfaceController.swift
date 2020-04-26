@@ -48,9 +48,9 @@ final class CalibrationInterfaceController: WKInterfaceController {
 	private func setupCountdownUI() {
 		switch state {
 		case .environment:
-			countdownTextLabel.setText("Keep your arm away from the magnet")
+			countdownTextLabel.setText(Constant.Message.armAway)
 		case .magnet:
-			countdownTextLabel.setText("Keep your arm 5 cm from the magnet")
+			countdownTextLabel.setText(Constant.Message.armClose)
 		}
 		countdownLabel.setText("\(countdown)")
 		updateUI(showCountdown: true)
