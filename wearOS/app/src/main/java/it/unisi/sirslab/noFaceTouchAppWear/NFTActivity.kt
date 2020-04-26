@@ -67,7 +67,6 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
     private var slope = ArrayList<Float>()
     private var old_pitch =0.0f
     private var alpha = 0.1
-    private var rising = false
     private var accBuffer = ArrayList<Float>()
     private var pitch_dot=0.0f
 
@@ -101,10 +100,10 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
         //textView.text = deviceSensors.toString()
 
         if (mag!= null) {
-            //textView.text = "Mag found"
+            Log.d("DEBUG", "Mag found")
             mag?.also { m ->  sensorManager.registerListener(this, m, SensorManager.SENSOR_DELAY_GAME)}
         } else {
-            //textView.text = "Mag not found"
+            Log.d("DEBUG", "Mag NOT found")
         }
 
         if (acc!= null) {
@@ -166,21 +165,16 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
             when {
                 stateDanger && activeMonitoring && !updateMaxValue -> {
                     textView.setBackgroundColor(Color.RED)
-                    //textViewStatus.setBackgroundColor(Color.RED)
                 }
                 stateDanger && !activeMonitoring && !updateMaxValue -> {
                     textView.setBackgroundColor(Color.YELLOW)
-                    //textViewStatus.setBackgroundColor(Color.YELLOW)
                 }
                 updateMaxValue -> {
                     textView.setBackgroundColor(Color.BLUE)
-                    //textViewStatus.setBackgroundColor(Color.BLUE)
                 }
                 else -> {
                     textView.setBackgroundColor(Color.GREEN)
                     if (activeMonitoring)  textView.setTextColor(Color.WHITE) else textView.setTextColor(Color.LTGRAY)
-                   // textViewStatus.setBackgroundColor(Color.GREEN)
-                   // textViewStatus.setTextColor(Color.WHITE)
                 }
             }
         }
@@ -247,7 +241,6 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
             slope.removeAt(0)
             slope.add(value)
         }
-        //calib = slope.average().toFloat()
     }
 
 
@@ -307,9 +300,11 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
             val roll = atan2(v[1], v[2]) * 180/kotlin.math.PI;
             val pitch = atan2(-v[0], sqrt(v[1]*v[1] + v[2]*v[2])) * 180/kotlin.math.PI;
             val yaw = 0.0f
+
             RPY[0] = roll.toFloat()
             RPY[1] = pitch.toFloat()
             RPY[2] = yaw
+
             Log.d("acc", "Orientation:" + RPY.contentToString())
 
             if(!righthanded) { //left handed
@@ -325,26 +320,37 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
 
                 pitch_dot = RPY[1] - old_pitch;
                 old_pitch = RPY[1]
-                if (old_pitch< 0 &&  pitch_dot < -alpha) {
-                    updateSlope(1.0f)
-                } else {
-                    updateSlope(-1.0f)
+
+                if(!righthanded) {
+                    if (pitch_dot < -alpha) { ///sto salendo
+                        updateSlope(1.0f)
+                    } else {
+                        updateSlope(-1.0f)
+                    }
                 }
-                stateDanger = slope.average().toFloat() > 0
+                else
+                {
+                    if (pitch_dot > alpha) { ///sto salendo
+                        updateSlope(1.0f)
+                    } else {
+                        updateSlope(-1.0f)
+                    }
+                }
+
+                stateDanger = slope.average().toFloat() > 0 // negli ultimi n samples sono salito
+
                 if (stateDanger && activeMonitoring) {
                     updateVibration()
                     Log.d("acc", "Vibro!")
-
                 }
 
 
-
-
-                if (updateMaxValue) {
+                if (updateMaxValue) { //ricalibro
 
                     if (System.currentTimeMillis() - lastTimeOn < 2000) {
                         accBuffer.add(RPY[1])
-                    } else {
+                    }
+                    else {
                         val stdAcc = calculateSD(accBuffer)
                         updateMaxValue = false
                         val numSTD = sensitivitySeekBar.progress
