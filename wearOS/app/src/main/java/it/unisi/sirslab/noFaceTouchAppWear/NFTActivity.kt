@@ -109,7 +109,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
     private val currentDateTime: String = formatter.format(date)
 
 
-    private val filenameInternal: String? = "logIntFile_$currentDateTime.txt"
+    private val filenameInternal: String? = "logIntFile_"+currentDateTime + "_vibration"+vibrationOn+".txt"
     private val filenameExternal: String? = "logExtFile_$currentDateTime.txt"
 
 
@@ -201,7 +201,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
 
     private fun updateGUI() {
         runOnUiThread {
-            textView.text = String.format("%.1f", n) + " " + if (righthanded)  "R" else ("L") + if (vibrationOn)  "Y" else ("N")
+            textView.text = String.format("%.1f", n) + " " + if (righthanded)  "R" else ("L") +" "+ if (vibrationOn)  "Y" else ("N")
             //textViewMaxv.text = String.format("%.1f", maxValue)
             //textViewAvg.text = calib.toString()
             // textViewSamples.text = caliblist.size.toString()
