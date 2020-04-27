@@ -34,7 +34,7 @@ final class DetectionManager {
 
 	enum Result {
 		case error(String)
-		case data([SensorData])
+		case data(SensorManager.Data)
 	}
 
 	// MARK: - Properties
@@ -117,10 +117,9 @@ final class DetectionManager {
 		workoutSession?.end()
 	}
 
-	private func shuoldTriggerAlert(sensorsData: [SensorData]) -> Bool {
+	private func shuoldTriggerAlert(sensorsData: SensorManager.Data) -> Bool {
 		let didPreviousTriggerEnd = isAlertInAction == false
-		// Make it lazy. Then at the first false condition, it stops.
-		let shouldRaiseAlert: Bool = sensorsData.lazy.map { $0.isAlertConditionVerified }.allSatisfy { $0 }
+		let shouldRaiseAlert: Bool = sensorsData.areConditionVerified
 		return didPreviousTriggerEnd && shouldRaiseAlert
 	}
 }

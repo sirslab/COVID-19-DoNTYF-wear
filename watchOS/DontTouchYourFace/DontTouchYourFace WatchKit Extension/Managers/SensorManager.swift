@@ -20,12 +20,13 @@ protocol CalibrationInterface {
 
 protocol SensorManagerInterface {
 	var userDefinedMagneticFactor: Double? { get set }
+	var userDefinedMinAngle: Float? { get set }
 	var isMagnetometerAvailable: Bool { get }
 }
 
 final class SensorManager: SensorManagerInterface, CalibrationInterface {
 	// MARK: - Nested types
-	typealias SensorHandler = ([SensorData]?, Error?) -> Void
+	typealias SensorHandler = (Data?, Error?) -> Void
 
 	enum SensorError: Error {
 		case deviceMotionNotAvailable
@@ -33,12 +34,35 @@ final class SensorManager: SensorManagerInterface, CalibrationInterface {
 		case userAccelerationNotAvailable
 	}
 
-	// MARK: - Properties
-	var userDefinedMagneticFactor: Double? {
-		didSet {
-			print("Updated userDefinedMagneticFactor to \(userDefinedMagneticFactor)")
+	struct Data {
+		let gravity: GravityData
+		let userAcceleration: UserAccelerationData
+		let magnetometer: MagnetometerData?
+
+		var areConditionVerified: Bool {
+			// Check the mandatory condition first
+			guard
+				gravity.isAlertConditionVerified,
+				userAcceleration.isAlertConditionVerified
+			else {
+				return false
+			}
+
+			// Then if the magnetometer is available, check against is value
+			// Otherwise return true if is not available
+			guard let magnetometer = magnetometer else {
+				return true
+			}
+			
+			return magnetometer.isAlertConditionVerified
 		}
 	}
+
+	// MARK: - Properties
+	// These are helpful properties to avoid getting the last state from the disk
+	var userDefinedMagneticFactor: Double?
+	var userDefinedMinAngle: Float?
+
 	private var magnetometerBuffer: RingBuffer<Double>
 	private var armAngleBuffer: RingBuffer<Double>
 
@@ -81,6 +105,7 @@ final class SensorManager: SensorManagerInterface, CalibrationInterface {
 		magnetometerBuffer = RingBuffer(count: Int(Constant.sensorDataFrequency) * Constant.magnetometerCollectionDataSeconds)
 		armAngleBuffer = RingBuffer(count: Int(Constant.sensorDataFrequency * Constant.accelerationCollectionDataSeconds))
 		userDefinedMagneticFactor = setupManager.userDefinedMagneticFactor
+		userDefinedMinAngle = setupManager.userDefinedMinAngle
 	}
 
 	// MARK: - Helper functions
@@ -170,11 +195,19 @@ final class SensorManager: SensorManagerInterface, CalibrationInterface {
 
 			// Collect data
 			// Gravity contains the angle of the inclination of the arm
-			guard let gravity = _self.sensorData(.gravity, deviceMotion: deviceMotion) as? GravityData else {
+			guard var gravity = _self.sensorData(.gravity, deviceMotion: deviceMotion) as? GravityData else {
 				callHandler(nil, SensorError.gravityNotAvailable)
 				return
 			}
-			
+
+			let angleThreshold: Float = {
+				guard let userDefinedMinAngle = _self.userDefinedMinAngle else {
+					return Threshold.Angle.minValue
+				}
+				return userDefinedMinAngle
+			}()
+
+			gravity.threshold = Double(angleThreshold)
 			_self.armAngleBuffer.write(gravity.pitch)
 
 			// From the value of the angles collected inside the buffer,
@@ -186,14 +219,10 @@ final class SensorManager: SensorManagerInterface, CalibrationInterface {
 
 			userAcceleration.slope = _self.armAngleBuffer.slope
 
-			var sensorsData: [SensorData] = [
-				gravity,
-				userAcceleration
-			]
-
 			// Guard if there are data from the magnetometer
 			guard var magnetometer = _self.sensorData(.magnetometer, deviceMotion: deviceMotion) as? MagnetometerData else {
-				callHandler(sensorsData, nil)
+				let data = Data(gravity: gravity, userAcceleration: userAcceleration, magnetometer: nil)
+				callHandler(data, nil)
 				return
 			}
 
@@ -213,9 +242,12 @@ final class SensorManager: SensorManagerInterface, CalibrationInterface {
 				magnetometer.standardDeviation = _self.magnetometerBuffer.standardDeviation
 				magnetometer.factor = _self.userDefinedMagneticFactor
 				// Append to the list of available sensor's data
-				sensorsData.append(magnetometer)
+				let data = Data(gravity: gravity, userAcceleration: userAcceleration, magnetometer: magnetometer)
+				callHandler(data, nil)
+			} else {
+				let data = Data(gravity: gravity, userAcceleration: userAcceleration, magnetometer: nil)
+				callHandler(data, nil)
 			}
-			callHandler(sensorsData, nil)
 		}
 	}
 
@@ -255,8 +287,8 @@ extension SensorManager {
 
 			let pitch: Double = {
 				let theta = atan2(-x, sqrt(pow(y, 2) + pow(z, 2))) * (180 / .pi)
-				let isOnRightWrist = WKInterfaceDevice.current().wristLocation == .right
-				return isOnRightWrist ? -theta : theta
+				let isCrownOnLeftSide = WKInterfaceDevice.current().crownOrientation == .left
+				return isCrownOnLeftSide ? -theta : theta
 			}()
 
 			let gravitySensorData = GravityData(

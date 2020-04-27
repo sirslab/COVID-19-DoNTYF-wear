@@ -19,9 +19,11 @@ protocol SensorsDataProvider {
 	var magneticFactor: Double? { get }
 	var userDefinedMagneticFactor: Double? { get }
 	var standardDeviation: Double? { get }
+	var userDefinedMinAngle: Float? { get }
 	func setMagneticFactor(_ factor: Double)
 	func setStandardDeviation(_ standardDeviation: Double)
 	func setUserDefinedMagneticFactor(_ factor: Double)
+	func setUserDefinedMinAngle(_ angle: Float)
 }
 
 final class SetupManager: OnboardingProvider, SensorsDataProvider {
@@ -69,6 +71,14 @@ final class SetupManager: OnboardingProvider, SensorsDataProvider {
 		return standardDeviation
 	}
 
+	var userDefinedMinAngle: Float? {
+		let userDefinedMinAngle = userDefaults.float(forKey: "userDefinedMinAngle")
+		guard userDefinedMinAngle != 0 else {
+			return nil
+		}
+		return userDefinedMinAngle
+	}
+
 	func usedDidAcceptPrivacyPolicy() {
 		userDefaults.set(true, forKey: Constant.grantPermissionKey)
 	}
@@ -83,5 +93,9 @@ final class SetupManager: OnboardingProvider, SensorsDataProvider {
 
 	func setStandardDeviation(_ standardDeviation: Double) {
 		userDefaults.set(standardDeviation, forKey: "STDDEV")
+	}
+
+	func setUserDefinedMinAngle(_ angle: Float) {
+		userDefaults.set(angle, forKey: "userDefinedMinAngle")
 	}
 }

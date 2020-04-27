@@ -34,6 +34,8 @@ enum Constant {
 		static let privacyMessage = """
 		This app collects data from the accelerometer and the magnetometer integrated in this device in order to  estimate when the user is approaching his hands towards his face.
 		"""
+		static let armAway = "Keep your arm away from the magnet"
+		static let armClose = "Keep your arm 5 cm from the magnet"
 	}
 
 	enum Color {

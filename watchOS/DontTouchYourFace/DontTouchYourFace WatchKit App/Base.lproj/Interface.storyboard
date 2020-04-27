@@ -32,7 +32,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="-282" y="383"/>
+            <point key="canvasLocation" x="-321" y="229"/>
         </scene>
         <!--Error-->
         <scene sceneID="eeC-Wp-KFv">
@@ -46,7 +46,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="-282" y="-13"/>
+            <point key="canvasLocation" x="-26" y="148"/>
         </scene>
         <!--Calibration-->
         <scene sceneID="DFC-rn-yfh">
@@ -71,7 +71,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="271" y="184"/>
+            <point key="canvasLocation" x="276" y="151"/>
         </scene>
         <!--Measurement-->
         <scene sceneID="aou-V4-d1y">
@@ -99,48 +99,46 @@
                             <items>
                                 <group width="1" alignment="left" layout="vertical" id="OmG-S3-749">
                                     <items>
+                                        <label alignment="left" text="Values" textAlignment="left" id="Lzr-XN-6hO">
+                                            <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                        </label>
                                         <group width="1" alignment="left" layout="vertical" id="e0z-nH-xaf">
                                             <items>
                                                 <label alignment="left" text="Angle" textAlignment="left" numberOfLines="0" minimumScaleFactor="0.69999999999999996" id="Zsv-jP-RVS">
                                                     <color key="textColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                                    <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                 </label>
                                                 <label alignment="left" text="0.0" textAlignment="left" numberOfLines="0" minimumScaleFactor="0.69999999999999996" id="m2L-Bm-nky">
                                                     <color key="textColor" red="0.29939394276968406" green="0.68158555854022462" blue="0.69459378537792849" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <fontDescription key="font" style="UICTFontTextStyleCaption1"/>
                                                 </label>
                                             </items>
                                         </group>
-                                        <separator alignment="left" id="dIS-hG-vkU">
-                                            <color key="color" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </separator>
                                         <group width="1" alignment="left" layout="vertical" id="FdZ-6P-zPd">
                                             <items>
-                                                <label alignment="left" text="Z acceleration" textAlignment="left" numberOfLines="0" minimumScaleFactor="0.69999999999999996" id="ZNW-yd-Ry0">
+                                                <label alignment="left" text="Raising arm" textAlignment="left" numberOfLines="0" minimumScaleFactor="0.69999999999999996" id="ZNW-yd-Ry0">
                                                     <color key="textColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                                    <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                 </label>
-                                                <label alignment="left" text="0.0" textAlignment="left" numberOfLines="0" minimumScaleFactor="0.69999999999999996" id="bXr-1b-CBs">
+                                                <label alignment="left" text="No" textAlignment="left" numberOfLines="0" minimumScaleFactor="0.69999999999999996" id="bXr-1b-CBs">
                                                     <color key="textColor" red="0.29939394279999998" green="0.68158555850000002" blue="0.69459378540000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <fontDescription key="font" style="UICTFontTextStyleCaption1"/>
                                                 </label>
                                             </items>
                                         </group>
-                                        <separator alignment="left" id="bfv-2d-DGc">
-                                            <color key="color" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </separator>
-                                        <group width="1" height="43" alignment="left" layout="vertical" id="mtt-OM-0E3">
+                                        <group width="1" alignment="left" layout="vertical" id="mtt-OM-0E3">
                                             <items>
                                                 <label alignment="left" text="Mag F Norm Avg" textAlignment="left" numberOfLines="0" minimumScaleFactor="0.69999999999999996" id="Jyc-Xa-c6e">
                                                     <color key="textColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                                    <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                 </label>
                                                 <label alignment="left" text="0.0" textAlignment="left" numberOfLines="0" minimumScaleFactor="0.69999999999999996" id="Ccr-MY-bEl">
                                                     <color key="textColor" red="0.29939394279999998" green="0.68158555850000002" blue="0.69459378540000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <fontDescription key="font" style="UICTFontTextStyleCaption1"/>
                                                 </label>
                                             </items>
                                         </group>
-                                        <separator alignment="left" id="Zmp-ai-e7s">
-                                            <color key="color" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </separator>
                                     </items>
                                 </group>
                                 <group width="1" alignment="left" layout="vertical" spacing="6" id="tZG-sf-maI">
@@ -149,9 +147,27 @@
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
                                         </label>
+                                        <group width="1" alignment="left" layout="vertical" id="UXE-bi-lvu">
+                                            <items>
+                                                <label alignment="left" text="Min Angle" id="OLP-x3-Aiy">
+                                                    <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                                </label>
+                                                <label alignment="left" text="Suggested value: 30" id="aru-0c-YV0">
+                                                    <fontDescription key="font" type="system" pointSize="11"/>
+                                                </label>
+                                                <slider width="1" alignment="left" value="30" minimum="30" maximum="90" steps="60" id="4Nz-7k-qv6">
+                                                    <connections>
+                                                        <action selector="didChangeMinAngleSliderValue:" destination="AgC-eL-Hgc" id="uu6-Cu-a8u"/>
+                                                    </connections>
+                                                </slider>
+                                            </items>
+                                        </group>
                                         <group width="1" alignment="center" layout="vertical" spacing="8" id="7Tp-01-TiU">
                                             <items>
-                                                <switch width="1" height="42" alignment="left" value="YES" title="Magnetometer" numberOfLines="1" minimumScaleFactor="0.20000000000000001" id="uoW-Qi-zUB">
+                                                <label alignment="left" text="Magnetometer" textAlignment="left" id="dk0-KT-jVj">
+                                                    <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                                </label>
+                                                <switch width="1" alignment="left" value="YES" title="Enable" numberOfLines="1" minimumScaleFactor="0.20000000000000001" id="uoW-Qi-zUB">
                                                     <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                     <connections>
                                                         <action selector="didTapMagnetometerToggle:" destination="AgC-eL-Hgc" id="4xQ-uR-Sjh"/>
@@ -162,7 +178,7 @@
                                                         <label alignment="left" text="Factor" textAlignment="left" id="Z6Y-o5-6h5">
                                                             <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                                         </label>
-                                                        <slider width="1" height="35" alignment="left" value="0.14999999999999999" minimum="0.14999999999999999" maximum="50" steps="85" id="4mM-6g-owt">
+                                                        <slider width="1" alignment="left" value="0.14999999999999999" minimum="0.14999999999999999" maximum="50" steps="85" id="4mM-6g-owt">
                                                             <connections>
                                                                 <action selector="didChangeMagneticFieldSliderValue:" destination="AgC-eL-Hgc" id="RK0-iu-bOL"/>
                                                             </connections>
@@ -173,25 +189,62 @@
                                         </group>
                                     </items>
                                 </group>
+                                <group width="1" alignment="left" layout="vertical" id="7Ol-bR-cSM">
+                                    <items>
+                                        <label alignment="left" text="Info" textAlignment="left" id="o9g-im-mAU">
+                                            <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                        </label>
+                                        <button width="1" alignment="left" title="About us" id="6MW-S9-ESs">
+                                            <connections>
+                                                <action selector="didTapAboutUs" destination="AgC-eL-Hgc" id="1iK-wf-RKY"/>
+                                            </connections>
+                                        </button>
+                                    </items>
+                                </group>
                             </items>
                         </group>
                     </items>
                     <connections>
                         <outlet property="armAngleLabel" destination="m2L-Bm-nky" id="pkh-tF-Ws5"/>
+                        <outlet property="armAngleSlider" destination="4Nz-7k-qv6" id="r4j-c5-G5m"/>
                         <outlet property="calibrateButton" destination="8ev-bm-FTv" id="ZV1-6f-0ho"/>
                         <outlet property="magneticFieldDataGroup" destination="mtt-OM-0E3" id="Si4-VF-UiA"/>
                         <outlet property="magneticFieldLabel" destination="Z6Y-o5-6h5" id="oaS-p9-G3l"/>
                         <outlet property="magneticFieldNormAvgLabel" destination="Ccr-MY-bEl" id="bMp-7m-eI1"/>
-                        <outlet property="magneticFieldSeparator" destination="Zmp-ai-e7s" id="H3R-pt-OrC"/>
                         <outlet property="magneticFieldSlider" destination="4mM-6g-owt" id="y4l-me-OIM"/>
-                        <outlet property="magneticFieldSliderGroup" destination="tZG-sf-maI" id="WKd-by-bKv"/>
+                        <outlet property="magneticFieldSliderGroup" destination="7Tp-01-TiU" id="yKU-x3-whN"/>
                         <outlet property="magnetometerToggle" destination="uoW-Qi-zUB" id="ONr-hh-CZ8"/>
+                        <outlet property="minAngleLabel" destination="OLP-x3-Aiy" id="GbC-zn-nMi"/>
                         <outlet property="startStopButton" destination="yMb-xM-Y2x" id="Yij-3F-hLC"/>
                         <outlet property="userAccelerationLabel" destination="bXr-1b-CBs" id="j0y-Jn-pej"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="577" y="278"/>
+            <point key="canvasLocation" x="578" y="330"/>
+        </scene>
+        <!--AboutUs-->
+        <scene sceneID="hVk-XI-nwc">
+            <objects>
+                <controller identifier="AboutUs" id="EOA-ip-OL6">
+                    <items>
+                        <group width="1" alignment="left" layout="vertical" spacing="6" id="8UU-zU-8UJ">
+                            <items>
+                                <imageView alignment="left" image="unisi_bianco" id="GBP-QH-fxW"/>
+                                <imageView alignment="left" image="sirslab_centered" id="Nr3-Dj-u0X"/>
+                                <imageView alignment="left" image="iit_logo" id="eOP-fl-bWC"/>
+                            </items>
+                        </group>
+                        <group width="1" alignment="left" layout="vertical" spacing="6" id="abz-Vs-Jo1">
+                            <items>
+                                <label alignment="left" text="Website" id="DcK-K5-CRW"/>
+                                <imageView alignment="left" image="website" id="sQ9-Cp-0B0"/>
+                            </items>
+                        </group>
+                    </items>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="880" y="275"/>
         </scene>
         <!--Static Notification Interface Controller-->
         <scene sceneID="AEw-b0-oYE">
@@ -208,21 +261,27 @@
                     </connections>
                 </notificationController>
             </objects>
-            <point key="canvasLocation" x="78" y="721"/>
+            <point key="canvasLocation" x="-282" y="985"/>
         </scene>
         <!--Notification Controller-->
         <scene sceneID="ZPc-GJ-vnh">
             <objects>
                 <controller id="4sK-HA-Art" customClass="NotificationController" customModule="DTYF" customModuleProvider="target"/>
             </objects>
-            <point key="canvasLocation" x="432" y="1139"/>
+            <point key="canvasLocation" x="-282" y="1364"/>
         </scene>
         <!--Notification Controller-->
         <scene sceneID="Niz-AI-uX2">
             <objects>
                 <controller id="eXb-UN-Cd0" customClass="NotificationController" customModule="DTYF" customModuleProvider="target"/>
             </objects>
-            <point key="canvasLocation" x="412" y="721"/>
+            <point key="canvasLocation" x="9" y="985"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="iit_logo" width="1000" height="427"/>
+        <image name="sirslab_centered" width="1471" height="378"/>
+        <image name="unisi_bianco" width="863" height="884"/>
+        <image name="website" width="200" height="200"/>
+    </resources>
 </document>

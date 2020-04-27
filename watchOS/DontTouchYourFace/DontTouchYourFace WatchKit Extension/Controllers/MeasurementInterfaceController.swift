@@ -13,6 +13,8 @@ import CoreMotion
 final class MeasurementInterfaceController: WKInterfaceController {
 	// MARK: - Outlets and properties
 	@IBOutlet private var armAngleLabel: WKInterfaceLabel!
+	@IBOutlet private var armAngleSlider: WKInterfaceSlider!
+	@IBOutlet private var minAngleLabel: WKInterfaceLabel!
 
 	@IBOutlet private var userAccelerationLabel: WKInterfaceLabel!
 
@@ -22,16 +24,18 @@ final class MeasurementInterfaceController: WKInterfaceController {
 	@IBOutlet private var magneticFieldDataGroup: WKInterfaceGroup!
 	@IBOutlet private var magneticFieldSliderGroup: WKInterfaceGroup!
 	@IBOutlet private var magnetometerToggle: WKInterfaceSwitch!
-	@IBOutlet private var magneticFieldSeparator: WKInterfaceSeparator!
 
 	@IBOutlet private var startStopButton: WKInterfaceButton!
 	@IBOutlet private var calibrateButton: WKInterfaceButton!
 
 	// MARK: - Properties
+	// Used to determine which slider the crown should control
+	private var lastTouchedSlider: WKInterfaceSlider?
 	private let detectionManager = DetectionManager()
 	private let sensorManager = SensorManager.shared
 	private let setupManager: SensorsDataProvider = SetupManager.shared
 
+	private var throttlingUITimestamp: TimeInterval = Date().timeIntervalSince1970
 	private var crownAccumulator = 0.0
 
 	// MARK: - Controller Lifecycle
@@ -61,10 +65,13 @@ final class MeasurementInterfaceController: WKInterfaceController {
 		} else {
 			magneticFieldDataGroup.setHidden(true)
 			magneticFieldSliderGroup.setHidden(true)
-			magneticFieldSeparator.setHidden(true)
 			calibrateButton.setHidden(true)
 			startStopButton.setRelativeWidth(1, withAdjustment: 0)
 		}
+
+		let initialAngle = setupManager.userDefinedMinAngle ?? Threshold.Angle.minValue
+		setupMinimumAngleThresoldSlider()
+		updateMinimumAngleThreshold(initialAngle)
 	}
 
 	private func startDetection() {
@@ -87,41 +94,69 @@ final class MeasurementInterfaceController: WKInterfaceController {
 				print(errorString)
 
 			case .data(let sensorsData):
-				// Retrieve the mandatory sensor's data
-				guard
-					let gravityData = sensorsData.first(where: { $0 is GravityData }) as? GravityData,
-					let userAccelerationData = sensorsData.first(where: { $0 is UserAccelerationData }) as? UserAccelerationData,
-					let slope = userAccelerationData.slope
-				else {
-					assertionFailure("This should not happen")
-					return
+				let nowTimeInterval = Date().timeIntervalSince1970
+
+				if nowTimeInterval - _self.throttlingUITimestamp > 0.2 {
+					_self.updateUI(with: sensorsData)
+					_self.throttlingUITimestamp = nowTimeInterval
 				}
-
-				let pitch = gravityData.pitch
-				let magnetometerValues = sensorsData.first { $0 is MagnetometerData} as? MagnetometerData
-
-				// Print values
-				let thetaString = String(format: "%.2f", pitch)
-				let zAccelerationString = slope.rawValue
-
-				// If the magnetometer's data is present show the value otherwise
-				if let magnetometerAverage = magnetometerValues?.average {
-					let magneticFieldAverageNormString = String(format: "%.2f", magnetometerAverage)
-					_self.magneticFieldNormAvgLabel.setText(magneticFieldAverageNormString)
-				} else {
-					_self.magneticFieldNormAvgLabel.setText("Not available")
-				}
-
-				_self.armAngleLabel.setText(thetaString)
-				_self.userAccelerationLabel.setText(zAccelerationString)
 			}
 		}
+	}
+
+	private func updateUI(with sensorsData: SensorManager.Data) {
+		// Retrieve the mandatory sensor's data
+		guard
+			let slope = sensorsData.userAcceleration.slope
+		else {
+			assertionFailure("This should not happen")
+			return
+		}
+
+		let pitch = sensorsData.gravity.pitch
+		let magnetometerValues = sensorsData.magnetometer
+
+		// Print values
+		let thetaString = String(format: "%.2f", pitch)
+		let zAccelerationString = slope == .down ? "No" : "Yes"
+
+		// If the magnetometer's data is present show the value otherwise
+		if let magnetometerAverage = magnetometerValues?.average {
+			let magneticFieldAverageNormString = String(format: "%.2f", magnetometerAverage)
+			magneticFieldNormAvgLabel.setText(magneticFieldAverageNormString)
+		} else {
+			magneticFieldNormAvgLabel.setText("Not available")
+		}
+
+		armAngleLabel.setText(thetaString)
+		userAccelerationLabel.setText(zAccelerationString)
 	}
 
 	private func setupMagneticFieldThresholdSlider(magneticFactor: Double) {
 		let maxValue = Threshold.MagneticField.maxValue + Float(magneticFactor)
 		let steps = (maxValue - Threshold.MagneticField.minValue) / Constant.magneticFieldCrownStep
 		magneticFieldSlider.setNumberOfSteps(Int(steps))
+	}
+
+	private func setupMinimumAngleThresoldSlider() {
+		let minValue = Threshold.Angle.minValue
+		let maxValue = Threshold.Angle.maxValue
+		let steps = Int(maxValue - minValue)
+		armAngleSlider.setNumberOfSteps(steps)
+	}
+
+	private func updateMinimumAngleThreshold(_ value: Float) {
+		guard value <= Threshold.Angle.maxValue && value >= Threshold.Angle.minValue else {
+			WKInterfaceDevice.current().play(.failure)
+			return
+		}
+
+		WKInterfaceDevice.current().play(.click)
+		let thresholdString = String(format: "Min Angle %.2f°", value)
+		minAngleLabel.setText(thresholdString)
+		armAngleSlider.setValue(value)
+		setupManager.setUserDefinedMinAngle(value)
+		sensorManager.userDefinedMinAngle = value
 	}
 
 	private func updateMagneticFieldThreshold(_ value: Float) {
@@ -133,7 +168,7 @@ final class MeasurementInterfaceController: WKInterfaceController {
 		}
 
 		WKInterfaceDevice.current().play(.click)
-		let thresholdString = String(format: "M Factor %.2f", value)
+		let thresholdString = String(format: "Mag Factor %.2f", value)
 		magneticFieldLabel.setText(thresholdString)
 		magneticFieldSlider.setValue(value)
 		setupManager.setUserDefinedMagneticFactor(Double(value))
@@ -152,8 +187,15 @@ final class MeasurementInterfaceController: WKInterfaceController {
 
 	// MARK: - Actions
 	@IBAction func didChangeMagneticFieldSliderValue(_ value: Float) {
+		lastTouchedSlider = magneticFieldSlider
 		crownSequencer.focus()
 		updateMagneticFieldThreshold(value)
+	}
+
+	@IBAction func didChangeMinAngleSliderValue(_ value: Float) {
+		lastTouchedSlider = armAngleSlider
+		crownSequencer.focus()
+		updateMinimumAngleThreshold(value)
 	}
 
 	@IBAction private func didTapStartStop() {
@@ -175,23 +217,44 @@ final class MeasurementInterfaceController: WKInterfaceController {
 			crownSequencer.resignFocus()
 		}
 	}
+
+	@IBAction private func didTapAboutUs() {
+		pushController(withName: "AboutUs", context: nil)
+	}
 }
 
 extension MeasurementInterfaceController: WKCrownDelegate {
 	func crownDidRotate(_ crownSequencer: WKCrownSequencer?, rotationalDelta: Double) {
 		crownAccumulator += rotationalDelta
 
-		guard let userDefinedMagneticFactor = setupManager.userDefinedMagneticFactor else {
-			return
+		switch lastTouchedSlider {
+		case magneticFieldSlider:
+			guard let userDefinedMagneticFactor = setupManager.userDefinedMagneticFactor else {
+				return
+			}
+
+			if crownAccumulator > Constant.crownSensitivity {
+				updateMagneticFieldThreshold(Float(userDefinedMagneticFactor) + Constant.magneticFieldCrownStep)
+			   crownAccumulator = 0.0
+			} else if crownAccumulator < -Constant.crownSensitivity {
+				updateMagneticFieldThreshold(Float(userDefinedMagneticFactor) - Constant.magneticFieldCrownStep)
+			   crownAccumulator = 0.0
+			}
+		case armAngleSlider:
+			guard let userDefinedMinAngle = setupManager.userDefinedMinAngle else {
+				return
+			}
+			if crownAccumulator > Constant.crownSensitivity {
+				updateMinimumAngleThreshold(userDefinedMinAngle + 1)
+				crownAccumulator = 0.0
+			} else if crownAccumulator < -Constant.crownSensitivity {
+				updateMinimumAngleThreshold(userDefinedMinAngle - 1)
+				crownAccumulator = 0.0
+			}
+		default:
+			break
 		}
 
-		if crownAccumulator > Constant.crownSensitivity {
-			updateMagneticFieldThreshold(Float(userDefinedMagneticFactor) + Constant.magneticFieldCrownStep)
-		   crownAccumulator = 0.0
-		} else if crownAccumulator < -Constant.crownSensitivity {
-			updateMagneticFieldThreshold(Float(userDefinedMagneticFactor) - Constant.magneticFieldCrownStep)
-		   crownAccumulator = 0.0
-		}
 	}
 }
 

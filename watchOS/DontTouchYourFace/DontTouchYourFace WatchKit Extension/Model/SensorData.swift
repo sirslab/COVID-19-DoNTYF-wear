@@ -40,9 +40,16 @@ struct GravityData: SensorData {
 	let y: Double
 	let z: Double
 	let pitch: Double
+	var threshold: Double?
 
 	var isAlertConditionVerified: Bool {
-		return pitch >= 30 && pitch <= 100
+		let minValue: Double = {
+			guard let threshold = threshold else {
+				return Double(Threshold.Angle.minValue)
+			}
+			return threshold
+		}()
+		return pitch >= minValue && pitch <= Double(Threshold.Angle.maxValue)
 	}
 }
 
