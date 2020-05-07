@@ -9,12 +9,15 @@
 [![License](https://www.gnu.org/graphics/gplv3-88x31.png)](https://www.gnu.org/licenses/gpl-3.0.txt) **[GNU GPL license](https://www.gnu.org/licenses/gpl-3.0.html)**
 
 - WatchOS App Copyright 2020 © Annino De Petra
-- Android App  Copyright 2020 © Tommi, Gian, Nik e DP - SIRSLab, Università degli Studi di Siena
+- WearOs App  Copyright 2020 © Tommi, Gian, Nik e DP - SIRSLab, Università degli Studi di Siena
 
 ## Installation and Usage
 
 ### Android APK
 [Click here to download the APK file](https://github.com/sirslab/COVID-19-DoNTYF-wear/raw/master/app/build/outputs/apk/debug/app-debug.apk)
+
+### Google Play Store
+[Click here to download the WearOS release](https://play.google.com/store/apps/details?id=it.unisi.sirslab.covidwear)
 
 ### WatchOS App
 The current App is available for all the Apple Watch series. The ones with a magnetometer ( 5th edition ) will have the support of the magnetometer along with the accelerometer to determine when an alert should be raised. The previous generations use the accelerometer only and an alert will be raised when the hand is moving towards the face.
