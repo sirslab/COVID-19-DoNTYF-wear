@@ -4,8 +4,7 @@
 [Offical app Website](http://www.nofacetouch.org)
 
 ## License
-
-[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org) **[MIT license](http://opensource.org/licenses/mit-license.php)**
+<!-- [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org) **[MIT license](http://opensource.org/licenses/mit-license.php)** -->
 
 [![License](https://www.gnu.org/graphics/gplv3-88x31.png)](https://www.gnu.org/licenses/gpl-3.0.txt) **[GNU GPL license](https://www.gnu.org/licenses/gpl-3.0.html)**
 
