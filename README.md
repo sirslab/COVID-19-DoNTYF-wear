@@ -6,6 +6,9 @@
 ## License
 
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org) **[MIT license](http://opensource.org/licenses/mit-license.php)**
+
+[![License](https://www.gnu.org/graphics/gplv3-88x31.png)](https://www.gnu.org/licenses/gpl-3.0.txt) **[GNU GPL license](https://www.gnu.org/licenses/gpl-3.0.html)**
+
 - WatchOS App Copyright 2020 © Annino De Petra
 - Android App  Copyright 2020 © Tommi, Gian, Nik e DP - SIRSLab, Università degli Studi di Siena
 
