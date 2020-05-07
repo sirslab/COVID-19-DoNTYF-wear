@@ -19,12 +19,13 @@
 ### Google Play Store
 [Click here to download the WearOS release](https://play.google.com/store/apps/details?id=it.unisi.sirslab.covidwear)
 
-### WatchOS App
-The current App is available for all the Apple Watch series. The ones with a magnetometer ( 5th edition ) will have the support of the magnetometer along with the accelerometer to determine when an alert should be raised. The previous generations use the accelerometer only and an alert will be raised when the hand is moving towards the face.
+### WearOS App
+<img src="https://github.com/sirslab/COVID-19-DoNTYF-wear/blob/master/images/LeftRight.png" width="150px"> <img src="https://github.com/sirslab/COVID-19-DoNTYF-wear/blob/master/images/Recalibrate.png" width="150px"> <img src="https://github.com/sirslab/COVID-19-DoNTYF-wear/blob/master/images/Main_New.png" width="150px">
 
+### WatchOS App
 <img src="https://user-images.githubusercontent.com/6486741/79162943-034be400-7dd6-11ea-84c4-bf2f85383c7f.PNG" width="150px"> <img src="https://user-images.githubusercontent.com/6486741/79162939-02b34d80-7dd6-11ea-8bdc-03bff1a553ae.PNG" width="150px">
 
-
+The current App is available for all the Apple Watch series. The ones with a magnetometer ( 5th edition ) will have the support of the magnetometer along with the accelerometer to determine when an alert should be raised. The previous generations use the accelerometer only and an alert will be raised when the hand is moving towards the face.
 
 ## The idea behind the app
 To help us stopping to touch our faces we developed a simple and free app that let your smartwatch vibrate and ring as soon as you get closer to your face. The face is detected by using a small cheap magnet at your necklace.  
