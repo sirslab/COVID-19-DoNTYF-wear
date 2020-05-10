@@ -105,11 +105,11 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
     ///////////////// Added to Log Data ////////////////////
 
     private var date = Date();
-    private val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss")
+    private val formatter = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss")
     private val currentDateTime: String = formatter.format(date)
 
 
-    private val filenameInternal: String? = "logIntFile_"+currentDateTime + "_vibration"+vibrationOn+".txt"
+    private val filenameInternal: String? = "logIntFile_$currentDateTime.txt"
     private val filenameExternal: String? = "logExtFile_$currentDateTime.txt"
 
 
@@ -242,7 +242,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
                 toneGen.startTone(TONE_CDMA_ABBR_ALERT, vibrationLength)
             }
             lastVibTime = t
-            val toWrite =  formatter.format(Date()) +  " Vibration " +vibrationOn +"\n"
+            val toWrite =  formatter.format(Date()) + " " + if (vibrationOn) "1\n" else ("0\n")
             appendFileInternalStorage(toWrite)
 
             /*
@@ -336,7 +336,7 @@ class NFTActivity : WearableActivity(), SensorEventListener, View.OnClickListene
             RPY[0] = roll.toFloat()
             RPY[1] = pitch.toFloat()
             RPY[2] = yaw
-            //  Log.d("orient", "Orientation:" + RPY.contentToString())
+            Log.d("orient", "Orientation:" + RPY.contentToString())
 
             if(!righthanded) { //left handed
                 //activeMonitoring = roll > -80 && roll < 20 && pitch > -100 && pitch < -30
