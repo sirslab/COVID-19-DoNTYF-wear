@@ -51,4 +51,5 @@ yaw = 0
 where acc[0], acc[1] and acc[2] represent the accelerations sensed along the x, y and z axes, respectively.
 Yaw is not required for our purpose.
 
-
+## AI-based Approach - Exploting Wearable Devices and Machine Learning for Gesture Detection
+Please visit https://github.com/sirslab/NoFaceTouch
